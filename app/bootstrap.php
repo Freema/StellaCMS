@@ -34,23 +34,6 @@ $container = $configurator->createContainer();
 $pageRouter = new Pagerouter();
 $container->router[] = $pageRouter->createRouter();
 
-/*
-$container->router[] = new Route('admin/<presenter>/<action>', array(
-    'module' => 'admin',
-    'presenter' => 'Sign',
-    'action' => 'in'
-));
-
-$container->router[] = new Route('<presenter>/<action>[/<id>]', array(
-    'module' => 'front',
-    'presenter' => 'Homepage',
-    'action' => 'default'
-));
- * 
- */
-
-
-
 
 // Configure and run the application!
 $container->application->run();
