@@ -1,0 +1,66 @@
+#
+# SECURITY WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
+#
+# If you don't protect this directory from direct web access, anybody will be able to see your passwords.
+# http://nette.org/security-warning
+#
+common:
+        parameters:
+                database:
+                        driver: pdo_mysql
+                        host: localhost
+                        dbname: stella
+                        user: root
+                        password:
+                        charset: utf8
+                        collation: utf8_czech_ci
+                 security:
+                        salt: StellaSuperstar
+
+
+        php:
+                date.timezone: Europe/Prague
+                session.save_path: "%tempDir%/sessions"
+
+        nette:
+                session:
+                        autoStart: smart
+
+        doctrine:
+                connection: %database%
+                console: true
+
+        migrations:
+                connection: @doctrine.connection
+
+        services:
+                #pageRouter: 
+                #    class: PageRouter
+                #router: @pageRouter::createRouter
+
+                database: @doctrine.entityManager
+
+                authenticator: 
+                    class: Authenticator(@database::getRepository('User'), %security.salt%)
+
+                tag:
+                    class: TagFacade
+
+                loginForm:
+                    class: AdminModule\Forms\LoginForm
+
+
+production < common:
+
+
+development < common:
+
+        parameters:
+                database:
+                        dbname: stella
+                        user: root
+                        password: 
+
+        nette:
+            container:
+                debugger: TRUE
