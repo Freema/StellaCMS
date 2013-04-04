@@ -26,15 +26,21 @@ class LoginForm extends Object {
             $form->addPassword('password', 'Password:')
                     ->setRequired('Please provide a password.');
 
-            $form->addCheckbox('remember', 'Remember me on this computer');
+            $form->addCheckbox('persistent', 'Remember me on this computer');
 
             $form->addSubmit('send', 'Sign in');
 
             $form->onSuccess[] = callback($this, 'signInFormSubmitted');
+            
+            $Btn = $form['send']->getControlPrototype();
+            $Btn->setName("button");
+            $Btn->type = 'submit'; 
+            $Btn->create('i class="icon-ok-sign"');
+            $Btn->add(' Přihlásit se');
+            
+            
             return $form;
     }
-
-
 
     protected function signInFormSubmitted(Form $form)
     {

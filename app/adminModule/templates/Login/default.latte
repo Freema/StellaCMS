@@ -1,7 +1,55 @@
-{var $robots = noindex}
+{block title}
+<title>Přihlášení</title>
+{/block}
 
-{block #content}
+{block content}
+<div class="login-area">
+    <div class="login-logo"></div><!-- Flower for a nicer day -->
+{form signInForm class => 'login-form well'}
 
-<h1>Sign in</h1>
+<fieldset>
+    <legend>Přihlášení</legend>
+    {if $form->hasErrors()}
+    <div class="alert alert-error"> 
+        <li n:foreach="$form->errors as $error">{$error}</li>
+    </div> 
+    {/if}
 
-{control signInForm}
+
+    <div class="control-group">
+        {label username /}
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-user"></i></span>{input username}
+            </div>
+        </div>    
+    </div>
+
+    <div class="control-group">
+        {label password /}
+        <div class="controls">
+            <div class="input-prepend">
+                <span class="add-on"><i class="icon-lock"></i></span>{input password}
+            </div>
+        </div>   
+    </div>
+
+    <div class="control-group">
+        {label persistent /}
+        <div class="controls">
+            <div class="input-prepend">
+                {input persistent}
+            </div>
+        </div>   
+    </div>
+
+
+    <div class="control-group">
+        <div class="input">{input send class => 'btn'}</div>
+    </div>    
+</fieldset>    
+
+
+{/form}
+</div> 
+{/block}
