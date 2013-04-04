@@ -1,0 +1,51 @@
+/* #Site Styles
+================================================== */
+/*
+color pick
+
+#6D7070
+#E5C99E
+#C28D4C
+#BA6043
+#70452E
+
+
+/* #Page Styles
+================================================== */
+
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* Logi area 
+================================================== */
+.login-area {
+    margin-right: auto;
+    margin-left: auto;
+    padding: 0 80px 20px;    
+    width: 290px;
+}
+
+.login-logo {
+    background-image: url('../images/flower.png');
+    background-repeat: no-repeat;
+    height: 230px;
+    margin-bottom: -110px;
+    margin-left: -80px;
+    width: 255px;
+}
+
+.login-form {
+    padding: 20px;
+    width: 247px;
+    -webkit-border-radius: 6px 6px 6px 6px;
+    border-radius: 6px 6px 6px 6px;    
+}
