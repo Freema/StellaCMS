@@ -42,17 +42,17 @@ class LoginForm extends Object {
             return $form;
     }
 
-    protected function signInFormSubmitted(Form $form)
+    public function signInFormSubmitted(Form $form)
     {
         try {
                 $values = $form->getValues();
-                if ($values->remember) {
+                if ($values->persistent) {
                          $form->presenter->getUser()->setExpiration('+ 14 days', FALSE);
                 } else {
                          $form->presenter->getUser()->setExpiration('+ 20 minutes', TRUE);
                 }
                 $form->presenter->getUser()->login($values->username, $values->password);
-                $form->presenter->redirect('Homepage:');
+                $form->presenter->redirect('ControlPanel:default');
 
         } catch (NS\AuthenticationException $e) {
                 $form->addError($e->getMessage());

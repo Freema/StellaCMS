@@ -12,12 +12,7 @@ use User;
  */
 class HomepagePresenter extends BasePresenter
 {
-
-    /**
-     * @var \TagFacade
-     */
-    private $_tagService;
-    
+   
     public function actionCreateDefaultUser()
     {
             $user = new User('admin');
@@ -36,16 +31,12 @@ class HomepagePresenter extends BasePresenter
             $this->terminate();
     }
 
-
-    final function injectTagModel(\TagFacade $tag)
-    {
-        $this->_tagService = $tag;
-    }
-
     public function renderDefault()
     {
-        $post = $this->em->getRepository('Tag')->findByName('jjj');
+        $post = $this->em->getRepository('Models\Entity\Tag\Tag')->findByName('jjj');
+        $user = $this->em->getRepository('Models\Entity\User\User')->findAll();
         dump($post);
+        dump($user);
     }
 
 }

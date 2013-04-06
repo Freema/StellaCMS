@@ -12,11 +12,11 @@ use Nette\Application\UI\Presenter;
 abstract class BasePresenter extends Presenter
 {
 
-    public function actionOut()
+    public function handleLogout()
     {
             $this->getUser()->logout();
             $this->flashMessage('You have been signed out.');
-            $this->redirect('in');
+            $this->redirect('Login:default');
     }
         
 }
