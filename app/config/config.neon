@@ -40,11 +40,9 @@ common:
 
                 database: @doctrine.entityManager
 
-                authenticator: 
-                    class: Authenticator(@database::getRepository('User'), %security.salt%)
 
-                tag:
-                    class: TagFacade
+                authenticator: 
+                    class: Models\Authenticator\Authenticator(@database::getRepository('Models\Entity\User\User'), %security.salt%)
 
                 loginForm:
                     class: AdminModule\Forms\LoginForm

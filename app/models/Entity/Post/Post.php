@@ -1,8 +1,10 @@
 <?php
+namespace Models\Entity\Post; 
+
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="PostRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\Post\PostRepository")
  * @ORM\Table(name="post")
  */
 class Post {

@@ -1,17 +1,21 @@
 <?php
 
+use Nella\Console\Config\Extension as Extension2;
+use Nella\Doctrine\Config\Extension;
+use Nella\Doctrine\Config\MigrationsExtension;
+use Nette\Config\Configurator;
+use Models\PageRouter\PageRouter;
+
 /**
  * My Application bootstrap file.
  */
-use Nette\Application\Routers\Route;
-use Nette\Application\Routers\RouteList;
 
 // Load Nette Framework
 require LIBS_DIR . '/autoload.php';
 
 
 // Configure application
-$configurator = new Nette\Config\Configurator;
+$configurator = new Configurator;
 
 // Enable Nette Debugger for error visualisation & logging
 //$configurator->setDebugMode($configurator::AUTO);
@@ -23,15 +27,15 @@ $configurator->createRobotLoader()
 	->addDirectory(APP_DIR)
 	->register();
 
-\Nella\Console\Config\Extension::register($configurator);
-\Nella\Doctrine\Config\Extension::register($configurator);
-\Nella\Doctrine\Config\MigrationsExtension::register($configurator);
+Extension2::register($configurator);
+Extension::register($configurator);
+MigrationsExtension::register($configurator);
 
 // Create Dependency Injection container from config.neon file
 $configurator->addConfig(__DIR__ . '/config/config.neon');
 $container = $configurator->createContainer();
 
-$pageRouter = new Pagerouter();
+$pageRouter = new PageRouter();
 $container->router[] = $pageRouter->createRouter();
 
 

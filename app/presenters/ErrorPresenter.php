@@ -1,7 +1,7 @@
 <?php
-
-use Nette\Diagnostics\Debugger,
-	Nette\Application as NA;
+use Exception;
+use Nette\Application as NA;
+use Nette\Diagnostics\Debugger;
 
 
 

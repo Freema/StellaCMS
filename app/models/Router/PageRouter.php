@@ -1,13 +1,15 @@
 <?php
+namespace Models\PageRouter;
 
-use Nette\Application\Routers\RouteList,
-    Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
+use Nette\Application\Routers\Route;
 
 /**
  * Router factory.
  */
 class PageRouter
 {
+    
     /**
      * @return Nette\Application\IRouter
      */
@@ -22,7 +24,7 @@ class PageRouter
         ));
         
         $router[] = new Route('<presenter>/<action>[/<id>]', array(
-            'module' => 'front',
+            'module' => 'Front',
             'presenter' => 'Homepage',
             'action' => 'default'
         ));

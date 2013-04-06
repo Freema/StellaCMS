@@ -1,5 +1,5 @@
 <?php
-
+namespace Models\Entity\Tag; 
 /**
  * Description of TagRepository
  *
@@ -9,7 +9,7 @@
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="TagRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\Tag\TagRepository")
  * @ORM\Table(name="tag")
  */
 

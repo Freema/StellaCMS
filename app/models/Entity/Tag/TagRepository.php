@@ -1,5 +1,5 @@
 <?php
-
+namespace Models\Entity\Tag; 
 use Doctrine\ORM\EntityRepository;
 
 /**

@@ -1,6 +1,11 @@
 <?php
+namespace Models\Authenticator;
 
+use Doctrine\ORM\EntityRepository;
+use Nette\Object;
 use Nette\Security as NS;
+use Nette\Security\AuthenticationException;
+use Nette\Security\Identity;
 
 
 /**
@@ -9,16 +14,16 @@ use Nette\Security as NS;
  * @author     John Doe
  * @package    MyApplication
  */
-class Authenticator extends Nette\Object implements NS\IAuthenticator
+class Authenticator extends Object implements NS\IAuthenticator
 {
-    /** @var \Doctrine\ORM\EntityRepository */
+    /** @var EntityRepository */
     private $_users;
 
     /** @var stirng */
     private $_salt;
 
 
-    public function __construct(\Doctrine\ORM\EntityRepository $users, $salt)
+    public function __construct(EntityRepository $users, $salt)
     {
             $this->_users = $users;
             $this->_salt = $salt;
@@ -27,8 +32,8 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
     /**
      * Performs an authentication
      * @param  array
-     * @return Nette\Security\Identity
-     * @throws Nette\Security\AuthenticationException
+     * @return Identity
+     * @throws AuthenticationException
      */
     public function authenticate(array $credentials)
     {
