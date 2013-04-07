@@ -2,15 +2,23 @@
 namespace AdminModule;
 
 use Nette\Application\UI\Presenter;
+use Nette\Forms\Controls\BaseControl;
 
-/**
- * Base class for all application presenters.
- *
- * @author     John Doe
- * @package    MyApplication
- */
+BaseControl::$idMask = '%2$s';
+
 abstract class BasePresenter extends Presenter
 {
+    
+    protected function startup()
+    {
+        parent::startup();
+
+        if(!($this->getUser()->isLoggedIn()))
+        {
+            $this->redirect('Login:default');
+        }
+    }
+
 
     public function handleLogout()
     {

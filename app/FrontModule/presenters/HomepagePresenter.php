@@ -33,8 +33,8 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $post = $this->em->getRepository('Models\Entity\Tag\Tag')->findByName('jjj');
-        $user = $this->em->getRepository('Models\Entity\User\User')->findAll();
+        $post = $this->em->getRepository('Models\Entity\Tag\Tag');
+        $user = $this->em->getRepository('Models\Entity\User\User');
         dump($post);
         dump($user);
     }

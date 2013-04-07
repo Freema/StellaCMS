@@ -1,7 +1,7 @@
 <?php
 namespace Models\Entity\User; 
 /**
- * Description of TagRepository
+ * Description of User
  *
  * @author Tomáš
  */
@@ -132,4 +132,5 @@ class User extends \Nette\Object
             $s = trim($s);
             return $s === "" ? NULL : $s;
     }
+
 }

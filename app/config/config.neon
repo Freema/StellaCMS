@@ -46,6 +46,8 @@ common:
 
                 loginForm:
                     class: AdminModule\Forms\LoginForm
+                postForm:
+                    class: AdminModule\Forms\PostForm(@database)
 
 
 production < common:

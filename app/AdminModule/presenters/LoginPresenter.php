@@ -1,16 +1,10 @@
 <?php
 namespace AdminModule;
-use Nette\Application\UI,
-    Nette\Security as NS;
 
+use Nette\Application\UI\Form;
+use Nette\Application\UI\Presenter;
 
-/**
- * Sign in/out presenters.
- *
- * @author     John Doe
- * @package    MyApplication
- */
-class LoginPresenter extends BasePresenter
+class LoginPresenter extends Presenter
 {
     /**
      *
@@ -24,7 +18,7 @@ class LoginPresenter extends BasePresenter
     }
 
     /**
-     * @return Nette\Application\UI\Form
+     * @return Form
      */
     protected function createComponentSignInForm()
     {

@@ -25,22 +25,22 @@ color pick
     text-align: right;
 }
 
+/* NavBar
+================================================== */
+
+.navbar-inner {
+    -webkit-border-radius: 0px 0px 0px 0px;
+    border-radius: 0px 0px 0px 0px;
+}
+
 /* Logi area 
 ================================================== */
 .login-area {
     margin-right: auto;
     margin-left: auto;
+    margin-top: 10%;
     padding: 0 80px 20px;    
     width: 290px;
-}
-
-.login-logo {
-    background-image: url('../images/flower.png');
-    background-repeat: no-repeat;
-    height: 230px;
-    margin-bottom: -110px;
-    margin-left: -80px;
-    width: 255px;
 }
 
 .login-form {
