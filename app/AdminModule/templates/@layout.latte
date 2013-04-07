@@ -6,7 +6,7 @@
 	<meta name="description" content="Nette Framework web application skeleton">
 	<meta name="robots" content="{$robots}" n:ifset="$robots">
 
-	<title>Nette Application Skeleton</title>
+        <title>{block title|striptags|upper}{/block}</title>
 
 	<link rel="stylesheet" href="{$basePath}/public/admin/css/bootstrap.css" type="text/css">
 	<link rel="stylesheet" href="{$basePath}/public/admin/css/main.css" type="text/css">

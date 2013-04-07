@@ -38,9 +38,6 @@ class PostForm extends Object
     private function _addForm()
     {
         $form = new Form;
-        
-        dump($this->_user->find(1));
-        dump($this->_em);
        
         $form->addTextArea('text', 'Text: ')
              ->setHtmlId('editor');
