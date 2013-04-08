@@ -9,7 +9,7 @@ namespace Models\Entity\User;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="Models\Entity\User\UserRepository")
  * @ORM\Table(name="user")
  */
 

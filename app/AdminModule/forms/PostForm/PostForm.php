@@ -38,7 +38,7 @@ class PostForm extends Object
     private function _addForm()
     {
         $form = new Form;
-       
+        
         $form->addTextArea('text', 'Text: ')
              ->setHtmlId('editor');
         
@@ -60,7 +60,7 @@ class PostForm extends Object
     {
         $value = $form->values;
         
-        $post = new Post($this->_user->find(1), $value->text);
+        $post = new Post($this->_user->find($form->presenter->getUser()->getId()), $value->text);
         $this->_em->persist($post);
         
         try {

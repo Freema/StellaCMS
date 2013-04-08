@@ -65,4 +65,10 @@ class Authenticator extends Object implements NS\IAuthenticator
     {
             return md5($password . str_repeat('*enter any random salt here*', 10));
     }
+
+    static function staticHash($password)
+    {
+            return md5($password . str_repeat('*enter any random salt here*', 10));
+    }
+    
 }

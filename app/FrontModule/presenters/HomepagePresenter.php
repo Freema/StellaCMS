@@ -12,7 +12,6 @@ use User;
  */
 class HomepagePresenter extends BasePresenter
 {
-   
     public function actionCreateDefaultUser()
     {
             $user = new User('admin');
@@ -33,10 +32,30 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $post = $this->em->getRepository('Models\Entity\Tag\Tag');
-        $user = $this->em->getRepository('Models\Entity\User\User');
-        dump($post);
+        //$post = $this->em->getRepository('Models\Entity\Post\Post');
+        $user = $this->em->getRepository('Models\Entity\Menu\Menu');
+        //dump($post);
         dump($user);
     }
+    
+    public function handleCreateDefaultUser()
+    {
 
+        $pass = \Models\Authenticator\Authenticator::staticHash('admin');
+        
+        $user = new \Models\Entity\User\User('admin');
+        $user->setPassword($pass);
+        $user->setEmail('admin@admin.cz');
+        $user->setRole('admin');
+        $this->em->persist($user);
+        try {
+                $this->em->flush();
+        } catch(\PDOException $e) {
+                dump($e);
+                $this->terminate();
+        }
+
+        $this->sendResponse(new \Nette\Application\Responses\TextResponse('OK'));
+        $this->terminate();
+    }
 }
