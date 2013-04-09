@@ -3,28 +3,22 @@
 {/block}
 
 {block content}
-        {form postForm}
-            <div class="alert alert-error" n:if="$form->hasErrors()"> 
-                <li n:foreach="$form->errors as $error">{$error}</li>
-            </div>
+    {form postForm}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
 
-            <div class="span7">
-                <div class="control-group">
-                    <div class="controls">
-                        {input text}
-                    </div>
-                </div>                
+        <div class="control-group">
+            <div class="controls">
+                {input text}
             </div>
+        </div>                
 
-            <div class="clearfix">
-            </div>
-            <div class="span12">
-                <div class="control-group">
-                    {input submit}
-                </div>
-            </div>
 
-        {/form}
+        <div class="control-group">
+            {input submit}
+        </div>
+    {/form}
 {/block}
     
 {block jscript}

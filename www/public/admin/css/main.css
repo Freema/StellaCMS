@@ -35,6 +35,10 @@ color pick
 
 /* Logi area 
 ================================================== */
+.loginPage {
+    background: url('../img/blackwall.jpg');
+}
+
 .login-area {
     margin-right: auto;
     margin-left: auto;

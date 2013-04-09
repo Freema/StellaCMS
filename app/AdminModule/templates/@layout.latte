@@ -15,7 +15,7 @@
 	{block head}{/block}
 </head>
 
-<body>
+<body n:class="$presenter->isLinkCurrent('Login:default') ? loginPage">
     {if $user->isLoggedIn()}    
     <div class="navbar navbar-inverse">
         <div class="navbar-inner">
@@ -34,7 +34,15 @@
                                     <a tabindex="-1" href="{link ObsahStranek:default}">Obsah stranek</a>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a href="{link ObsahStranek:pridatClanek}" tabindex="-1">Přidat článek</a>
+                                            <a href="{link ObsahStranek:addArticle}" tabindex="-1">Přidat článek</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                                <li class="dropdown-submenu">
+                                    <a tabindex="-1" href="{link Category:default}">Kategorie</a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{link Category:addCategory}" tabindex="-1">Přidat kategorii</a>
                                         </li>
                                     </ul>
                                 </li>

@@ -48,6 +48,8 @@ common:
                     class: AdminModule\Forms\LoginForm
                 postForm:
                     class: AdminModule\Forms\PostForm(@database)
+                categoryForm:
+                    class: AdminModule\Forms\CategoryForm(@database)
 
 
 production < common:

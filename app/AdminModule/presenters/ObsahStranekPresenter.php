@@ -26,7 +26,7 @@ class ObsahStranekPresenter extends BasePresenter {
         
     }
 
-    public function renderPridatClanek() {
+    public function renderAddArticle() {
         
     }
 

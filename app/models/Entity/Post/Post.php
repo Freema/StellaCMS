@@ -1,14 +1,16 @@
 <?php
-namespace Models\Entity\Post; 
+namespace Models\Entity\Post;
 
 use Doctrine\ORM\Mapping as ORM;
+use Models\Entity\Category\Category;
 use Models\Entity\User\User;
+use Nette\Object;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\Post\PostRepository")
  * @ORM\Table(name="post")
  */
-class Post extends \Nette\Object {
+class Post extends Object {
 
     /**
      * @ORM\Id
@@ -27,11 +29,22 @@ class Post extends \Nette\Object {
      * @ORM\Column(type="text")
      */
     protected $content;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Models\Entity\Category\Category", inversedBy="posts")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    protected $category;
 
     public function __construct(User $users, $content)
     {
         $this->users = $users;
         $this->content = $content;
+    }
+    
+    public function getId()
+    {
+        return $this->id;
     }
 
     public function getUser()
@@ -55,4 +68,15 @@ class Post extends \Nette\Object {
         $this->content = (string) $content;
         return $this;
     }
+    
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    public function setCategory(Category $category)
+    {
+        $this->category = $category;
+        return $this;
+    }    
 }
