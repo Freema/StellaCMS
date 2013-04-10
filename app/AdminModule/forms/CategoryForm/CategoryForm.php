@@ -4,8 +4,7 @@ namespace AdminModule\Forms;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Category\Category;
-use Nette\Forms\Form;
-use Nette\Object;
+use Nette\Application\UI\Form;
 use PDOException;
 
 /**
@@ -13,7 +12,7 @@ use PDOException;
  *
  * @author Tomáš
  */
-class CategoryForm extends Object {
+class CategoryForm extends BaseForm {
     
     /** @var EntityManager */
     protected $_em;
@@ -35,11 +34,13 @@ class CategoryForm extends Object {
     {
         $form = new Form;
         
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        
         $form->addText('title', 'Title: ')
              ->addRule(Form::FILLED, null)
              ->addRule(Form::MAX_LENGTH, null, 100);
         
-        $form->addSelect('parent', 'Parent: ')
+        $form->addSelect('parent', 'Parent: ', $c)
              ->setPrompt('- No parent -');
         
         $form->addTextArea('text', 'Text: ')

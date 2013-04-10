@@ -21,7 +21,7 @@ class CategoryRepository extends EntityRepository  {
     /**
      * @return array
      */
-    public function getLastCategories()
+    public function getCategories()
     {
         return $this->findBy(array(), array('id' => 'DESC'));
     }

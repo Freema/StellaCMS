@@ -10,9 +10,8 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Post\Post;
 use Nette\Application\UI\Form;
-use Nette\Object;
 
-class PostForm extends Object
+class PostForm extends BaseForm
 {
     /** @var EntityManager */
     protected $_em;

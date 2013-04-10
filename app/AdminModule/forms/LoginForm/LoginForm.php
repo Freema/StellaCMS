@@ -2,13 +2,13 @@
 namespace AdminModule\Forms;
 
 use Nette\Application\UI\Form;
-use Nette\Object;
+
 /**
  * Description of LoginForm
  *
  * @author Tomáš
  */
-class LoginForm extends Object {
+class LoginForm extends BaseForm {
     
     public function __construct() {
     }
