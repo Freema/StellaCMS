@@ -33,9 +33,6 @@ class CategoryForm extends Object {
     
     private function _addForm()
     {
-        
-        dump($this->_category->getLastCategories());
-        
         $form = new Form;
         
         $form->addText('title', 'Title: ')
