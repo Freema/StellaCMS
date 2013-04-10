@@ -26,15 +26,16 @@ class Post extends Object {
     protected $users;
 
     /**
-     * @ORM\Column(type="text")
-     */
-    protected $content;
-    
-    /**
      * @ORM\ManyToOne(targetEntity="Models\Entity\Category\Category", inversedBy="posts")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;
+    
+    /**
+     * @ORM\Column(type="text")
+     */
+    protected $content;
+    
 
     public function __construct(User $users, $content)
     {

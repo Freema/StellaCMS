@@ -4,8 +4,9 @@ namespace AdminModule\Forms;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Category\Category;
-use Nette\Application\UI\Form;
+use Nette\Forms\Form;
 use Nette\Object;
+use PDOException;
 
 /**
  * Description of CategoryForm
@@ -32,6 +33,9 @@ class CategoryForm extends Object {
     
     private function _addForm()
     {
+        
+        dump($this->_category->getLastCategories());
+        
         $form = new Form;
         
         $form->addText('title', 'Title: ')
@@ -72,7 +76,7 @@ class CategoryForm extends Object {
         $this->_em->persist($category);        
         try {
             $this->_em->flush();
-        } catch(\PDOException $e) {
+        } catch(PDOException $e) {
             dump($e);
             die();
         }
