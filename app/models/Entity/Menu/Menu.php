@@ -22,22 +22,38 @@ class Menu extends \Nette\Object {
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="url", type="string", length=255)
+     * @ORM\Column(name="url", type="string", length=100, unique=true)
      */
-    private $url;
+    protected $url;
 
     /**
-     * @var integer
+     * @var string
      *
-     * @ORM\Column(name="title", type="string", length=255)
+     * @ORM\Column(name="title", type="string", length=100)
      */
-    private $title;
+    protected $title;
 
+    
+    /**
+     *
+     * @var string
+     * @ORM\Column(name="description", type="string", length=255)
+     */
+    protected $description;
+
+    
+    public function __construct($url, $title, $description)
+    {
+        $this->url = $url;
+        $this->title = $title;
+        $this->description = $description;
+    }    
+    
     /**
      * Get id
      *
@@ -53,7 +69,7 @@ class Menu extends \Nette\Object {
      * Set name
      *
      * @param string $name
-     * @return Tag
+     * @return Url
      */
     public function setUrl($name)
     {
@@ -73,10 +89,10 @@ class Menu extends \Nette\Object {
     }
 
     /**
-     * Set quantifier
+     * Set title
      *
      * @param integer $quantifier
-     * @return Tag
+     * @return Title
      */
     public function setTitle($title)
     {
@@ -86,13 +102,36 @@ class Menu extends \Nette\Object {
     }
 
     /**
-     * Get quantifier
+     * Get title
      *
      * @return integer 
      */
     public function getTitle()
     {
         return $this->title;
+    }
+
+    /**
+     * Set description
+     *
+     * @param integer $quantifier
+     * @return Description
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+    
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return integer 
+     */
+    public function getDescription()
+    {
+        return $this->description;
     }
 
 }

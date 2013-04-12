@@ -45,6 +45,8 @@ common:
                     class: AdminModule\Forms\PostForm(@database)
                 categoryForm:
                     class: AdminModule\Forms\CategoryForm(@database)
+                menuForm:
+                    class: AdminModule\Forms\MenuForm(@database)
 
 
 production < common:
