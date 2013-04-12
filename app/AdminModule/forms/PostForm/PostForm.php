@@ -18,10 +18,14 @@ class PostForm extends BaseForm
     
     /** @var EntityRepository */
     protected $_user;
-
+    
+    /** @var EntityRepository */
+    protected $_category;
+    
     public function __construct(EntityManager $em) {
         $this->_em = $em;
         $this->_user = $em->getRepository('Models\Entity\User\User');
+        $this->_category = $em->getRepository('Models\Entity\Category\Category');        
     }
     
     public function createForm($id = NULL)
@@ -32,6 +36,11 @@ class PostForm extends BaseForm
     private function _addForm()
     {
         $form = new Form;
+        
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        
+        $form->addSelect('category', 'Kategorie: ', $c)
+             ->setPrompt('- No category -');
         
         $form->addTextArea('text', 'Text: ')
              ->setHtmlId('editor');
@@ -55,6 +64,7 @@ class PostForm extends BaseForm
         $value = $form->values;
         
         $post = new Post($this->_user->find($form->presenter->getUser()->getId()), $value->text);
+        $post->setCategory($this->_category->getOne($value->category));
         $this->_em->persist($post);
         
         try {

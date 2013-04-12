@@ -34,12 +34,7 @@ common:
                 connection: @doctrine.connection
 
         services:
-                #pageRouter: 
-                #    class: PageRouter
-                #router: @pageRouter::createRouter
-
                 database: @doctrine.entityManager
-
 
                 authenticator: 
                     class: Models\Authenticator\Authenticator(@database::getRepository('Models\Entity\User\User'), %security.salt%)

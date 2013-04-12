@@ -4,10 +4,16 @@ namespace AdminModule;
 use Nette\Application\UI\Presenter;
 use Nette\Forms\Controls\BaseControl;
 
+use Nette\InvalidStateException;
+use Doctrine\ORM\EntityManager;
+
 BaseControl::$idMask = '%2$s';
 
 abstract class BasePresenter extends Presenter
 {
+
+    /** @var EntityManager */
+    protected $_em;
     
     protected function startup()
     {
@@ -19,6 +25,15 @@ abstract class BasePresenter extends Presenter
         }
     }
 
+    public function injectEntityManager(EntityManager $em)
+    {
+            if ($this->_em) {
+                    throw new InvalidStateException('Entity manager has already been set');
+            }
+            $this->_em = $em;
+
+            return $this;
+    }    
 
     public function handleLogout()
     {
