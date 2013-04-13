@@ -1,2 +1,40 @@
+{block title}
+    <title>Kategorie</title>
+{/block}
 
 {block content}
+{snippet categoryTable}
+<table class="table table-striped">
+    <caption>
+        <h2 class="pull-left">Kategorie</h2>
+    </caption>
+    <thead>
+        <colgroup>
+            <col style="width: 5%">
+            <col style="width: 15%">
+            <col style="width: 15%">
+            <col style="width: 55%">
+            <col style="width: 10%">
+        </colgroup>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Název v URL</th>
+            <th>Popis</th>
+            <th>Příspěvky</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $tab as $item}
+            <tr>
+                <td>{$item['id']}</td>
+                <td>{$item['title']}</td>
+                <td>{$item['slug']}</td>
+                <td>{$item['description']|truncate: 60| striptags}</td>
+                <td>{$item['posts']}</td>
+            </tr>
+        {/foreach}
+    </tbody>
+</table>
+{/snippet}
+{/block}

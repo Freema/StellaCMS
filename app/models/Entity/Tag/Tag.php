@@ -13,7 +13,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tag")
  */
 
-class Tag extends \Nette\Object {
+class Tag  extends \Nette\Object
+{
     
     /**
      * @var integer

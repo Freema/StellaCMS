@@ -39,6 +39,9 @@ common:
                 authenticator: 
                     class: Models\Authenticator\Authenticator(@database::getRepository('Models\Entity\User\User'), %security.salt%)
 
+                model.category:
+                    class: Models\Category\Category
+
                 loginForm:
                     class: AdminModule\Forms\LoginForm
                 postForm:

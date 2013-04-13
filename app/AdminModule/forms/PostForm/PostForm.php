@@ -17,14 +17,10 @@ class PostForm extends BaseForm
     protected $_em;
     
     /** @var EntityRepository */
-    protected $_user;
-    
-    /** @var EntityRepository */
     protected $_category;
     
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_user = $em->getRepository('Models\Entity\User\User');
         $this->_category = $em->getRepository('Models\Entity\Category\Category');        
     }
     
@@ -62,8 +58,9 @@ class PostForm extends BaseForm
     public function onsuccess(Form $form)
     {
         $value = $form->values;
+        $user = $this->_em->getRepository('Models\Entity\User\User');
         
-        $post = new Post($this->_user->find($form->presenter->getUser()->getId()), $value->text);
+        $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text);
         $post->setCategory($this->_category->getOne($value->category));
         $this->_em->persist($post);
         

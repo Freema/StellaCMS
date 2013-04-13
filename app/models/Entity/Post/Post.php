@@ -4,13 +4,13 @@ namespace Models\Entity\Post;
 use Doctrine\ORM\Mapping as ORM;
 use Models\Entity\Category\Category;
 use Models\Entity\User\User;
-use Nette\Object;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\Post\PostRepository")
  * @ORM\Table(name="post")
  */
-class Post extends Object {
+class Post extends \Nette\Object
+{
 
     /**
      * @ORM\Id

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="menu")
  */
 
-class Menu extends \Nette\Object {
+class Menu {
     
     /**
      * @var integer

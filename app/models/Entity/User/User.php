@@ -22,27 +22,27 @@ class User extends \Nette\Object
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
     /**
      * @var string
      * @ORM\Column(type="string", length=255, unique=true)
      */
-    private $username;
+    protected $username;
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $email;
+    protected $email;
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $password;
+    protected $password;
     /**
      * @var string
      * @ORM\Column(type="string", length=255)
      */
-    private $role;
+    protected $role;
 
     /**
      * @param string
