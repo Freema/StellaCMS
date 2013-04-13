@@ -5,6 +5,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Category\Category;
 use Nette\Application\UI\Form;
+use Nette\Utils\Strings;
 use PDOException;
 
 /**
@@ -40,6 +41,9 @@ class CategoryForm extends BaseForm {
              ->addRule(Form::FILLED, null)
              ->addRule(Form::MAX_LENGTH, null, 100);
         
+        $form->addText('tag_slug', 'Slug: ')
+             ->addRule(Form::MAX_LENGTH, null, 32);
+        
         $form->addSelect('parent', 'Parent: ', $c)
              ->setPrompt('- No parent -');
         
@@ -64,10 +68,14 @@ class CategoryForm extends BaseForm {
     {
         $value = $form->values;
         
-        $category = new Category($value->title, $value->text);
+        $value->tag_slug ? $slug = $value->tag_slug : $slug = $value->title;
+
+        $slug = Strings::webalize($slug);        
+        
+        $category = new Category($value->title, $slug, $value->text);
 
         $parent = $this->_category->getOne($value->parent);
-        if(isset($parent)){
+        if(!empty($parent)){
             $category->setParent($parent);
         }
 

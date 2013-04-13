@@ -21,6 +21,12 @@ class Category extends \Nette\Object
      * @ORM\Column(type="string", length=100, unique=true)
      */
     protected $title;
+    
+    /**
+     *
+     * @ORM\Column(type="string", length=32)
+     */
+    protected $slug;
 
     /**
      * @ORM\Column(type="text")
@@ -43,9 +49,10 @@ class Category extends \Nette\Object
      */
     protected $posts;
 
-    public function __construct($title, $description)
+    public function __construct($title, $slug, $description)
     {
             $this->title = $title;
+            $this->slug = $slug;
             $this->description = $description;
             $this->children = new \Doctrine\Common\Collections\ArrayCollection;
             $this->posts = new \Doctrine\Common\Collections\ArrayCollection;
@@ -64,6 +71,17 @@ class Category extends \Nette\Object
     public function setTitle($title)
     {
         $this->name = (string) $title;
+        return $this;
+    }
+    
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    
+    public function setSlug($slug)
+    {
+        $this->slug = (string) $slug;
         return $this;
     }
 
