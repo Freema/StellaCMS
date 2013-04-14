@@ -70,7 +70,7 @@ class Category extends \Nette\Object
 
     public function setTitle($title)
     {
-        $this->name = (string) $title;
+        $this->title = (string) $title;
         return $this;
     }
     

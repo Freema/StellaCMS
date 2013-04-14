@@ -1,12 +1,13 @@
 <?php
 namespace AdminModule\Forms;
 
+use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Category\Category;
+use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
-use PDOException;
 
 /**
  * Description of CategoryForm
@@ -82,6 +83,15 @@ class CategoryForm extends BaseForm {
         
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         
+        if($this->_defaults->getParent() == NULL)
+        {
+            $default = 0;
+        }
+        else
+        {
+            $default = $this->_defaults->getParent()->getId();
+        }
+        
         $form->addText('title', 'Title: ')
              ->setDefaultValue($this->_defaults->getTitle())   
              ->addRule(Form::FILLED, null)
@@ -92,7 +102,7 @@ class CategoryForm extends BaseForm {
              ->addRule(Form::MAX_LENGTH, null, 32);
         
         $form->addSelect('parent', 'Parent: ', $c)
-             ->setDefaultValue($this->_defaults->getParent()->getId())
+             ->setDefaultValue($default)
              ->setPrompt('- No parent -');
         
         $form->addTextArea('text', 'Text: ')
@@ -115,27 +125,64 @@ class CategoryForm extends BaseForm {
 
     public function onsuccess(Form $form)
     {
-        $value = $form->values;
-        
-        $value->tag_slug ? $slug = $value->tag_slug : $slug = $value->title;
-
-        $slug = Strings::webalize($slug);        
-        
-        $category = new Category($value->title, $slug, $value->text);
-
-        $parent = $this->_category->getOne($value->parent);
-        if(!empty($parent)){
-            $category->setParent($parent);
-        }
-
-        $this->_em->persist($category);        
         try {
-            $this->_em->flush();
-        } catch(PDOException $e) {
-            dump($e);
-            die();
+            $value = $form->values;
+
+            $value->tag_slug ? $slug = $value->tag_slug : $slug = $value->title;
+
+            $slug = Strings::webalize($slug);        
+            $parent = $this->_category->getOne($value->parent);        
+
+            if(isset($this->_defaults))
+            {
+                if(!($value->title == $this->_defaults->getTitle()))
+                {
+                    if($this->_category->findOneBy(array('title' => $value->title)))
+                    {
+                        throw new \Exception('Category with name "' . $value->title . '" exist.');  
+                    }
+                }
+
+                $category = $this->_defaults;
+                $category->setTitle($value->title);
+                $category->setSlug($slug);
+                $category->setDescription($value->text);
+
+                if(!empty($parent)){
+                    $category->setParent($parent);
+                }
+                $this->_em->flush($category);
+                
+                $form->presenter->redirect('Category:editCategory', $this->_defaults->getId());
+            }
+            else
+            {
+                if($this->_category->findOneBy(array('title' => $value->title)))
+                {
+                    throw new \Exception('Category with name "' . $value->title . '" exist.');  
+                }
+
+                $category = new Category($value->title, $slug, $value->text);
+
+                if(!empty($parent)){
+                    $category->setParent($parent);
+                }  
+
+                $this->_em->persist($category);
+                $this->_em->flush($category);
+                
+                $form->presenter->redirect('Category:editCategory', $this->_defaults->getId());
+            }
         }
-        
-        $form->presenter->redirect('Category:addCategory');        
+        catch(\Exception $e)
+        {
+            if ($e instanceof AbortException) {
+                throw $e;
+            }
+            if($e instanceof DBALException){
+                throw $e;
+            }
+            $form->addError($e->getMessage());
+        }
     }  
 }
