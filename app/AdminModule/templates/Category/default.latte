@@ -4,16 +4,16 @@
 
 {block content}
 {snippet categoryTable}
-<table class="table table-striped">
+<table class="table table-striped list-table">
     <caption>
         <h2 class="pull-left">Kategorie</h2>
     </caption>
     <thead>
         <colgroup>
             <col style="width: 5%">
+            <col style="width: 20%">
             <col style="width: 15%">
-            <col style="width: 15%">
-            <col style="width: 55%">
+            <col style="width: 50%">
             <col style="width: 10%">
         </colgroup>
         <tr>
@@ -28,7 +28,14 @@
         {foreach $tab as $item}
             <tr>
                 <td>{$item['id']}</td>
-                <td>{$item['title']}</td>
+                <td>
+                    <strong>{$item['title']}</strong>
+                    <div class="tab-actions">
+                        <span><a href="{link Category:editCategory $item['id']}">Upravit</a></span> |
+                        <span><a href="">Smazat</a></span> |
+                        <span><a href="">Nahled</a></span>
+                    </div>
+                </td>
                 <td>{$item['slug']}</td>
                 <td>{$item['description']|truncate: 60| striptags}</td>
                 <td>{$item['posts']}</td>

@@ -11,7 +11,7 @@ use PDOException;
 /**
  * Description of CategoryForm
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 class CategoryForm extends BaseForm {
     
@@ -20,15 +20,27 @@ class CategoryForm extends BaseForm {
     
      /** @var EntityRepository */
     protected $_category;
+    
+    /** @var Category */
+    protected $_defaults;
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
         $this->_category = $em->getRepository('Models\Entity\Category\Category');
     }
     
-    public function createForm($id = NULL)
+    public function createForm(Category $defaults = NULL)
     {
-        return $this->_addForm();
+        if(!$defaults)
+        {
+            return $this->_addForm();
+        }
+        else
+        {
+            $this->_defaults = $defaults;
+            
+            return $this->_editForm(); 
+        }
     }
     
     private function _addForm()
@@ -62,6 +74,43 @@ class CategoryForm extends BaseForm {
         $vybratBtn->add(' Vytvořit categorii');
         
         return $form;        
+    }
+    
+    private function _editForm()
+    {
+        $form = new Form;
+        
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        
+        $form->addText('title', 'Title: ')
+             ->setDefaultValue($this->_defaults->getTitle())   
+             ->addRule(Form::FILLED, null)
+             ->addRule(Form::MAX_LENGTH, null, 100);
+        
+        $form->addText('tag_slug', 'Slug: ')
+             ->setDefaultValue($this->_defaults->getSlug())   
+             ->addRule(Form::MAX_LENGTH, null, 32);
+        
+        $form->addSelect('parent', 'Parent: ', $c)
+             ->setDefaultValue($this->_defaults->getParent()->getId())
+             ->setPrompt('- No parent -');
+        
+        $form->addTextArea('text', 'Text: ')
+             ->setDefaultValue($this->_defaults->getDescription())   
+             ->setHtmlId('editor');
+        
+        $form->addSubmit('submit', NULL)
+             ->setAttribute('class', 'btn btn-success');
+        
+        $form->onSuccess[] = callback($this, 'onsuccess');
+
+        $vybratBtn = $form['submit']->getControlPrototype();
+        $vybratBtn->setName("button");
+        $vybratBtn->type = 'submit'; 
+        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->add(' Vytvořit categorii');
+        
+        return $form;               
     }
 
     public function onsuccess(Form $form)

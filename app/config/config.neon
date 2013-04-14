@@ -25,6 +25,7 @@ common:
         nette:
                 session:
                         autoStart: smart
+                        expiration: 14 days
 
         doctrine:
                 connection: %database%

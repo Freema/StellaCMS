@@ -18,6 +18,11 @@ class Category extends Object {
     {
         $this->_em = $em;        
     }
+    
+    public function getCategoryRepository()
+    {
+        return $this->_em->getRepository('Models\Entity\Category\Category');
+    }
 
     public function loadCategoryTab()
     {

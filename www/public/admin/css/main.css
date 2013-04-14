@@ -25,6 +25,15 @@ color pick
     text-align: right;
 }
 
+.list-table tr:hover .tab-actions {
+    visibility: visible;
+}
+
+.tab-actions {
+    visibility: hidden;    
+}
+
+
 /* NavBar
 ================================================== */
 

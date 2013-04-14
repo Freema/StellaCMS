@@ -82,10 +82,10 @@
     {/if}  
         
     {snippet flashMessages}
-    <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
-    <button class="close" data-dismiss="alert" type="button">×</button>
-    {$flash->message}
-    </div>
+        <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
+            <button class="close" data-dismiss="alert" type="button">×</button>
+            {$flash->message}
+        </div>
     {/snippet}    
     <div class="container">
     <!-- content block! -->

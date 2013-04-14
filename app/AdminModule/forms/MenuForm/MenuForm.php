@@ -8,7 +8,7 @@ use Nette\Application\UI\Form;
 /**
  * Description of CategoryForm
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 class MenuForm extends BaseForm {
     

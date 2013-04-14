@@ -6,7 +6,7 @@ use Nette\Application\UI\Form;
 /**
  * Description of LoginForm
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 class LoginForm extends BaseForm {
     
@@ -47,9 +47,7 @@ class LoginForm extends BaseForm {
         try {
                 $values = $form->getValues();
                 if ($values->persistent) {
-                         $form->presenter->getUser()->setExpiration('+ 14 days', FALSE);
-                } else {
-                         $form->presenter->getUser()->setExpiration('+ 20 minutes', TRUE);
+                    $form->presenter->getUser()->setExpiration('+30 days', FALSE);
                 }
                 $form->presenter->getUser()->login($values->username, $values->password);
                 $form->presenter->redirect('ControlPanel:default');
