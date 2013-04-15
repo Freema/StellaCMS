@@ -34,4 +34,11 @@ class Category extends Object {
         return $query->getResult();
     }
     
+    public function deleteCategory($id)
+    {
+        $category = $this->getCategoryRepository()->getOne($id);
+        $this->_em->remove($category);
+        return $this->_em->flush();
+        
+    }
 }

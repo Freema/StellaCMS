@@ -59,5 +59,11 @@ class CategoryPresenter extends BasePresenter {
         }
         $this->template->data = $this->_Page;
     }
+    
+    public function handleDelete($id)
+    {
+        $this->_Category->deleteCategory($id);
+        $this->redirect('default');
+    }
 
 }

@@ -33,6 +33,10 @@ color pick
     visibility: hidden;    
 }
 
+.alert {
+    list-style: none;
+}
+
 
 /* NavBar
 ================================================== */
