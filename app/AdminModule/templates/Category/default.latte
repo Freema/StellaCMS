@@ -8,14 +8,14 @@
     <caption>
         <h2 class="pull-left">Kategorie</h2>
     </caption>
+    <colgroup>
+        <col style="width: 5%">
+        <col style="width: 20%">
+        <col style="width: 15%">
+        <col style="width: 50%">
+        <col style="width: 10%">
+    </colgroup>
     <thead>
-        <colgroup>
-            <col style="width: 5%">
-            <col style="width: 20%">
-            <col style="width: 15%">
-            <col style="width: 50%">
-            <col style="width: 10%">
-        </colgroup>
         <tr>
             <th>ID</th>
             <th>Název</th>
@@ -32,7 +32,7 @@
                     <strong>{$item['title']}</strong>
                     <div class="tab-actions">
                         <span><a href="{link Category:editCategory $item['id']}">Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}">Smazat</a></span> |
+                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span> |
                         <span><a href="">Nahled</a></span>
                     </div>
                 </td>

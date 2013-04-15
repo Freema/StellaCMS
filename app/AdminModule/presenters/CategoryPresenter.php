@@ -63,7 +63,13 @@ class CategoryPresenter extends BasePresenter {
     public function handleDelete($id)
     {
         $this->_Category->deleteCategory($id);
-        $this->redirect('default');
+        if(!$this->isAjax()){
+            $this->redirect('this');
+        }
+        else{
+            $this->invalidateControl('categoryTable');
+            $this->invalidateControl('flashMessages');
+        }
     }
 
 }
