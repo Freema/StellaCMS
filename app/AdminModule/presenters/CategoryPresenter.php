@@ -29,9 +29,9 @@ class CategoryPresenter extends BasePresenter {
         return $this;
     }
     
-    final function injectCategory(\Models\Category\Category $factory)
+    final function injectCategory(\Models\Category\Category $service)
     {
-        $this->_Category = $factory;
+        $this->_Category = $service;
         
         return $this;
     }

@@ -1,2 +1,57 @@
+{**
+ * default template.
+ *
+ * @param array $tab
+ *
+*}
+{block title}
+    <title>Obsah stranek</title>
+{/block}
 
 {block content}
+
+<h2 class="page-header">Příspěvky</h2>    
+<div class="control-panel row">
+    <div class="span4">
+        <a class="btn btn-success" href="{link ObsahStranek:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
+    </div>
+</div>
+{snippet articleTable}
+<table class="table table-striped list-table">
+    <colgroup>
+
+    </colgroup>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Autor</th>
+            <th>Rubriky</th>
+            <th>Štítky</th>
+            <th>Komentaře</th>
+            <th>Datum</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $tab as $item}
+            <tr>
+                <td>{$item->getId()}</td>
+                <td>
+                    <strong>{$item->getTitle()}</strong>
+                    <div class="tab-actions">
+                        <span><a href="{link ObsahStranek:editArticle $item->getId()}">Upravit</a></span> |
+                        <span><a href="{link delete! $item->getId()}" class="ajax">Smazat</a></span> |
+                        <span><a href="">Nahled</a></span>
+                    </div>
+                </td>
+                <td>{$item->getUser()->getUsername()}</td>
+                <td>{$item->getCategory()->getTitle()}</td>
+                <td></td>
+                <td></td>
+                <td>{$item->getCreatedAt()|date: 'Y-m-d H:i:s'}</td>
+            </tr>    
+        {/foreach}
+    </tbody>
+</table>
+{/snippet}
+{/block}

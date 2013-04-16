@@ -35,6 +35,10 @@ class PostForm extends BaseForm
         
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         
+        $form->addText('title', 'Title: ')
+             ->addRule(Form::FILLED, NULL)
+             ->addRule(Form::MAX_LENGTH, NULL, 100);
+        
         $form->addSelect('category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');
         
@@ -60,7 +64,7 @@ class PostForm extends BaseForm
         $value = $form->values;
         $user = $this->_em->getRepository('Models\Entity\User\User');
         
-        $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text);
+        $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
         $post->setCategory($this->_category->getOne($value->category));
         $this->_em->persist($post);
         

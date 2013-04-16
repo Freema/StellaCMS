@@ -42,6 +42,8 @@ common:
 
                 model.category:
                     class: Models\Category\Category
+                model.post:
+                    class: Models\Post\Post
 
                 loginForm:
                     class: AdminModule\Forms\LoginForm

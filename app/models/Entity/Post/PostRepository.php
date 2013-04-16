@@ -4,7 +4,7 @@ use Doctrine\ORM\EntityRepository;
 /**
  * Description of TagRepository
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 
 class PostRepository extends EntityRepository  {

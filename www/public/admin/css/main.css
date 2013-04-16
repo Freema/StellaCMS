@@ -37,6 +37,10 @@ color pick
     list-style: none;
 }
 
+.control-panel {
+    display: table;
+    margin-bottom: 10px;
+}
 
 /* NavBar
 ================================================== */

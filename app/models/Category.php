@@ -7,7 +7,7 @@ use Nette\Object;
 /** 
  * Description of Category
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 class Category extends Object {
     
