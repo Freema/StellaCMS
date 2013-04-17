@@ -25,13 +25,18 @@ class Post extends Object {
 
     public function loadPostTab()
     {
-        return $this->getPostRepository()->findAll();
-    }
-    
-    public function deleteArticle()
-    {
+        $query = $this->_em->createQuery('SELECT p.id, p.title, u.username, c.title AS category, p.createdAt
+                                          FROM Models\Entity\Post\Post p
+                                          JOIN p.category c
+                                          JOIN p.users u');
         
-    }    
+        return $query->getResult();        
+       }
     
-    
+    public function deleteArticle($id)
+    {
+        $category = $this->getPostRepository()->getOne($id);
+        $this->_em->remove($category);
+        return $this->_em->flush();
+    }        
 }

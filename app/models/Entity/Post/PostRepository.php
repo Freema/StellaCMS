@@ -8,4 +8,14 @@ use Doctrine\ORM\EntityRepository;
  */
 
 class PostRepository extends EntityRepository  {
+    
+    /**
+    * @param integer $id
+    * @return mixed
+    */
+    public function getOne($id)
+    {
+        return $this->findOneById($id);
+    }
+    
 }

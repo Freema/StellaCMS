@@ -1,11 +1,9 @@
 <?php
 namespace AdminModule\Forms;
 
-use Doctrine\DBAL\DBALException;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Category\Category;
-use Nette\Application\AbortException;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
@@ -125,7 +123,8 @@ class CategoryForm extends BaseForm {
 
     public function onsuccess(Form $form)
     {
-        try {
+        try 
+        {
             $value = $form->values;
 
             $value->tag_slug ? $slug = $value->tag_slug : $slug = $value->title;
@@ -139,7 +138,7 @@ class CategoryForm extends BaseForm {
                 {
                     if($this->_category->findOneBy(array('title' => $value->title)))
                     {
-                        throw new \Exception('Category with name "' . $value->title . '" exist.');  
+                        throw new FormException('Category with name "' . $value->title . '" exist.');  
                     }
                 }
 
@@ -151,6 +150,11 @@ class CategoryForm extends BaseForm {
                 if(!empty($parent)){
                     $category->setParent($parent);
                 }
+                else
+                {
+                    $category->removeParent();
+                }
+                
                 $this->_em->flush($category);
                 
                 $form->presenter->redirect('Category:editCategory', $this->_defaults->getId());
@@ -159,7 +163,7 @@ class CategoryForm extends BaseForm {
             {
                 if($this->_category->findOneBy(array('title' => $value->title)))
                 {
-                    throw new \Exception('Category with name "' . $value->title . '" exist.');  
+                    throw new FormException('Category with name "' . $value->title . '" exist.');  
                 }
 
                 $category = new Category($value->title, $slug, $value->text);
@@ -174,14 +178,8 @@ class CategoryForm extends BaseForm {
                 $form->presenter->redirect('Category:editCategory', $this->_defaults->getId());
             }
         }
-        catch(\Exception $e)
+        catch(FormException $e)
         {
-            if ($e instanceof AbortException) {
-                throw $e;
-            }
-            if($e instanceof DBALException){
-                throw $e;
-            }
             $form->addError($e->getMessage());
         }
     }  

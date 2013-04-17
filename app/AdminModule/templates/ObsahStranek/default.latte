@@ -35,20 +35,20 @@
     <tbody>
         {foreach $tab as $item}
             <tr>
-                <td>{$item->getId()}</td>
+                <td>{$item['id']}</td>
                 <td>
-                    <strong>{$item->getTitle()}</strong>
+                    <strong>{$item['title']}</strong>
                     <div class="tab-actions">
-                        <span><a href="{link ObsahStranek:editArticle $item->getId()}">Upravit</a></span> |
-                        <span><a href="{link delete! $item->getId()}" class="ajax">Smazat</a></span> |
+                        <span><a href="{link ObsahStranek:editArticle $item['id']}">Upravit</a></span> |
+                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span> |
                         <span><a href="">Nahled</a></span>
                     </div>
                 </td>
-                <td>{$item->getUser()->getUsername()}</td>
-                <td>{$item->getCategory()->getTitle()}</td>
+                <td>{$item['username']}</td>
+                <td>{$item['category']}</td>
                 <td></td>
                 <td></td>
-                <td>{$item->getCreatedAt()|date: 'Y-m-d H:i:s'}</td>
+                <td>{$item['createdAt']|date: 'Y-m-d H:i:s'}</td>
             </tr>    
         {/foreach}
     </tbody>

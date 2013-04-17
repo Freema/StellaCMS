@@ -118,6 +118,11 @@ class Post extends \Nette\Object
         return $this;
     }
     
+    public function removeCategory()
+    {
+        $this->category = NULL;
+    }
+    
     public function getPublish()
     {
         return $this->publish;

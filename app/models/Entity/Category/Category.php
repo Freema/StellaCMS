@@ -51,11 +51,11 @@ class Category extends \Nette\Object
 
     public function __construct($title, $slug, $description)
     {
-            $this->title = $title;
-            $this->slug = $slug;
-            $this->description = $description;
-            $this->children = new \Doctrine\Common\Collections\ArrayCollection;
-            $this->posts = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->title = $title;
+        $this->slug = $slug;
+        $this->description = $description;
+        $this->children = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->posts = new \Doctrine\Common\Collections\ArrayCollection;
     }
     
     public function getId()
@@ -87,34 +87,41 @@ class Category extends \Nette\Object
 
     public function getDescription()
     {
-            return $this->description;
+        return $this->description;
     }
 
     public function setDescription($description)
     {
-            $this->description = (string) $description;
-            return $this;
+        $this->description = (string) $description;
+        return $this;
     }
 
     public function getChildren()
     {
-            return $this->children;
+        return $this->children;
     }
 
     public function setChildren($categories)
     {
-            $this->children[] = $categories;
-            return $this;
+        $this->children[] = $categories;
+        return $this;
     }
 
     public function getParent()
     {
-            return $this->parent;
+        return $this->parent;
     }
 
     public function setParent(Category $parent)
     {
-            $this->parent = $parent;
-            return $this;
+        $this->parent = $parent;
+        return $this;
+    }
+    
+    public function removeParent()
+    {
+        $this->parent = NULL;
+        return $this;
+                
     }
 }

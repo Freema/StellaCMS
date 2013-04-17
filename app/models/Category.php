@@ -39,6 +39,5 @@ class Category extends Object {
         $category = $this->getCategoryRepository()->getOne($id);
         $this->_em->remove($category);
         return $this->_em->flush();
-        
     }
 }
