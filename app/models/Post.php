@@ -31,7 +31,21 @@ class Post extends Object {
                                           JOIN p.users u');
         
         return $query->getResult();        
-       }
+    }
+    
+    public function loadPostTabWhere($where)
+    {
+        $query = $this->_em ->createQueryBuilder()
+                            ->select('p.id, p.title, u.username, c.title AS category, p.createdAt')
+                            ->from('Models\Entity\Post\Post', 'p')
+                            ->join('p.category', 'c')
+                            ->join('p.users', 'u')
+                            ->where('c.id = :category')
+                            ->setParameter('category', $where)
+                            ->getQuery();
+        
+        return $query->getResult();        
+    }
     
     public function deleteArticle($id)
     {

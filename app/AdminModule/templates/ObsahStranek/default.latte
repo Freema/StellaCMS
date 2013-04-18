@@ -2,6 +2,7 @@
  * default template.
  *
  * @param array $tab
+ * @param Models\Entity\Category\Category $cFilter    
  *
 *}
 {block title}
@@ -16,6 +17,17 @@
         <a class="btn btn-success" href="{link ObsahStranek:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
     </div>
 </div>
+
+<div class="form-inline">
+    <select>
+        <option value="0">Zobrazit všechny kategorie</option>
+        {foreach $cFilter as $option}
+        <option value="{$option->getId()}">{$option->getTitle()}</option>
+        {/foreach}            
+    </select>
+    <button type="submit" class="btn">Filtrovat</button>
+</div>
+
 {snippet articleTable}
 <table class="table table-striped list-table">
     <colgroup>

@@ -18,6 +18,11 @@ class ObsahStranekPresenter extends BasePresenter {
     private $_Post;
     
     /**
+     * @var \Models\Category\Category 
+     */
+    private $_Category;
+    
+    /**
     * @var \Models\Entity\Category 
     */
     private $_Page;
@@ -31,6 +36,11 @@ class ObsahStranekPresenter extends BasePresenter {
     {
         $this->_Post = $service;
     }
+    
+    final function injectCategory(\Models\Category\Category $service)
+    {
+        $this->_Category = $service;
+    }
 
     protected function createComponentPostForm()
     {
@@ -42,8 +52,18 @@ class ObsahStranekPresenter extends BasePresenter {
         return $this->_PostForm->createForm($this->_Page);        
     }
 
-    public function renderDefault() {
-        $this->template->tab = $this->_Post->loadPostTab();
+    public function renderDefault($category = NULL) {
+        
+        $this->template->cFilter = $this->_Category->getCategoryRepository()->getCategories();
+        
+        if($category)
+        {
+            $this->template->tab = $this->_Post->loadPostTabWhere($category);
+        }
+        else
+        {
+            $this->template->tab = $this->_Post->loadPostTab();
+        }
     }
     
     public function actionEditArticle($id)
