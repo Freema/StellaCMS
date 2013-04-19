@@ -19,6 +19,9 @@ class Category extends Object {
         $this->_em = $em;        
     }
     
+    /**
+     * @return Models\Entity\Category\Category
+     */
     public function getCategoryRepository()
     {
         return $this->_em->getRepository('Models\Entity\Category\Category');

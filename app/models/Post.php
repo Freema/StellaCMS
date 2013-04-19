@@ -18,6 +18,9 @@ class Post extends Object {
         $this->_em = $em;        
     }
     
+    /**
+     * @return Models\Entity\Post\Post
+     */
     public function getPostRepository()
     {
         return $this->_em->getRepository('Models\Entity\Post\Post');
