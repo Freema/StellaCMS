@@ -7,11 +7,22 @@ namespace AdminModule;
  */
 class LinkPresenter extends BasePresenter {
 
-    public function renderDefault() {
-        
+    /**
+     * @var Forms\LinkForm
+     */
+    private $_LinkForm;
+    
+    public function injectLinkForm(Forms\LinkForm $factory)
+    {
+        $this->_LinkForm = $factory;
+    }
+    
+    protected function createComponentLinkForm()
+    {
+        return $this->_LinkForm->createForm();
     }
 
-    public function renderAddLink() {
+    public function renderDefault() {
         
     }
 

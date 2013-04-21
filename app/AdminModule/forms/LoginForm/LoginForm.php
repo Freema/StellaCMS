@@ -10,9 +10,6 @@ use Nette\Application\UI\Form;
  */
 class LoginForm extends BaseForm {
     
-    public function __construct() {
-    }
-    
     /**
     * Sign in form component factory.
     * @return Form

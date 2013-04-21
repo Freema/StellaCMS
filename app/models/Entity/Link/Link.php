@@ -34,7 +34,7 @@ class Link extends \Nette\Object
     protected $url;
 
     /**
-     * @ORM\Column(type="text")
+     * @ORM\Column(type="string", length=30)
      */
     protected $description;
     
@@ -102,9 +102,12 @@ class Link extends \Nette\Object
 
     public function setTarget($target)
     {
-        if(!in_array($target, array(self::TARGET_BLANK, self::TARGET_NONE, self::TARGET_TOP)))
+        if(!$target == NULL )
         {
-            throw new \InvalidArgumentException('Invalid taget!');
+            if(!in_array($target, array(self::TARGET_BLANK, self::TARGET_NONE, self::TARGET_TOP)))
+            {
+                throw new \InvalidArgumentException('Invalid taget!');
+            }
         }
         
         $this->target = $target;

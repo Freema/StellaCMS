@@ -53,7 +53,8 @@ common:
                     class: AdminModule\Forms\CategoryForm(@database)
                 menuForm:
                     class: AdminModule\Forms\MenuForm(@database)
-
+                linkForm:
+                    class: AdminModule\Forms\LinkForm(@database)
 
 production < common:
 
