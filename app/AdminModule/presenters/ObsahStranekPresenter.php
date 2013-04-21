@@ -23,7 +23,7 @@ class ObsahStranekPresenter extends BasePresenter {
     private $_Category;
     
     /**
-    * @var \Models\Entity\Category 
+    * @var \Models\Entity\Category\Category 
     */
     private $_Page;
     

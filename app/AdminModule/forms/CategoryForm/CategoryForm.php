@@ -116,7 +116,7 @@ class CategoryForm extends BaseForm {
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
         $vybratBtn->create('i class="icon-ok-sign"');
-        $vybratBtn->add(' Vytvořit categorii');
+        $vybratBtn->add(' Upravit categorii');
         
         return $form;               
     }
@@ -132,7 +132,7 @@ class CategoryForm extends BaseForm {
             $slug = Strings::webalize($slug);        
             $parent = $this->_category->getOne($value->parent);        
 
-            if(isset($this->_defaults))
+            if($this->_defaults)
             {
                 if(!($value->title == $this->_defaults->getTitle()))
                 {

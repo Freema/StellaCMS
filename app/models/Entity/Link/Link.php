@@ -80,7 +80,7 @@ class Link extends \Nette\Object
     
     public function setUrl($url)
     {
-        $this->slug = (string) $url;
+        $this->url = (string) $url;
         return $this;
     }
 

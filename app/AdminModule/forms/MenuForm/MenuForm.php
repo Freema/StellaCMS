@@ -6,7 +6,7 @@ use Doctrine\ORM\EntityRepository;
 use Nette\Application\UI\Form;
 
 /**
- * Description of CategoryForm
+ * Description of MenuForm
  *
  * @author Tomáš Grasl
  */

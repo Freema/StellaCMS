@@ -1,2 +1,54 @@
+{**
+ * editCategory template.
+ *
+ * @param Models\Entity\Link\Link $data
+ *
+*}
+{block title}
+    <title>Odkazy - Upravit odkaz {$data->getTitle()}</title>
+{/block}
 
 {block content}
+    {form editLinkForm}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+
+        <div class="control-group">
+            {label link_title class => 'control-label' /}
+            <div class="controls">
+                {input link_title}
+            </div>
+        </div>                
+    
+        <div class="control-group">
+            {label link_url class => 'control-label' /}
+            <div class="controls">
+                {input link_url}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {label link_description class => 'control-label' /}
+            <div class="controls">
+                {input link_description}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {label link_target class => 'control-label' /} 
+            <div class="controls">
+                {foreach $presenter['linkForm']['link_target']->getItems() AS $key => $val}
+                <label class="radio">
+                    {!$presenter['linkForm']['link_target']->getControl($key)}
+                </label>
+                {/foreach}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {input submit}
+        </div>
+
+    {/form}
+{/block}

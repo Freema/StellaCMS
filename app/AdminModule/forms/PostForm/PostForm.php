@@ -1,7 +1,7 @@
 <?php
 namespace AdminModule\Forms;
 /**
- * Description of DataSearch
+ * Description of PostForm
  * 
  * @author Tomáš Grasl
  */
@@ -121,7 +121,7 @@ class PostForm extends BaseForm
             $user = $this->_em->getRepository('Models\Entity\User\User');
             $category = $this->_category->getOne($value->category);
             
-            if(isset($this->_defaults))
+            if($this->_defaults)
             {
                 if(!($value->title == $this->_defaults->getTitle()))
                 {
