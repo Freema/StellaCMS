@@ -87,6 +87,7 @@ class LinkForm extends BaseForm {
           '_none'  => ' Otevřít odkaz v aktuálním okně nebo záložce prohlížeče.',
         );
         
+
         $form->addText('link_title', 'Title: ')
              ->addRule(Form::FILLED, NULL)
              ->addRule(Form::MAX_LENGTH, NULL, 100)
@@ -102,6 +103,7 @@ class LinkForm extends BaseForm {
              ->setDefaultValue($this->_defaults->getDescription());
         
         $form->addRadioList('link_target', 'Zobrazení odkazu: ', $radio)
+             ->setDefaultValue(1)
              ->getSeparatorPrototype()->setName(NULL);
         
         $form->addSubmit('submit', NULL)

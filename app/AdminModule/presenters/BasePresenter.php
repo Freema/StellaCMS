@@ -23,6 +23,8 @@ abstract class BasePresenter extends Presenter
         {
             $this->redirect('Login:default');
         }
+        
+        //dump($this->getAction(TRUE));
     }
 
     public function injectEntityManager(EntityManager $em)
