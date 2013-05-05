@@ -79,6 +79,8 @@ class CategoryForm extends BaseForm {
     {
         $form = new Form;
         
+        dump($this->_defaults);        
+        
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         
         if($this->_defaults->getParent() == NULL)

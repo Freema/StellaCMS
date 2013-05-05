@@ -1,0 +1,17 @@
+<ul class="breadcrumb">
+    {foreach $items as $item}
+        <li {ifset $item['active']}class="active"{/ifset}>
+            {ifset $item['parameter']}
+                {var $link = $item['link'].'?id='.$item['parameter']}
+                {var $label = $item['label'].' / '.$item['parameter']}
+            {else}
+                {var $link = $item['link']}
+                {var $label = $item['label']}
+            {/ifset}
+            <a href="{plink $link}">{$label}</a>
+            {if !isset($item['active']) }
+                <span class="divider">/</span>
+            {/if}
+        </li>
+    {/foreach}
+</ul>

@@ -10,10 +10,7 @@ class ControlPanelPresenter extends BasePresenter {
 
     
     public function renderDefault() {
-        
-        $b = new \Components\Breadcrumbs\Breadcrumbs();
-        $b->create($this->getAction(TRUE));
-        
+
     }
 
 }

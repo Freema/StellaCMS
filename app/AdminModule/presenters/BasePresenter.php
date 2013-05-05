@@ -23,8 +23,6 @@ abstract class BasePresenter extends Presenter
         {
             $this->redirect('Login:default');
         }
-        
-        //dump($this->getAction(TRUE));
     }
 
     public function injectEntityManager(EntityManager $em)
@@ -42,6 +40,11 @@ abstract class BasePresenter extends Presenter
             $this->getUser()->logout();
             $this->flashMessage('You have been signed out.');
             $this->redirect('Login:default');
+    }
+    
+    public function createComponentBreadCrumbs()
+    {
+        return new \Components\Breadcrumbs\Breadcrumbs($this);
     }
         
 }

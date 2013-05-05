@@ -44,7 +44,7 @@ common:
                     class: Models\Category\Category
                 model.post:
                     class: Models\Post\Post
-                mode.link:
+                model.link:
                     class: Models\Link\Link
 
                 loginForm:
