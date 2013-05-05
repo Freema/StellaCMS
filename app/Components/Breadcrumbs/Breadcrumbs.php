@@ -2,6 +2,7 @@
 namespace Components\Breadcrumbs;
 
 use Nette\Application\UI\Control;
+use Nette\Config\Adapters\NeonAdapter;
 
 /**
  * Description of Breadcrumbs
@@ -17,7 +18,6 @@ class Breadcrumbs extends Control{
         
         $this->_presenter = $presenter;
     }
-    
     /**
      * @return array
      */
@@ -39,17 +39,10 @@ class Breadcrumbs extends Control{
      */
     protected function _getNavMap()
     {
-        return array(
-                'Admin' => array('label' => 'Úvodní stranka', 'link' => 'ControlPanel:default' , 'children' => 
-                    array(
-                    'ObsahStranek' => array('label'   => 'Příspěvky', 'link'   => 'ObsahStranek:default', 'children' => 
-                        array(
-                            'addArticle'    => array('label'  => 'Vytvořit příspěvek', 'link'  => 'ObsahStranek:addArticle'),
-                            'editArticle'   => array('label'  => 'Upravit příspěvek', 'link'  => 'ObsahStranek:editArticle'),
-                    )),
-                    
-                )),
-        );
+        $neon = new NeonAdapter;
+        $config = $neon->load(__DIR__ .DIRECTORY_SEPARATOR.'BreadCrumbs.neon');
+        
+        return $config;
     } 
     
     /**

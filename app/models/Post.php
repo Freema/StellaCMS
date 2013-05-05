@@ -28,9 +28,9 @@ class Post extends Object {
 
     public function loadPostTab()
     {
-        $query = $this->_em->createQuery('SELECT p.id, p.title, u.username, c.title AS category, p.createdAt
+        $query = $this->_em->createQuery('SELECT p.id, p.title, u.username, c.title AS category, p.publish, p.createdAt
                                           FROM Models\Entity\Post\Post p
-                                          JOIN p.category c
+                                          LEFT JOIN p.category c
                                           JOIN p.users u');
         
         return $query->getResult();        
@@ -39,7 +39,7 @@ class Post extends Object {
     public function loadPostTabWhere($where)
     {
         $query = $this->_em ->createQueryBuilder()
-                            ->select('p.id, p.title, u.username, c.title AS category, p.createdAt')
+                            ->select('p.id, p.title, u.username, c.title AS category, p.publish, p.createdAt')
                             ->from('Models\Entity\Post\Post', 'p')
                             ->join('p.category', 'c')
                             ->join('p.users', 'u')

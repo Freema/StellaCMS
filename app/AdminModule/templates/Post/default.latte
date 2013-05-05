@@ -14,15 +14,15 @@
 <h2 class="page-header">Příspěvky</h2>    
 <div class="control-panel row">
     <div class="span4">
-        <a class="btn btn-success" href="{link ObsahStranek:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
+        <a class="btn btn-success" href="{link Post:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
     </div>
 </div>
 
 <div class="form-inline">
     <select id="cFdropdown">
-        <option {ifCurrent ObsahStranek:default}selected=""{/ifCurrent} value="0">Zobrazit všechny kategorie</option>
+        <option {ifCurrent Post:default}selected=""{/ifCurrent} value="0">Zobrazit všechny kategorie</option>
         {foreach $cFilter as $option}
-        <option {ifCurrent ObsahStranek:default category => $option->getId()}selected=""{/ifCurrent} value="{$option->getId()}">{$option->getTitle()}</option>
+        <option {ifCurrent Post:default category => $option->getId()}selected=""{/ifCurrent} value="{$option->getId()}">{$option->getTitle()}</option>
         {/foreach}            
     </select>
     <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
@@ -41,6 +41,7 @@
             <th>Rubriky</th>
             <th>Štítky</th>
             <th>Komentaře</th>
+            <th>Publikovano</th>
             <th>Datum</th>
         </tr>
     </thead>
@@ -51,15 +52,32 @@
                 <td>
                     <strong>{$item['title']}</strong>
                     <div class="tab-actions">
-                        <span><a href="{link ObsahStranek:editArticle $item['id']}">Upravit</a></span> |
+                        <span><a href="{link Post:editArticle $item['id']}">Upravit</a></span> |
                         <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span>
                     </div>
                 </td>
                 <td>{$item['username']}</td>
-                <td>{$item['category']}</td>
+                <td>
+                    {if $item['category']}
+                        {$item['category']}
+                    {else}
+                        Nezařazené
+                    {/if}
+                </td>
                 <td></td>
                 <td></td>
-                <td>{$item['createdAt']|date: 'Y-m-d H:i:s'}</td>
+                <td>
+                    {if $item['publish'] == TRUE}
+                    <span class="label label-success">
+                        <i class="icon-ok icon-white"></i>
+                    </span>
+                    {else}
+                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    {/if}
+                </td>
+                <td>
+                    <abbr title="{$item['createdAt']|date: 'Y-m-d H:i:s'}">{$item['createdAt']|date: 'Y-m-d'}</abbr>
+                </td>
             </tr>    
         {/foreach}
     </tbody>
@@ -73,11 +91,11 @@ $('#cFbutton').click(function() {
     var selected = $('#cFdropdown option:selected').val();
     if(selected == 0)
     {
-        window.location = {link ObsahStranek:default};
+        window.location = {link Post:default};
     }
     else
     {
-        window.location = {link ObsahStranek:default}+"?category="+selected;
+        window.location = {link Post:default}+"?category="+selected;
     }
 })
 </script>

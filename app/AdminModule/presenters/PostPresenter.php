@@ -5,7 +5,7 @@ namespace AdminModule;
  *
  * @author Tomáš Grasl
  */
-class ObsahStranekPresenter extends BasePresenter {
+class PostPresenter extends BasePresenter {
 
     /**
      * @var Forms\PostForm

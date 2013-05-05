@@ -1,0 +1,14 @@
+Admin:
+	label: Úvodní stranka
+	link: ControlPanel:default
+	children:
+		Post:
+			label: Příspěvky
+			link: Post:default
+			children:
+				addArticle:
+					label: Vytvořit příspěvek
+					link: Post:addArticle
+				editArticle:
+					label: Upravit příspěvek
+					link: Post:editArticle
