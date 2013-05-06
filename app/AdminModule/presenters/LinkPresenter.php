@@ -3,7 +3,7 @@ namespace AdminModule;
 /**
  * Description of LinkPresenter
  *
- * @author Tomáš
+ * @author Tomáš Grasl
  */
 class LinkPresenter extends BasePresenter {
 
@@ -55,4 +55,16 @@ class LinkPresenter extends BasePresenter {
         }
         $this->template->data = $this->_Page;
     }
+    
+    public function handleDelete($id)
+    {
+        $this->_Link->deleteLink($id);
+        if(!$this->isAjax()){
+            $this->redirect('this');
+        }
+        else{
+            $this->invalidateControl('linkTable');
+            $this->invalidateControl('flashMessages');
+        }
+    }    
 }

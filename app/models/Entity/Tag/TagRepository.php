@@ -7,11 +7,14 @@ use Doctrine\ORM\EntityRepository;
  * @author Tomáš
  */
 class TagRepository extends EntityRepository  {
-
-    
-    public function super()
+   
+    /**
+    * @param integer $id
+    * @return mixed
+    */
+    public function getOne($id)
     {
-        return 'suxx';
+        return $this->findOneById($id);
     }
     
 }

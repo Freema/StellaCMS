@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="user")
  */
 
-class User extends \Nette\Object
+class User
 {
     /**
      * @var integer

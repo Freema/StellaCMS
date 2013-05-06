@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="LinkRepository")
  * @ORM\Table(name="link")
  */
-class Link extends \Nette\Object
+class Link
 {
     const TARGET_BLANK = '_blank';
     const TARGET_TOP = '_top';

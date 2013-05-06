@@ -46,6 +46,8 @@ common:
                     class: Models\Post\Post
                 model.link:
                     class: Models\Link\Link
+                model.tag:
+                    class: Models\Tag\Tag
 
                 loginForm:
                     class: AdminModule\Forms\LoginForm
@@ -57,6 +59,8 @@ common:
                     class: AdminModule\Forms\MenuForm(@database)
                 linkForm:
                     class: AdminModule\Forms\LinkForm(@database)
+                tagForm:
+                    class: AdminModule\Forms\TagForm(@database)
 
 production < common:
 

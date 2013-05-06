@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity(repositoryClass="CategoryRepository")
  * @ORM\Table(name="category")
  */
-class Category extends \Nette\Object
+class Category
 {
     
     /**

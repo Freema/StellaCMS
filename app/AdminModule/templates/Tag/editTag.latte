@@ -1,2 +1,43 @@
+{**
+ * editCategory template.
+ *
+ * @param Models\Entity\Tag\Tag $data
+ *
+*}
+{block title}
+    <title>Štítek - Upravit štítek {$data->getName()}</title>
+{/block}
 
 {block content}
+    {form editTagForm}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+
+        <div class="control-group">
+            {label tag_name class => 'control-label' /}
+            <div class="controls">
+                {input tag_name}
+            </div>
+        </div>                
+    
+        <div class="control-group">
+            {label tag_slug class => 'control-label' /}
+            <div class="controls">
+                {input tag_slug}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {label tag_description class => 'control-label' /}
+            <div class="controls">
+                {input tag_description}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {input submit}
+        </div>
+
+    {/form}
+{/block}

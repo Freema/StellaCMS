@@ -13,13 +13,13 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="tag")
  */
 
-class Tag  extends \Nette\Object
+class Tag
 {
     
     /**
      * @var integer
      *
-     * @ORM\Column(name="id", type="integer")
+     * @ORM\Column(type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
@@ -28,14 +28,29 @@ class Tag  extends \Nette\Object
     /**
      * @var string
      *
-     * @ORM\Column(name="name", type="string", length=255)
+     * @ORM\Column(type="string", length=40, unique=true)
      */
     private $name;
+    
+    /**
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=40, unique=true) 
+     */
+    private $slug;
+    
+    /**
+     *
+     * @var string
+     * 
+     * @ORM\Column(type="string", length=255) 
+     */
+    private $description;
 
     /**
      * @var integer
      *
-     * @ORM\Column(name="quantifier", type="integer")
+     * @ORM\Column(type="integer")
      */
     private $quantifier;
 
@@ -45,24 +60,18 @@ class Tag  extends \Nette\Object
      * @return integer 
      */
     
+    public function __construct($name) {
+        $this->name = $name;
+        $this->slug = NULL;
+        $this->description = NULL;
+        $this->quantifier = 0;
+    }
+    
     public function getId()
     {
         return $this->id;
     }
-
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Tag
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
     
-        return $this;
-    }
-
     /**
      * Get name
      *
@@ -74,15 +83,60 @@ class Tag  extends \Nette\Object
     }
 
     /**
-     * Set quantifier
+     * Set name
      *
-     * @param integer $quantifier
-     * @return Tag
+     * @param string $name
+     * @return \Models\Entity\Tag\Tag
      */
-    public function setQuantifier($quantifier)
+    public function setName($name)
     {
-        $this->quantifier = $quantifier;
+        $this->name = $name;
     
+        return $this;
+    }
+
+    /**
+     * Get slug
+     * 
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+
+    /**
+     * Set slug
+     * 
+     * @param type $slug
+     * @return \Models\Entity\Tag\Tag
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }
+    
+    /**
+     * Get description
+     * 
+     * @return string
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+    
+    /**
+     * Set description
+     * 
+     * @param type $description
+     * @return \Models\Entity\Tag\Tag
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+        
         return $this;
     }
 
@@ -96,5 +150,17 @@ class Tag  extends \Nette\Object
         return $this->quantifier;
     }
 
+    /**
+     * Set quantifier
+     *
+     * @param integer $quantifier
+     * @return \Models\Entity\Tag\Tag
+     */
+    public function setQuantifier($quantifier)
+    {
+        $this->quantifier = $quantifier;
+    
+        return $this;
+    }
 }
 

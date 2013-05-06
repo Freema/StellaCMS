@@ -12,9 +12,19 @@ class LoginPresenter extends Presenter
      */
     private $_loginForm;
 
-    public function injectLoginForm(Forms\LoginForm $factory)
+    final function injectLoginForm(Forms\LoginForm $factory)
     {
         $this->_loginForm = $factory;
+    }
+    
+    public function startup() {
+        parent::startup();
+        
+        if($this->getUser()->isLoggedIn())
+        {
+            $this->redirect('ControlPanel:default');
+        }
+        
     }
 
     /**

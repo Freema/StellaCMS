@@ -10,7 +10,7 @@ use Models\Entity\User\User;
  * @ORM\Entity(repositoryClass="Models\Entity\Post\PostRepository")
  * @ORM\Table(name="post")
  */
-class Post extends \Nette\Object
+class Post
 {
 
     /**

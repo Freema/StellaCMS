@@ -37,7 +37,7 @@ class Link extends Object {
     
     public function deleteLink($id)
     {
-        $link = $this->getCategoryRepository()->getOne($id);
+        $link = $this->getLinkRepository()->getOne($id);
         $this->_em->remove($link);
         return $this->_em->flush();
     }
