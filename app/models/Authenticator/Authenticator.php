@@ -38,19 +38,21 @@ class Authenticator extends Object implements NS\IAuthenticator
     public function authenticate(array $credentials)
     {
             list($username, $password) = $credentials;
+            
+            /* @var $user \Models\Entity\User\User */
             $user = $this->_users->findOneBy(array('username' => $username));
 
             if (!$user) {
                     throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
             }
 
-            if ($user->password !== $this->calculateHash($password)) {
+            if ($user->getPassword() !== $this->calculateHash($password)) {
                     throw new NS\AuthenticationException("Invalid password.", self::INVALID_CREDENTIAL);
             }
 
-            return new NS\Identity($user->id, $user->role, array(
-                    'username' => $user->username,
-                    'email' => $user->email,
+            return new NS\Identity($user->getId(), $user->getRole(), array(
+                    'username' => $user->getUsername(),
+                    'email' => $user->getEmail(),
             ));
     }
 

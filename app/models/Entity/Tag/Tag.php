@@ -6,7 +6,9 @@ namespace Models\Entity\Tag;
  * @author Tomáš
  */
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Models\Entity\Post\Post;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\Tag\TagRepository")
@@ -23,21 +25,21 @@ class Tag
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="AUTO")
      */
-    private $id;
+    protected $id;
 
     /**
      * @var string
      *
      * @ORM\Column(type="string", length=40, unique=true)
      */
-    private $name;
+    protected $name;
     
     /**
      * @var string
      * 
      * @ORM\Column(type="string", length=40, unique=true) 
      */
-    private $slug;
+    protected $slug;
     
     /**
      *
@@ -45,26 +47,27 @@ class Tag
      * 
      * @ORM\Column(type="string", length=255) 
      */
-    private $description;
+    protected $description;
 
     /**
      * @var integer
      *
      * @ORM\Column(type="integer")
      */
-    private $quantifier;
+    
+    protected $quantifier;
 
     /**
-     * Get id
-     *
-     * @return integer 
-     */
+    * @ORM\ManyToMany(targetEntity="Models\Entity\Post\Post", mappedBy="tags")
+    */
+    private $posts;    
     
     public function __construct($name) {
         $this->name = $name;
         $this->slug = NULL;
         $this->description = NULL;
         $this->quantifier = 0;
+        $this->posts = new ArrayCollection();        
     }
     
     public function getId()
@@ -162,5 +165,38 @@ class Tag
     
         return $this;
     }
+    
+    /**
+     * Add posts
+     *
+     * @param Post $posts
+     * @return \Models\Entity\Tag\Tag
+     */
+    public function addPost(Post $posts)
+    {
+        $this->posts[] = $posts;
+    
+        return $this;
+    }
+
+    /**
+     * Remove posts
+     *
+     * @param Post $posts
+     */
+    public function removePost(Post $posts)
+    {
+        $this->posts->removeElement($posts);
+    }
+
+    /**
+     * Get posts
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getPosts()
+    {
+        return $this->posts;
+    }    
 }
 
