@@ -30,6 +30,7 @@ $configurator->createRobotLoader()
 Extension2::register($configurator);
 Extension::register($configurator);
 MigrationsExtension::register($configurator);
+Nette\Forms\Controls\CheckboxList::register();
 
 // Create Dependency Injection container from config.neon file
 $configurator->addConfig(__DIR__ . '/config/config.neon');

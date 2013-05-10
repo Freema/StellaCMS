@@ -18,13 +18,17 @@ class PostForm extends BaseForm
     
     /** @var EntityRepository */
     protected $_category;
-    
+
+    /** @var EntityRepository */
+    protected $_tag;
+
     /** @var Post */
     protected $_defaults;
     
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_category = $em->getRepository('Models\Entity\Category\Category');        
+        $this->_category = $em->getRepository('Models\Entity\Category\Category');
+        $this->_tag = $em->getRepository('Models\Entity\Tag\Tag');
     }
     
     public function createForm(Post $defaults = NULL)
@@ -46,6 +50,7 @@ class PostForm extends BaseForm
         $form = new Form;
         
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');
         
         $form->addText('title', 'Title: ')
              ->addRule(Form::FILLED, NULL)
@@ -55,7 +60,11 @@ class PostForm extends BaseForm
              ->setPrompt('- No category -');
         
         $form->addTextArea('text', 'Text: ')
-             ->setHtmlId('editor');
+             ->setHtmlId('editor')->getControlPrototype();
+        
+        $form->addCheckboxList('tags', 'Štítky: ', $t)
+             ->setAttribute('class', 'checkbox')
+             ->getSeparatorPrototype()->setName(NULL);
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -149,6 +158,10 @@ class PostForm extends BaseForm
             }
             else
             {
+                
+                dump($value);
+                
+                /**
                 $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
                 
                 if(!empty($category)){
@@ -159,6 +172,8 @@ class PostForm extends BaseForm
                 $this->_em->flush();
 
                 $form->presenter->redirect('ObsahStranek:addArticle');
+                 * 
+                 */
             }
         }
         catch(FormException $e)

@@ -17,5 +17,12 @@ class TagRepository extends EntityRepository  {
         return $this->findOneById($id);
     }
     
+    /**
+     * @return array
+     */
+    public function getTags()
+    {
+        return $this->findBy(array(), array('id' => 'DESC'));
+    }    
 }
 

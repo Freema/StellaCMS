@@ -48,26 +48,32 @@
     <tbody>
         {foreach $tab as $item}
             <tr>
-                <td>{$item['id']}</td>
+                <td>{$item->getId()}</td>
                 <td>
-                    <strong>{$item['title']}</strong>
+                    <strong>{$item->getTitle()}</strong>
                     <div class="tab-actions">
-                        <span><a href="{link Post:editArticle $item['id']}">Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span>
+                        <span><a href="{link Post:editArticle $item->getId()}">Upravit</a></span> |
+                        <span><a href="{link delete! $item->getId()}" class="ajax">Smazat</a></span>
                     </div>
                 </td>
-                <td>{$item['username']}</td>
+                <td>{$item->getUser()->getUsername()}</td>
                 <td>
-                    {if $item['category']}
-                        {$item['category']}
+                    {if $item->getCategory()}
+                        <a href="{link Post:default category => $item->getCategory()->getId()}">{$item->getCategory()->getTitle()}</a>
                     {else}
                         Nezařazené
                     {/if}
                 </td>
-                <td></td>
+                <td>
+                    {if $item->getTags()}
+                        {foreach $item->getTags() as $tag}
+                            {$tag->getName()}
+                        {/foreach}
+                    {/if}
+                </td>
                 <td></td>
                 <td>
-                    {if $item['publish'] == TRUE}
+                    {if $item->getPublish() == TRUE}
                     <span class="label label-success">
                         <i class="icon-ok icon-white"></i>
                     </span>
@@ -76,7 +82,7 @@
                     {/if}
                 </td>
                 <td>
-                    <abbr title="{$item['createdAt']|date: 'Y-m-d H:i:s'}">{$item['createdAt']|date: 'Y-m-d'}</abbr>
+                    <abbr title="{$item->getCreatedAt()|date: 'Y-m-d H:i:s'}">{$item->getCreatedAt()|date: 'Y-m-d'}</abbr>
                 </td>
             </tr>    
         {/foreach}

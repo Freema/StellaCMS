@@ -26,28 +26,18 @@ class Post extends Object {
         return $this->_em->getRepository('Models\Entity\Post\Post');
     }
 
-    public function loadPostTab()
+    public function loadPostTab(array $where = NULL)
     {
-        $query = $this->_em->createQuery('SELECT p.id, p.title, u.username, c.title AS category, p.publish, p.createdAt
-                                          FROM Models\Entity\Post\Post p
-                                          LEFT JOIN p.category c
-                                          JOIN p.users u');
+        if(isset($where))
+        {
+            $query = $this->getPostRepository()->findBy($where);
+        }
+        else
+        {
+            $query = $this->getPostRepository()->findAll();
+        }
         
-        return $query->getResult();        
-    }
-    
-    public function loadPostTabWhere($where)
-    {
-        $query = $this->_em ->createQueryBuilder()
-                            ->select('p.id, p.title, u.username, c.title AS category, p.publish, p.createdAt')
-                            ->from('Models\Entity\Post\Post', 'p')
-                            ->join('p.category', 'c')
-                            ->join('p.users', 'u')
-                            ->where('c.id = :category')
-                            ->setParameter('category', $where)
-                            ->getQuery();
-        
-        return $query->getResult();        
+        return $query;        
     }
     
     public function deleteArticle($id)

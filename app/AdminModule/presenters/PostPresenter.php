@@ -53,12 +53,12 @@ class PostPresenter extends BasePresenter {
     }
 
     public function renderDefault($category = NULL) {
-        
+      
         $this->template->cFilter = $this->_Category->getCategoryRepository()->getCategories();
         
         if($category)
         {
-            $this->template->tab = $this->_Post->loadPostTabWhere($category);
+            $this->template->tab = $this->_Post->loadPostTab(array('category' => $category));
         }
         else
         {
@@ -66,6 +66,12 @@ class PostPresenter extends BasePresenter {
         }
     }
     
+    public function renderAddArticle()
+    {
+        
+    }
+
+
     public function actionEditArticle($id)
     {
         if(!($this->_Page = $this->_Post->getPostRepository()->getOne($id)))

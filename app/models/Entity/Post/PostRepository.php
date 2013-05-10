@@ -17,5 +17,4 @@ class PostRepository extends EntityRepository  {
     {
         return $this->findOneById($id);
     }
-    
 }
