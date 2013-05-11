@@ -2,6 +2,7 @@
 namespace Models\Entity\Post;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Models\Entity\Category\Category;
@@ -74,7 +75,7 @@ class Post
         $this->publish = TRUE;
         $this->clicks = 0;
         $this->createdAt = new DateTime;
-        $this->tags = new ArrayCollection();        
+        $this->tags = new ArrayCollection;        
     }
     
     /**
@@ -101,7 +102,7 @@ class Post
      * Set Title
      * 
      * @param string $title
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */    
     public function setTitle($title)
     {
@@ -112,7 +113,7 @@ class Post
     /**
      * Get User
      * 
-     * @return \Models\Entity\User\User
+     * @return User
      */
     public function getUser()
     {
@@ -122,8 +123,8 @@ class Post
     /**
      * Set User
      * 
-     * @param \Models\Entity\User\User $users
-     * @return \Models\Entity\Post\Post
+     * @param User $users
+     * @return Post
      */
     public function setUser(User $users)
     {
@@ -145,7 +146,7 @@ class Post
      * Set Content
      * 
      * @param type $content
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function setContent($content)
     {
@@ -156,7 +157,7 @@ class Post
     /**
      * Get Category
      * 
-     * @return \Models\Entity\Category\Category
+     * @return Category
      */
     public function getCategory()
     {
@@ -166,8 +167,8 @@ class Post
     /**
      * Set Category
      * 
-     * @param \Models\Entity\Category\Category $category
-     * @return \Models\Entity\Post\Post
+     * @param Category $category
+     * @return Post
      */
     public function setCategory(Category $category)
     {
@@ -178,7 +179,7 @@ class Post
     /**
      * Set Category to NULL
      * 
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function removeCategory()
     {
@@ -200,7 +201,7 @@ class Post
      * Set Publish
      * 
      * @param bool $publish
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function setPublish($publish)
     {
@@ -223,7 +224,7 @@ class Post
      * Set Clicks
      * 
      * @param integer $hit
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function setClicks($hit)
     {
@@ -235,7 +236,7 @@ class Post
      * Add tags
      *
      * @param Tag $tags
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function addTag(Tag $tags)
     {
@@ -279,7 +280,7 @@ class Post
      * Set Create At
      * 
      * @param DateTime $created
-     * @return \Models\Entity\Post\Post
+     * @return Post
      */
     public function setCreatedAt(DateTime $created)
     {

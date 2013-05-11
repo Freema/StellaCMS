@@ -70,3 +70,47 @@ color pick
     -webkit-border-radius: 6px 6px 6px 6px;
     border-radius: 6px 6px 6px 6px;    
 }
+
+/* Post area
+================================================= */
+.tag-box {
+    border: 1px solid #DFDFDF;
+    -webkit-border-radius: 5px 5px 5px 5px;
+        border-radius: 5px 5px 5px 5px;
+}
+
+.tag-box h3 {
+    font-size: 15px;
+    font-weight: normal;
+    line-height: 1;
+    margin: 0;
+    padding: 7px 10px;
+    border-bottom: 1px solid #DFDFDF;
+    background-color: #EEEEEE;
+    text-shadow: 0 1px 0 #FFFFFF;    
+}
+
+.tag-box .inside {
+    line-height: 1.4em;
+    padding: 10px 12px 10px 10px; 
+    background-color: #F5F5F5;
+}
+
+.tag-box .nav {
+    margin-bottom: 0px;
+}
+
+.tag-box .nav-tabs {
+    border-bottom: none;
+}
+
+.tag-box .tab-content {
+    border-style: solid;
+    border-width: 1px;
+    border-color: #DDDDDD;
+    max-height: 200px;
+    min-height: 200px;
+    overflow: auto;
+    padding: 0.7em 0.6em;  
+    background-color: #ffffff;
+}

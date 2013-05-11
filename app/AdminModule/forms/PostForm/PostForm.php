@@ -75,7 +75,7 @@ class PostForm extends BaseForm
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
         $vybratBtn->create('i class="icon-ok-sign"');
-        $vybratBtn->add(' Upravit članek');
+        $vybratBtn->add(' Přidat članek');
         
         return $form;        
     }
@@ -85,14 +85,25 @@ class PostForm extends BaseForm
         $form = new Form;
         
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');        
         
-        if($this->_defaults->getCategory() == NULL)
+        $default = array();
+        if($this->_defaults->getCategory())
         {
-            $default = 0;
+            $default['category'] = $this->_defaults->getCategory()->getId();            
         }
         else
         {
-            $default = $this->_defaults->getCategory()->getId();
+            $default['category'] = 0;
+        }
+        
+        if($this->_defaults->getTags())
+        {
+            $default['tags'] = array();
+            foreach ($this->_defaults->getTags() as $value)
+            {
+                $default['tags'][] = $value->getId();
+            }
         }
         
         $form->addText('title', 'Title: ')
@@ -101,12 +112,17 @@ class PostForm extends BaseForm
              ->addRule(Form::MAX_LENGTH, NULL, 100);
         
         $form->addSelect('category', 'Kategorie: ', $c)
-             ->setDefaultValue($default)   
+             ->setDefaultValue($default['category'])   
              ->setPrompt('- No category -');
         
         $form->addTextArea('text', 'Text: ')
              ->setDefaultValue($this->_defaults->getContent())   
              ->setHtmlId('editor');
+
+        $form->addCheckboxList('tags', 'Štítky: ', $t)
+             ->setDefaultValue($default['tags'])
+             ->setAttribute('class', 'checkbox')
+             ->getSeparatorPrototype()->setName(NULL);        
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -132,6 +148,7 @@ class PostForm extends BaseForm
             
             if($this->_defaults)
             {
+                
                 if(!($value->title == $this->_defaults->getTitle()))
                 {
                     if($this->_em->getRepository('Models\Entity\Post\Post')->findOneBy(array('title' => $value->title)))
@@ -144,6 +161,29 @@ class PostForm extends BaseForm
                 $post->setUser($user->find($form->presenter->getUser()->getId()));
                 $post->setContent($value->text);
                 $post->setTitle($value->title);
+
+                foreach ($this->_defaults->getTags() as $tagl)
+                {
+                    $default[] = $tagl->getId();
+                }                
+                
+                $row = $this->FormItemsDif($default, $value->tags);                
+
+                if($row['remove'])
+                {
+                    foreach($row['remove'] as $remove)
+                    {
+                        $post->removeTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($remove));
+                    }
+                }
+
+                if($row['added'])
+                {
+                    foreach($row['added'] as $added)
+                    {
+                        $post->addTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($added));
+                    }
+                }
                 
                 if(!empty($category)){
                     $post->setCategory($category);
@@ -154,26 +194,33 @@ class PostForm extends BaseForm
                 }
 
                 $this->_em->flush($post);
-                $form->presenter->redirect('ObsahStranek:editArticle', $this->_defaults->getId());                
+                $form->presenter->redirect('Post:editArticle', $this->_defaults->getId());
             }
             else
             {
-                
-                dump($value);
-                
-                /**
-                $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
-                
-                if(!empty($category)){
-                    $post->setCategory($category);
+                if($this->_em->getRepository('Models\Entity\Post\Post')->findOneBy(array('title' => $value->title)))
+                {
+                    throw new FormException('Post with name "' . $value->title . '" exist.');  
                 }                
                 
+                $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
+
+                if(!empty($category)){
+                    $post->setCategory($category);
+                }
+
+                if($value->tags)
+                {
+                    foreach ($value->tags as $tag)
+                    {
+                        $post->addTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($tag));
+                    }
+                }
+
                 $this->_em->persist($post);
                 $this->_em->flush();
 
-                $form->presenter->redirect('ObsahStranek:addArticle');
-                 * 
-                 */
+                $form->presenter->redirect('Post:default');
             }
         }
         catch(FormException $e)
