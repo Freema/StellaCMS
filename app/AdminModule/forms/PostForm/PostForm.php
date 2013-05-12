@@ -66,6 +66,10 @@ class PostForm extends BaseForm
              ->setAttribute('class', 'checkbox')
              ->getSeparatorPrototype()->setName(NULL);
         
+        $form->addSelect('publish', 'Publikovat: ', array('Koncept', 'Publikovat'))
+             ->addRule(Form::FILLED, NULL)
+             ->setDefaultValue(1);
+        
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
         
@@ -122,7 +126,11 @@ class PostForm extends BaseForm
         $form->addCheckboxList('tags', 'Štítky: ', $t)
              ->setDefaultValue($default['tags'])
              ->setAttribute('class', 'checkbox')
-             ->getSeparatorPrototype()->setName(NULL);        
+             ->getSeparatorPrototype()->setName(NULL); 
+        
+        $form->addSelect('publish', 'Publikovat: ', array('Koncept', 'Publikovat'))
+             ->addRule(Form::FILLED, NULL)
+             ->setDefaultValue($this->_defaults->getPublish());
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -161,7 +169,10 @@ class PostForm extends BaseForm
                 $post->setUser($user->find($form->presenter->getUser()->getId()));
                 $post->setContent($value->text);
                 $post->setTitle($value->title);
+                $post->setPublish($value->publish); 
+                $post->setCreatedAt(new \DateTime('NOW'));
 
+                $default = array();
                 foreach ($this->_defaults->getTags() as $tagl)
                 {
                     $default[] = $tagl->getId();
@@ -204,6 +215,7 @@ class PostForm extends BaseForm
                 }                
                 
                 $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
+                $post->setPublish($value->publish);
 
                 if(!empty($category)){
                     $post->setCategory($category);
