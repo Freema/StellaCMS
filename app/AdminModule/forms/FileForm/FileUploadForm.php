@@ -27,7 +27,7 @@ class FileUploadForm extends BaseForm  {
     {
         $form = new Form;
         
-        $form->addUpload('fileselect', 'Nahrát nový soubor: ');
+        $form->addMultyFileUpload('fileselect', 'Nahrát nový soubor: ');
 
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');        
