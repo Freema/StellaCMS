@@ -1,0 +1,23 @@
+{block title}
+    <title>Fileupload - TEST</title>
+{/block}
+
+{block content}
+    {form fileUpload}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+
+        <div class="control-group">
+            {label fileselect class => 'control-label' /}
+            <div class="controls">
+                {input fileselect}
+            </div>
+        </div>                
+    
+        <div class="control-group">
+            {input submit}
+        </div>
+
+    {/form}
+{/block}

@@ -9,7 +9,7 @@
  * @package    Nette\Extras
  */
 
-namespace Nette\Forms\Controls;
+namespace AdminModule\Forms;
 
 use Nette\Utils\Html,
 	Nette\Forms\Container,

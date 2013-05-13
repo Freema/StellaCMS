@@ -49,18 +49,21 @@ common:
                 model.tag:
                     class: Models\Tag\Tag
 
-                loginForm:
+                Form.login:
                     class: AdminModule\Forms\LoginForm
-                postForm:
+                Form.post:
                     class: AdminModule\Forms\PostForm(@database)
-                categoryForm:
+                Form.category:
                     class: AdminModule\Forms\CategoryForm(@database)
-                menuForm:
+                Form.menu:
                     class: AdminModule\Forms\MenuForm(@database)
-                linkForm:
+                Form.link:
                     class: AdminModule\Forms\LinkForm(@database)
-                tagForm:
+                Form.tag:
                     class: AdminModule\Forms\TagForm(@database)
+                Form.fileUpload:
+                    class: AdminModule\Forms\FileUploadForm(@database)
+
 
 production < common:
 

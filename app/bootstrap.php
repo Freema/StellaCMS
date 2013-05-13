@@ -30,15 +30,20 @@ $configurator->createRobotLoader()
 Extension2::register($configurator);
 Extension::register($configurator);
 MigrationsExtension::register($configurator);
-Nette\Forms\Controls\CheckboxList::register();
 
 // Create Dependency Injection container from config.neon file
 $configurator->addConfig(__DIR__ . '/config/config.neon');
 $container = $configurator->createContainer();
 
+if (!is_writable($container->expand('%tempDir%'))) {
+    throw new Exception("Make directory '" . $container->parameters['tempDir'] . "' writable!");
+}
+
 $pageRouter = new PageRouter();
 $container->router[] = $pageRouter->createRouter();
 
+AdminModule\Forms\MultyFileUpload::register();
+AdminModule\Forms\CheckboxList::register();
 
 // Configure and run the application!
 $container->application->run();
