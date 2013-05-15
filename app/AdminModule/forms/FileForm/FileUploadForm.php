@@ -3,6 +3,7 @@ namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
 use Nette\Application\UI\Form;
+use SplFileInfo;
 /**
  * Description of FileUploadForm
  *
@@ -67,7 +68,13 @@ class FileUploadForm extends BaseForm  {
                     
                     /* @var $image \Nette\Http\FileUpload */
                     $image->move($this->_dir.$image->getName());
+                    
+                    $info = new SplFileInfo($this->_dir.$image->getName());
+                    
                     $imageModel = new \Models\Entity\Image\Image($image->getName());
+                    $imageModel->setExt(pathinfo($info->getFilename(), PATHINFO_EXTENSION));
+                    $imageModel->setName($info->getFilename());
+                    
                     $this->_em->persist($imageModel);
                 }
                 $this->_em->flush();   
