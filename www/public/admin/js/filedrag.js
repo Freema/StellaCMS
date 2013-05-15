@@ -112,7 +112,7 @@ Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
 
 			// start upload
 			xhr.open("POST", $id("upload").action, true);
-			xhr.setRequestHeader("X_FILENAME", file.name);
+			xhr.setRequestHeader("Content-Type","multipart/form-data");
 			xhr.send(file);
 
 		}

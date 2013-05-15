@@ -12,11 +12,24 @@ class FileUploadForm extends BaseForm  {
 
     /** @var EntityManager */
     protected $_em;
-   
+    
+    /**
+     * @var string
+     */
+    protected $_dir;
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
     }
+    
+    /**
+     * @param string $dir
+     */
+    public function setDir($dir)
+    {
+        $this->_dir = $dir;
+    }
+    
     
     public function createForm()
     {
@@ -37,8 +50,8 @@ class FileUploadForm extends BaseForm  {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
-        $vybratBtn->add(' Vytvořit odkaz');
+        $vybratBtn->create('i class="icon-download-alt"');
+        $vybratBtn->add(' Nahrát soubor');
         
         return $form;        
     }
@@ -48,8 +61,18 @@ class FileUploadForm extends BaseForm  {
         try 
         {
             $value = $form->values;
-            dump($value);
             
+            if(count($value->fileselect)){
+                foreach($value->fileselect as $image){
+                    
+                    /* @var $image \Nette\Http\FileUpload */
+                    $image->move($this->_dir.$image->getName());
+                    $imageModel = new \Models\Entity\Image\Image($image->getName());
+                    $this->_em->persist($imageModel);
+                }
+                $this->_em->flush();   
+            }
+            $form->presenter->redirect('Image:default');
         }
         catch(FormException $e)
         {
