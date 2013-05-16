@@ -1,12 +1,12 @@
 {block title}
-    <title>Fileupload - TEST</title>
+    <title>Nahrát soubory</title>
 {/block}
 
 {block content}
     
     <div class="row-fluid">
         <div class="span4">
-            <a href="{link Image:multiFileUpload}" class="btn btn-info btn-large">Multi file upload</a>
+            <a href="{link Image:multiFileUpload}" class="btn btn-info">Multi file upload</a>
         </div>
     </div>    
     
@@ -17,6 +17,13 @@
     <div class="alert alert-error" n:if="$form->hasErrors()"> 
         <li n:foreach="$form->errors as $error">{$error}</li>
     </div>
+    
+    <div class="control-group">
+        {label category class => 'control-label' /}
+        <div class="controls">
+            {input category}
+        </div>
+    </div>      
 
     <div class="control-group">
         {label fileselect class => 'control-label' /}

@@ -2,7 +2,9 @@
 namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
+use Models\Entity\Image\Image;
 use Nette\Application\UI\Form;
+use Nette\Forms\IControl;
 use SplFileInfo;
 /**
  * Description of FileUploadForm
@@ -18,9 +20,13 @@ class FileUploadForm extends BaseForm  {
      * @var string
      */
     protected $_dir;
-
+    
+    /** @var EntityRepository */
+    protected $_category;
+    
     public function __construct(EntityManager $em) {
         $this->_em = $em;
+        $this->_category = $em->getRepository('Models\Entity\Category\Category');        
     }
     
     /**
@@ -40,8 +46,18 @@ class FileUploadForm extends BaseForm  {
     private function _addForm()
     {
         $form = new Form;
+
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title'); 
         
-        $form->addMultyFileUpload('fileselect', 'Nahrát nový soubor: ');
+        $form->addSelect('category', 'Kategorie: ', $c)
+             ->setPrompt('- No category -');        
+        
+        $form->addMultyFileUpload('fileselect', 'Nahrát nový soubor: ')
+             ->addRule(Form::MAX_FILE_SIZE, NULL, 1024 * 5000)
+             ->addRule(Form::IMAGE, NULL)
+             ->addRule(function (IControl $control){
+                 return count($control->getValue()) <= 5;
+             }, 'Maximalní počet souboru je 5');
 
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');        
@@ -59,23 +75,32 @@ class FileUploadForm extends BaseForm  {
     
     public function onsuccess(Form $form)
     {
+        
+        $value = $form->values;
+        $category = $this->_category->getOne($value->category);
         try 
         {
-            $value = $form->values;
-            
             if(count($value->fileselect)){
                 foreach($value->fileselect as $image){
                     
-                    /* @var $image \Nette\Http\FileUpload */
-                    $image->move($this->_dir.$image->getName());
+                    /* @var $image FileUpload */
                     
                     $info = new SplFileInfo($this->_dir.$image->getName());
+                    $ext = '.'.pathinfo($info->getFilename(), PATHINFO_EXTENSION);
+                    $fileName = $info->getBasename($ext);
                     
-                    $imageModel = new \Models\Entity\Image\Image($image->getName());
-                    $imageModel->setExt(pathinfo($info->getFilename(), PATHINFO_EXTENSION));
-                    $imageModel->setName($info->getFilename());
+                    $imageModel = new Image($image->getName());
+                    
+                    if(!empty($category)){
+                        $imageModel->setCategory($category);
+                    }                    
+                    
+                    $imageModel->setExt($ext);
+                    $imageModel->setName($fileName);
                     
                     $this->_em->persist($imageModel);
+                    $image->move($this->_dir.$image->getName());
+                    
                 }
                 $this->_em->flush();   
             }
