@@ -3,6 +3,7 @@ namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
 use Models\Entity\Image\Image;
+use Models\Image\Image as ImageModel;
 use Nette\Application\UI\Form;
 use Nette\Forms\IControl;
 use SplFileInfo;
@@ -16,27 +17,17 @@ class FileUploadForm extends BaseForm  {
     /** @var EntityManager */
     protected $_em;
     
-    /**
-     * @var string
-     */
-    protected $_dir;
+    /** @var ImageModel */
+    protected $_image;
     
     /** @var EntityRepository */
     protected $_category;
     
-    public function __construct(EntityManager $em) {
+    public function __construct(EntityManager $em, ImageModel $image) {
         $this->_em = $em;
-        $this->_category = $em->getRepository('Models\Entity\Category\Category');        
+        $this->_category = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        $this->_image = $image;
     }
-    
-    /**
-     * @param string $dir
-     */
-    public function setDir($dir)
-    {
-        $this->_dir = $dir;
-    }
-    
     
     public function createForm()
     {
@@ -47,7 +38,9 @@ class FileUploadForm extends BaseForm  {
     {
         $form = new Form;
 
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title'); 
+        $c = $this->prepareForFormItem($this->_category->getImageCategories(), 'title'); 
+        
+        $form->addCheckbox('add_category', 'Přidat do galerie: ');
         
         $form->addSelect('category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');        
@@ -75,34 +68,35 @@ class FileUploadForm extends BaseForm  {
     
     public function onsuccess(Form $form)
     {
-        
         $value = $form->values;
         $category = $this->_category->getOne($value->category);
+        $dir = $this->_image->getDir();
         try 
         {
             if(count($value->fileselect)){
-                foreach($value->fileselect as $image){
-                    
+                foreach($value->fileselect as $image)
+                {
                     /* @var $image FileUpload */
-                    
-                    $info = new SplFileInfo($this->_dir.$image->getName());
+
+                    $info = new SplFileInfo($dir.$image->getName());
                     $ext = '.'.pathinfo($info->getFilename(), PATHINFO_EXTENSION);
                     $fileName = $info->getBasename($ext);
-                    
+
                     $imageModel = new Image($image->getName());
-                    
-                    if(!empty($category)){
+
+                    if($value->add_category == TRUE){
                         $imageModel->setCategory($category);
                     }                    
-                    
+
                     $imageModel->setExt($ext);
                     $imageModel->setName($fileName);
+
+                    $this->_em->persist($imageModel);                        
                     
-                    $this->_em->persist($imageModel);
-                    $image->move($this->_dir.$image->getName());
-                    
+                    $this->_image->createThumbs($image->getName());
+                    $image->move($dir.$image->getName());
                 }
-                $this->_em->flush();   
+                $this->_em->flush();
             }
             $form->presenter->redirect('Image:default');
         }

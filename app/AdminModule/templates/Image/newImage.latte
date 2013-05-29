@@ -17,6 +17,21 @@
     <div class="alert alert-error" n:if="$form->hasErrors()"> 
         <li n:foreach="$form->errors as $error">{$error}</li>
     </div>
+
+    <div class="control-group">
+        {label fileselect class => 'control-label' /}
+        <div class="controls">
+            {input fileselect}
+        </div>
+    </div>        
+    
+    <div class="control-group">
+        <div class="controls">
+            <label class="checkbox">
+                Přidat soubory do galerie {$presenter['fileUpload']['add_category']->getControl()}
+            </label>
+        </div>
+    </div>        
     
     <div class="control-group">
         {label category class => 'control-label' /}
@@ -26,15 +41,30 @@
     </div>      
 
     <div class="control-group">
-        {label fileselect class => 'control-label' /}
-        <div class="controls">
-            {input fileselect}
-        </div>
-    </div>                
-
-    <div class="control-group">
         {input submit}
     </div>
 
     {/form}
 {/block}
+    
+{block jscript}
+    <script type="text/javascript">
+        $('#category').attr('disabled', 'disabled');
+        if($('#add_category').is(':checked'))
+        {
+            $('#add_category').removeAttr('checked') 
+        }
+
+        $(function(){
+            $('#add_category:checkbox').on('change', function(){
+                var value = $(this).is(':checked');
+                if (value) {
+                    $('#category').removeAttr('disabled');
+
+                } else {
+                    $('#category').attr('disabled', 'disabled');
+                }
+            });
+        });            
+    </script>
+{/block}    

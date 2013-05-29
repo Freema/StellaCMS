@@ -1,5 +1,7 @@
 <?php
 namespace AdminModule;
+
+use Models\Image\Image;
 /**
  * Description of ImagePresenter
  *
@@ -12,11 +14,25 @@ class ImagePresenter extends BasePresenter {
      */
     private $_fileUploadForm;
     
+    /**
+     * @var Image 
+     */
+    private $_Image;
+    
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
         $this->_fileUploadForm = $form;
     }
+    
+    final function injectImage(Image $service)
+    {
+        $this->_Image = $service;
+    }
 
-    public function renderDefault() {
+    public function renderDefault() 
+    {
+        dump($this->_Image->loadImageTab());
+        dump($this->_Image->getSize());
+        //$this->template->tab = $this->_Image->findImages('*');
         
     }
 

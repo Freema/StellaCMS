@@ -4,7 +4,7 @@ namespace Models\Entity\Image;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Entity\Category\Category;
+use Models\Entity\ImageCategory\ImageCategory;
 
 /**
  * @ORM\Entity(repositoryClass="ImageRepository")
@@ -43,13 +43,18 @@ class Image
      * @ORM\Column(type="boolean")
      */
     protected $public;
-    
+
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\Category\Category")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;
     
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $imageOrder;
+
     /**
      * @ORM\Column(type="datetime")
      */    
@@ -62,6 +67,7 @@ class Image
         $this->name = '';
         $this->ext = '';
         $this->description = '';
+        $this->imageOrder = 0;
         $this->public = true;
         $this->category = null;
         $this->uploadedAt = new DateTime;
@@ -132,7 +138,7 @@ class Image
     /**
      * Get Category
      * 
-     * @return Category
+     * @return ImageCategory
      */
     public function getCategory()
     {
@@ -142,10 +148,10 @@ class Image
     /**
      * Set Category
      * 
-     * @param Category $category
+     * @param ImageCategory $category
      * @return Image
      */
-    public function setCategory(Category $category)
+    public function setCategory(ImageCategory $category)
     {
         $this->category = $category;
         return $this;
@@ -190,4 +196,25 @@ class Image
         $this->uploadedAt = $uploaded;
         return $this;
     }  
+    
+    /**
+     * @return integer
+     */
+    public function getImageOrder()
+    {
+        return $this->imageOrder;
+    }
+    
+    /**
+     * set Image order
+     * 
+     * @param integer $order
+     * @return Image
+     */
+    public function setImageOrder($order)
+    {
+        $this->imageOrder = $order;
+        
+        return $this;
+    }
 }

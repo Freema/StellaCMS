@@ -1,13 +1,13 @@
 <?php
-namespace Models\Entity\Category; 
+namespace Models\Entity\ImageCategory; 
 use Doctrine\ORM\EntityRepository;
 /**
- * Description of CategoryRepository
+ * Description of ImageCategoryRepository
  *
  * @author Tomáš
  */
 
-class CategoryRepository extends EntityRepository  {
+class ImageCategoryRepository extends EntityRepository  {
     
     /**
      * @param integer $id
@@ -21,7 +21,7 @@ class CategoryRepository extends EntityRepository  {
     /**
      * @return array
      */
-    public function getCategories()
+    public function getImageCategories()
     {
         return $this->findBy(array(), array('id' => 'DESC'));
     }

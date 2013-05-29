@@ -1,2 +1,74 @@
+{**
+ * default template.
+ *
+ * @param array $tab
+*}
+{block title}
+    <title>Kniha médii</title>
+{/block}
 
 {block content}
+
+<h2 class="page-header">Knihovna médií</h2>    
+<div class="control-panel row">
+    <div class="span4">
+        <a class="btn btn-success" href="{link Image:newImage}"><i class="icon-plus-sign"></i> Nahrát soubor</a>
+    </div>
+</div>
+
+<div class="form-inline">
+    <select id="cFdropdown">
+        <option {ifCurrent Image:default}selected=""{/ifCurrent} value="0">Zobrazit všechny sobory</option>
+        <option {ifCurrent Image:default ext => 'jpg'}selected=""{/ifCurrent} value="jpg">.JPG</option>
+    </select>
+    <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
+</div>
+
+{snippet mediaTable}
+<table class="table table-striped list-table">
+    <colgroup>
+
+    </colgroup>
+    <thead>
+        <tr>
+            <th></th>
+            <th>Název</th>
+            <th>Velikost</th>
+            <th>Uplodnoto</th>
+        </tr>
+    </thead>
+    <tbody>
+        {*foreach $tab as $item}
+            <tr>
+                <td></td>
+                <td>
+                    <strong>{$item['name']}</strong>
+                    <div>{$item['ext']}</div>
+                    <div class="tab-actions">
+                        <span>
+                            <a href="{link Post:editArticle $item->getId()}">
+                                <i class="icon-edit"></i>
+                                Upravit
+                            </a>
+                        </span>
+                        <span>
+                            <a href="{link deleteMedia! $item['']}" class="ajax delete">
+                                <i class="icon-trash"></i>
+                                 Smazat
+                            </a>
+                        </span>
+                    </div>                    
+                </td>
+                <td>{$item}</td>
+                <td>{$item}</td>
+                <td>{$item}</td>
+            </tr>    
+        {/foreach*}
+    </tbody>
+</table>
+{/snippet}
+{/block}
+
+{block jscript}
+
+{/block}
