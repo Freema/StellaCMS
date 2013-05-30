@@ -98,6 +98,24 @@ class Image
         $this->name = (string) $name;
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getFileName()
+    {
+        return $this->file;
+    }
+
+    /**
+     * @param string $name
+     * @return Image
+     */
+    public function setFileName($name)
+    {
+        $this->file = (string) $name;
+        return $this;
+    }
 
     /**
      * @return string

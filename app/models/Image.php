@@ -2,9 +2,10 @@
 namespace Models\Image;
 
 use Doctrine\ORM\EntityManager;
+use Models\Entity\Image\Image as ImageEntity;
+use Nette\Image as Thumbnails;
 use Nette\Object;
 use Nette\Utils\Finder;
-use Nette\Image AS Thumbnails;
 /**
  * Description of Image
  *
@@ -54,6 +55,14 @@ class Image extends Object {
     {
         $this->_thumbnailsSize = $size;
     }
+    
+    /**
+     * @return ImageEntity
+     */
+    public function getImageRepository()
+    {
+        return $this->_em->getRepository('Models\Entity\Image\Image');                
+    }
 
     /**
      * @return array
@@ -75,26 +84,56 @@ class Image extends Object {
     public function createThumbs($name)
     {
         $name = $this->getDir().$name;
-
+        
         $small = explode('x', $this->_thumbnailsSize['small']);
         $large = explode('x', $this->_thumbnailsSize['big']);
         
-        $image = Thumbnails::fromFile($name);
-        $smallThumb = $image->resize($small[0], $small[1], Thumbnails::SHRINK_ONLY | Thumbnails::STRETCH);
-        $largeThumb =  $image->resize($large[0], $large[1], Thumbnails::SHRINK_ONLY | Thumbnails::STRETCH);
+        $image1 = Thumbnails::fromFile($name);
+        $image2 = Thumbnails::fromFile($name);
+        $smallThumb = $image1->resize($small[0], $small[1], Thumbnails::SHRINK_ONLY | Thumbnails::STRETCH);
+        $largeThumb =  $image2->resize($large[0], $large[1], Thumbnails::EXACT);
         
-        $smallThumb->save($name.'-'.$this->_thumbnailsSize['small']);
-        $largeThumb->save($name.'-').$this->_thumbnailsSize['big'];
+        $smallThumbName = self::smallThumb($name, $this->getSize());
+        $largeThumbName = self::largeThumb($name, $this->getSize());
+        
+        $smallThumb->save($smallThumbName);
+        $largeThumb->save($largeThumbName);
     }
     
-    public static function smallThumb($name)
+    /**
+     * @param string $name
+     * @param string $size
+     * @return string
+     */
+    public static function smallThumb($name, $size)
     {
-        
+        $thumbName = explode( '.', $name );
+        if($thumbName == FALSE)
+        {
+            return $name.'-'.$size['small'];        
+        }
+        else
+        {
+            return $thumbName[0].'-'.$size['small'].'.'.$thumbName[1];
+        }
     }
     
-    public static function largeThumb($name)
+    /**
+     * @param string $name
+     * @param string $size
+     * @return string
+     */
+    public static function largeThumb($name, $size)
     {
-        
+        $thumbName = explode( '.', $name );
+        if($thumbName == FALSE)
+        {
+            return $name.'-'.$size['big'];        
+        }
+        else
+        {
+            return $thumbName[0].'-'.$size['big'].'.'.$thumbName[1];
+        }
     }
 
     /**
@@ -137,5 +176,38 @@ class Image extends Object {
         }
         
         return $return;
+    }
+    
+    public function deleteImage($id)
+    {
+        /* @var $image ImageEntity */
+        $image = $this->getImageRepository()->getOne($id);
+        
+        $dir = $this->getDir();
+        
+        $fileName = $image->getFileName();
+        $smallThumb = self::smallThumb($fileName, $this->_thumbnailsSize);
+        $largeThumb = self::largeThumb($fileName, $this->_thumbnailsSize);
+
+        if(file_exists($dir.$fileName))
+        {
+            if(file_exists($dir.$smallThumb))
+            {
+                unlink($dir.$smallThumb);
+            }   
+
+            if(file_exists($dir.$largeThumb))
+            {
+                unlink($dir.$largeThumb);
+            }   
+            unlink($dir.$fileName);
+        }
+        else
+        {
+            throw new \Stella\ModelException('Obrazek se nepodařilo vymazat', 'Chyba při mazani img');
+            $this->_em->remove($image);
+        }
+        $this->_em->remove($image);
+        return $this->_em->flush();        
     }
 }

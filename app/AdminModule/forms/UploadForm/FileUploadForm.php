@@ -92,9 +92,9 @@ class FileUploadForm extends BaseForm  {
                     $imageModel->setName($fileName);
 
                     $this->_em->persist($imageModel);                        
-                    
-                    $this->_image->createThumbs($image->getName());
+
                     $image->move($dir.$image->getName());
+                    $this->_image->createThumbs($image->getName());                    
                 }
                 $this->_em->flush();
             }

@@ -32,38 +32,41 @@
     <thead>
         <tr>
             <th></th>
+            <th>Id</th>
             <th>Název</th>
-            <th>Velikost</th>
+            <th>Katagorie</th>
             <th>Uplodnoto</th>
         </tr>
     </thead>
     <tbody>
-        {*foreach $tab as $item}
+       
+        {foreach $tab as $item}
             <tr>
-                <td></td>
+                <td>
+                </td>
+                <td>{$item['id']}</td>
                 <td>
                     <strong>{$item['name']}</strong>
                     <div>{$item['ext']}</div>
                     <div class="tab-actions">
                         <span>
-                            <a href="{link Post:editArticle $item->getId()}">
+                            <a href="{link Image:editImage $item['id']}">
                                 <i class="icon-edit"></i>
                                 Upravit
                             </a>
                         </span>
                         <span>
-                            <a href="{link deleteMedia! $item['']}" class="ajax delete">
+                            <a href="{link deleteMedia! $item['id']}" class="delete">
                                 <i class="icon-trash"></i>
                                  Smazat
                             </a>
                         </span>
                     </div>                    
                 </td>
-                <td>{$item}</td>
-                <td>{$item}</td>
-                <td>{$item}</td>
+                <td>{$item['category']}</td>
+                <td><abbr title="{$item['uploadedAt']|date: 'Y-m-d H:i:s'}">{$item['uploadedAt']|date: 'Y-m-d'}</abbr></td>
             </tr>    
-        {/foreach*}
+        {/foreach}
     </tbody>
 </table>
 {/snippet}

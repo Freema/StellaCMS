@@ -2,6 +2,7 @@
 namespace AdminModule;
 
 use Models\Image\Image;
+use Stella\ModelException;
 /**
  * Description of ImagePresenter
  *
@@ -30,14 +31,49 @@ class ImagePresenter extends BasePresenter {
 
     public function renderDefault() 
     {
-        dump($this->_Image->loadImageTab());
-        dump($this->_Image->getSize());
-        //$this->template->tab = $this->_Image->findImages('*');
+        $this->template->tab = $this->_Image->loadImageTab();
+        $size = $this->_Image->getSize();
         
+        $this->template->registerHelper('smallThumb', function($name) use ($size) {
+           $helper = Image::smallThumb($name, $size); 
+           
+           return $helper;
+        });
+        
+        $this->template->registerHelper('largeThumb', function($name) use ($size) {
+           $helper = Image::largeThumb($name, $size); 
+           
+           return $helper;
+        });
     }
 
     public function renderNewImage() {
         
+    }
+    
+    public function actionEditImage($id)
+    {
+        
+    }
+    
+    public function handleDeleteMedia($id)
+    {
+        try
+        {
+            $this->_Image->deleteImage($id);
+            if(!$this->isAjax()){
+                $this->redirect('this');
+            }
+            else{
+                $this->invalidateControl('articleTable');
+                $this->invalidateControl('flashMessages');
+            }              
+        }
+        catch(ModelException $e)
+        {
+            $this->flashMessage($e, 'error');
+            $this->redirect('this');
+        }
     }
     
     protected function createComponentFileUpload()
