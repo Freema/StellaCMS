@@ -57,6 +57,8 @@ common:
                     class: Models\Image\Image(@database, %gallery.imagesDir%)
                     setup:
                         - setResize(%gallery.thumbnail%)
+                model.imageCategory:
+                    class: Models\Image\ImageCategory
 
                 Form.login:
                     class: AdminModule\Forms\LoginForm
@@ -72,6 +74,8 @@ common:
                     class: AdminModule\Forms\TagForm(@database)
                 Form.fileUpload:
                     class: AdminModule\Forms\FileUploadForm(@database, @model.image)
+                Form.imageCategory:
+                    class: AdminModule\Forms\ImageCategoryForm(@database)
 
 
 production < common:

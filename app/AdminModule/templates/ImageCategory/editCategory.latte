@@ -1,0 +1,41 @@
+{**
+ * Image categorii edit template.
+ *
+ * @param Models\Entity\ImageCategory\ImageCategory $data
+ *
+*}
+{block title}
+    <title>Kategorie medií - editovat {$data->getTitle()}</title>
+{/block}
+
+{block content}
+    {form editImageCategoryForm}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+
+        <div class="control-group">
+            {label category_title class => 'control-label' /}
+            <div class="controls">
+                {input category_title}
+            </div>
+        </div>                
+    
+        <div class="control-group">
+            {label category_slug class => 'control-label' /}
+            <div class="controls">
+                {input category_slug}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            <div class="controls">
+                {input category_text}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {input submit}
+        </div>
+    {/form}
+{/block}

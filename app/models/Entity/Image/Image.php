@@ -45,7 +45,7 @@ class Image
     protected $public;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory",  inversedBy="image")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;

@@ -204,8 +204,9 @@ class Image extends Object {
         }
         else
         {
-            throw new \Stella\ModelException('Obrazek se nepodařilo vymazat', 'Chyba při mazani img');
             $this->_em->remove($image);
+            $this->_em->flush();
+            throw new \Stella\ModelException('Obrazek se nepodařilo kopletně vymazat!', 'Chyba při mazani img');
         }
         $this->_em->remove($image);
         return $this->_em->flush();        

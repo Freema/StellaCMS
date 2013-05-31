@@ -71,7 +71,7 @@ class ImagePresenter extends BasePresenter {
         }
         catch(ModelException $e)
         {
-            $this->flashMessage($e, 'error');
+            $this->flashMessage($e->getMessage());
             $this->redirect('this');
         }
     }

@@ -34,7 +34,7 @@ class ImageCategory
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Post\Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Models\Entity\Image\Image", mappedBy="category")
      */
     protected $image;
 

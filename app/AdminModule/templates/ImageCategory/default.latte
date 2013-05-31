@@ -1,0 +1,56 @@
+{**
+ * default template.
+ *
+ * @param array $tab
+ *
+*}
+{block title}
+    <title>Kategorie medií</title>
+{/block}
+
+{block content}
+<h2 class="page-header">Kategorie medií</h2>
+<div class="control-panel row">
+    <div class="span4">
+        <a class="btn btn-success" href="{link ImageCategory:addCategory}"><i class="icon-plus-sign"></i> Vytvořit novou kategorii medií</a>
+    </div>
+</div>
+{snippet mediaCategoryTable}
+<table class="table table-striped list-table">
+    <colgroup>
+        <col style="width: 5%">
+        <col style="width: 20%">
+        <col style="width: 15%">
+        <col style="width: 50%">
+        <col style="width: 10%">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Název</th>
+            <th>Název v URL</th>
+            <th>Popis</th>
+            <th>Obrazků</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $tab as $item}
+            <tr>
+                <td>{$item['id']}</td>
+                <td>
+                    <strong>{$item['title']}</strong>
+                    <div class="tab-actions">
+                        <span><a href="{link ImageCategory:editCategory $item['id']}">Upravit</a></span> |
+                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span> |
+                        <span><a href="{link Image:default category => $item['id']}">Nahled</a></span>
+                    </div>
+                </td>
+                <td>{$item['slug']}</td>
+                <td>{$item['description']|truncate: 60| striptags}</td>
+                <td>{$item['images']}</td>
+            </tr>
+        {/foreach}
+    </tbody>
+</table>
+{/snippet}
+{/block}
