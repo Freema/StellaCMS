@@ -42,6 +42,16 @@ color pick
     margin-bottom: 10px;
 }
 
+/* Modal 
+================================================== */
+
+.loading-spinner {
+    left: 50%;
+    margin: -12px 0 0 -12px;
+    position: absolute;
+    top: 50%;
+}
+
 /* Table
 ================================================== */
 

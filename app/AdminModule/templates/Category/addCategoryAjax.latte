@@ -1,0 +1,45 @@
+<div class="modal-header">
+	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+	<h3>Přidat categorii</h3>
+</div>
+{form categoryForm class => 'ajax', style => "margin-bottom: 0px"}
+<div class="modal-body">
+    <div id="snippet--formModalError">
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>    
+    </div> 
+   
+    <fieldset>
+        <div class="control-group">
+            {label title class => 'control-label' /}
+            <div class="controls">
+                {input title class => 'span5'}
+            </div>
+        </div>                
+        <div class="control-group">
+            {label tag_slug class => 'control-label' /}
+            <div class="controls">
+                {input tag_slug class => 'span5'}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            {label parent class => 'control-label' /}
+            <div class="controls">
+                {input parent class => 'span5'}
+            </div>
+        </div>                
+
+        <div class="control-group">
+            <div class="controls">
+                {input text class => 'span5', rows => '5'}
+            </div>
+        </div>                
+    </fieldset>  
+</div>
+<div class="modal-footer">
+    {input submit}
+    <button type="button" data-dismiss="modal" class="btn"><i class="icon-off"></i> Close</button>
+</div>
+{/form}

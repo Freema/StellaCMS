@@ -41,7 +41,7 @@ class CategoryForm extends BaseForm {
             return $this->_editForm(); 
         }
     }
-    
+
     private function _addForm()
     {
         $form = new Form;
@@ -175,12 +175,19 @@ class CategoryForm extends BaseForm {
                 $this->_em->persist($category);
                 $this->_em->flush($category);
                 
-                $form->presenter->redirect('Category:editCategory', $this->_defaults->getId());
+                if(!$form->presenter->isAjax())
+                {
+                    $form->presenter->redirect('Category:default');
+                }
             }
         }
         catch(FormException $e)
         {
             $form->addError($e->getMessage());
+            if($form->presenter->isAjax())
+            {
+                $form->presenter->invalidateControl('formModalError');
+            }
         }
     }  
 }

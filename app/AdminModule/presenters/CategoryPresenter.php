@@ -8,7 +8,7 @@ namespace AdminModule;
 class CategoryPresenter extends BasePresenter {
 
     /**
-     * @var Forms\PostForm
+     * @var Forms\CategoryForm
      */
     private $_CategoryForm;
     
@@ -48,6 +48,14 @@ class CategoryPresenter extends BasePresenter {
     
     public function renderDefault() {
         $this->template->tab = $this->_Category->loadCategoryTab();
+    }
+    
+    public function actionAddCategory() {
+        if($this->isAjax())
+        {
+            $template = $this->template;
+            $template->setFile(__DIR__ . '\..\templates\Category\addCategoryAjax.latte');
+        }    
     }
     
     public function actionEditCategory($id)

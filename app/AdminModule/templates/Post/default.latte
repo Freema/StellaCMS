@@ -13,9 +13,13 @@
 
 <h2 class="page-header">Příspěvky</h2>    
 <div class="control-panel row">
-    <div class="span4">
+    <div class="span2">
         <a class="btn btn-success" href="{link Post:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
     </div>
+    <div class="span2">
+        <a class="btn btn-ajax" data-toggle="modal" href="{link Category:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
+    </div>
+    <hr />    
 </div>
 
 <div class="form-inline">
@@ -99,9 +103,12 @@
     </tbody>
 </table>
 {/snippet}
+<div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 {/block}
 
 {block jscript}
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
 $('#cFbutton').click(function() {
     var selected = $('#cFdropdown option:selected').val();
@@ -114,5 +121,27 @@ $('#cFbutton').click(function() {
         window.location = {link Post:default}+"?category="+selected;
     }
 })
+
+var $modal = $('#ajax-modal');
+
+$('.btn-ajax').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $modal.load(url, '', function(){
+    $modal.modal();
+    });
+
+return false});
+
+$modal.on('submit', function(){
+    
+    $modal.modal('loading').find('.modal-body').prepend('<div class="alert alert-info fade in">' +
+    'Updated!<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+    '</div>');
+    form = $('form.ajax');
+    
+    $.post(form.attr('action'), form.serialize());
+return false});
 </script>
 {/block}
