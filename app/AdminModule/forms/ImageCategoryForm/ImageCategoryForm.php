@@ -139,12 +139,26 @@ class ImageCategoryForm extends BaseForm {
                 $this->_em->persist($category);
                 $this->_em->flush($category);
                 
-                $form->presenter->redirect('ImageCategory:default');
+                if(!$form->presenter->isAjax())
+                {
+                    $form->presenter->redirect('ImageCategory:default');
+                }
+                else
+                {
+                    $form->presenter->payload->status = 'success';
+                    $form->presenter->terminate();
+                }                
             }
         }
         catch(FormException $e)
         {
             $form->addError($e->getMessage());
+            if($form->presenter->isAjax())
+            {
+                $form->presenter->payload->status = 'error';                
+                $form->presenter->payload->error = $form->errors;
+                $form->presenter->terminate();
+            }            
         }
     }  
 }

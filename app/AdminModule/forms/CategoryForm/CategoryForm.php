@@ -179,6 +179,11 @@ class CategoryForm extends BaseForm {
                 {
                     $form->presenter->redirect('Category:default');
                 }
+                else
+                {
+                    $form->presenter->payload->status = 'success';
+                    $form->presenter->terminate();
+                }
             }
         }
         catch(FormException $e)
@@ -186,7 +191,9 @@ class CategoryForm extends BaseForm {
             $form->addError($e->getMessage());
             if($form->presenter->isAjax())
             {
-                $form->presenter->invalidateControl('formModalError');
+                $form->presenter->payload->status = 'error';                
+                $form->presenter->payload->error = $form->errors;
+                $form->presenter->terminate();
             }
         }
     }  

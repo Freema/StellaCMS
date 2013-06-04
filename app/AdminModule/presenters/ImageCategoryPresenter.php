@@ -52,6 +52,13 @@ class ImageCategoryPresenter extends BasePresenter {
         $this->template->tab = $this->_ImageCategory->loadImageCategoryTab();
     }
     
+    public function actionAddCategory() {
+        if($this->isAjax())
+        {
+            $this->setView('addCategoryAjax');
+        }    
+    }    
+    
     public function actionEditCategory($id)
     {
         if(!($this->_Page = $this->_ImageCategory->getImageCategoryRepository()->getOne($id)))

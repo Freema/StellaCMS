@@ -1,34 +1,27 @@
 <div class="modal-header">
 	<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-	<h3>Přidat categorii</h3>
+	<h3>Přidat categorii medií</h3>
 </div>
-{form categoryForm class => 'ajax', style => "margin-bottom: 0px"}
+{form imageCategoryForm class => 'ajax', style => "margin-bottom: 0px"}
 <div class="modal-body">
    
     <fieldset>
         <div class="control-group">
-            {label title class => 'control-label' /}
+            {label category_title class => 'control-label' /}
             <div class="controls">
-                {input title class => 'span5'}
+                {input category_title class => 'span5'}
             </div>
         </div>                
         <div class="control-group">
-            {label tag_slug class => 'control-label' /}
+            {label category_slug class => 'control-label' /}
             <div class="controls">
-                {input tag_slug class => 'span5'}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            {label parent class => 'control-label' /}
-            <div class="controls">
-                {input parent class => 'span5'}
+                {input category_slug class => 'span5'}
             </div>
         </div>                
 
         <div class="control-group">
             <div class="controls">
-                {input text class => 'span5', rows => '5'}
+                {input category_text class => 'span5', rows => '5'}
             </div>
         </div>                
     </fieldset>  

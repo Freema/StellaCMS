@@ -11,11 +11,11 @@
 
 <h2 class="page-header">Knihovna médií</h2>    
 <div class="control-panel row">
-    <div class="span4">
+    <div class="span2">
         <a class="btn btn-success" href="{link Image:newImage}"><i class="icon-plus-sign"></i> Nahrát soubor</a>
     </div>
-    <div class="span4">
-        <a class="btn btn-ajax" data-toggle="modal" href="{link Category:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
+    <div class="span2">
+        <a class="btn btn-ajax" data-toggle="modal" href="{link ImageCategory:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
     </div>
 </div>
 
@@ -84,5 +84,44 @@
 {/block}
 
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript">
+
+var $modal = $('#ajax-modal');
+
+$('.btn-ajax').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $modal.load(url, '', function(){
+    $modal.modal();
+    });
+
+return false});
+
+$modal.on('submit', function(){
+    $modal.modal('loading');
+    form = $('form.ajax');
+    $.ajax({
+       type: "POST",
+       url: form.attr('action'),
+       data: form.serialize(),
+       success: function(data) {
+           if(data.status == 'error')
+           {
+                $modal.modal('loading')
+                      .find('.modal-body')
+                      .prepend( '<div class="alert alert-error">' +
+                                data.error + '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
+                                '</div>');
+           }
+           else
+           {
+               $modal.modal('hide');
+           }
+       }
+    });
+return false});
+</script>
 {/block}

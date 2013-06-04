@@ -21,7 +21,17 @@ abstract class BasePresenter extends Presenter
 
         if(!($this->getUser()->isLoggedIn()))
         {
-            $this->redirect('Login:default');
+            if($this->isAjax())
+            {
+                $template = $this->template;
+                $template->setFile(__DIR__ . '\..\templates\Error\accessModalAjax.latte');
+                $template->render();
+                $this->terminate();
+            }
+            else
+            {
+                $this->redirect('Login:default');
+            }
         }
     }
 

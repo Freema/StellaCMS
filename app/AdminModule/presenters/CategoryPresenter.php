@@ -53,8 +53,7 @@ class CategoryPresenter extends BasePresenter {
     public function actionAddCategory() {
         if($this->isAjax())
         {
-            $template = $this->template;
-            $template->setFile(__DIR__ . '\..\templates\Category\addCategoryAjax.latte');
+            $this->setView('addCategoryAjax');
         }    
     }
     

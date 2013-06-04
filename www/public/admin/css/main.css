@@ -52,6 +52,16 @@ color pick
     top: 50%;
 }
 
+.modal .loading-mask {
+    background: none repeat scroll 0 0 #FFFFFF;
+    border-radius: 6px 6px 6px 6px;
+    bottom: 0;
+    left: 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
 /* Table
 ================================================== */
 
