@@ -9,6 +9,7 @@ use Models\Entity\ImageCategory\ImageCategory;
 /**
  * @ORM\Entity(repositoryClass="ImageRepository")
  * @ORM\Table(name="image")
+ * @ORM\HasLifecycleCallbacks() 
  */
 class Image
 {
@@ -33,9 +34,14 @@ class Image
      * @ORM\Column(type="string", length=4)
      */    
     protected $ext;
+    
+    /**
+     * @ORM\Column(type="string", length=100)
+     */    
+    protected $title;
 
     /**
-     * @ORM\Column(type="string", length=250)
+     * @ORM\Column(type="text")
      */
     protected $description;
     
@@ -59,6 +65,11 @@ class Image
      * @ORM\Column(type="datetime")
      */    
     protected $uploadedAt;
+    
+    /**
+     * @ORM\Column(type="datetime")
+     */
+    protected $updateAt;
 
     public function __construct($file)
     {
@@ -68,10 +79,20 @@ class Image
         $this->ext = '';
         $this->description = '';
         $this->imageOrder = 0;
+        $this->title = '';
         $this->public = true;
         $this->category = null;
         $this->uploadedAt = new DateTime;
+        $this->updateAt = new DateTime;
     }
+    
+    /**
+     * @ORM\PreUpdate
+     */
+    public function onUpadate()
+    {
+        $this->updateAt = new DateTime();
+    }    
     
     /**
      * @return integer
@@ -135,6 +156,25 @@ class Image
         return $this;
     }
 
+
+    /**
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->title;
+    }
+
+    /**
+     * @param string $title
+     * @return Image
+     */
+    public function setTitle($title)
+    {
+        $this->title = (string) $title;
+        return $this;
+    }
+
     /**
      * @return string
      */
@@ -173,7 +213,18 @@ class Image
     {
         $this->category = $category;
         return $this;
-    }    
+    }
+    
+    /**
+     * Set Category to NULL
+     * 
+     * @return Image
+     */
+    public function removeCategory()
+    {
+        $this->category = NULL;
+        return $this;
+    }
     
     /**
      * Get Publish
@@ -234,5 +285,15 @@ class Image
         $this->imageOrder = $order;
         
         return $this;
+    }
+    
+    /**
+     * get Update time
+     * 
+     * @return DateTime
+     */
+    public function getUpdateAt()
+    {
+        return $this->updateAt;
     }
 }

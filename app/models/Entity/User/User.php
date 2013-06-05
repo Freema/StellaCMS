@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\User\UserRepository")
  * @ORM\Table(name="user")
+ * @ORM\HasLifecycleCallbacks()
  */
 
 class User
@@ -43,6 +44,12 @@ class User
      * @ORM\Column(type="string", length=255)
      */
     protected $role;
+    
+    /**
+     * @var \DateTime
+     * @ORM\Column(name="update_at", type="datetime")
+     */
+    protected $lastLogin;
 
     /**
      * @param string
@@ -50,7 +57,7 @@ class User
      */
     public function __construct($username)
     {
-            $this->username = static::normalizeString($username);
+        $this->username = static::normalizeString($username);
     }
 
     /**

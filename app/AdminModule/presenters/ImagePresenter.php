@@ -15,10 +15,11 @@ class ImagePresenter extends BasePresenter {
      */
     private $_fileUploadForm;
     
-    /**
-     * @var Image 
-     */
+    /** @var Image */
     private $_Image;
+    
+    /** @var Models\Entity\Image\Image */
+    private $_Page;
     
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
         $this->_fileUploadForm = $form;
@@ -46,14 +47,15 @@ class ImagePresenter extends BasePresenter {
            return $helper;
         });
     }
-
-    public function renderNewImage() {
-        
-    }
     
     public function actionEditImage($id)
     {
-        
+        if(!($this->_Page = $this->_Image->getImageRepository()->getOne($id)))
+        {
+            $this->flashMessage('Image does not exist.', 'error');
+            $this->redirect('default');
+        }
+        $this->template->data = $this->_Page;        
     }
     
     public function handleDeleteMedia($id)
@@ -79,6 +81,11 @@ class ImagePresenter extends BasePresenter {
     protected function createComponentFileUpload()
     {
         return $this->_fileUploadForm->createForm();
+    }
+    
+    protected function createComponentFileEditForm()
+    {
+        return $this->_fileUploadForm->createForm($this->_Page);
     }
 
 }

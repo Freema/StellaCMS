@@ -211,4 +211,6 @@ class Image extends Object {
         $this->_em->remove($image);
         return $this->_em->flush();        
     }
+    
+    
 }

@@ -34,9 +34,9 @@
     </div>        
     
     <div class="control-group">
-        {label category class => 'control-label' /}
+        {label image_category class => 'control-label' /}
         <div class="controls">
-            {input category}
+            {input image_category}
         </div>
     </div>      
 
@@ -49,7 +49,7 @@
     
 {block jscript}
     <script type="text/javascript">
-        $('#category').attr('disabled', 'disabled');
+        $('#image_category').attr('disabled', 'disabled');
         if($('#add_category').is(':checked'))
         {
             $('#add_category').removeAttr('checked') 
@@ -59,10 +59,10 @@
             $('#add_category:checkbox').on('change', function(){
                 var value = $(this).is(':checked');
                 if (value) {
-                    $('#category').removeAttr('disabled');
+                    $('#image_category').removeAttr('disabled');
 
                 } else {
-                    $('#category').attr('disabled', 'disabled');
+                    $('#image_category').attr('disabled', 'disabled');
                 }
             });
         });            
