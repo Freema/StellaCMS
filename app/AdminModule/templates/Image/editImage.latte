@@ -1,0 +1,189 @@
+{**
+ * edit image template.
+ *
+ * @param Models\Entity\Image\Image $data
+ * @param string $header   
+ *
+*}
+
+{var $header = 'Guild Bounty'}
+
+{block content}
+
+<h2 class="page-header">Upravit mediální soubor</h2>
+<div class="control-panel row">
+    <div class="span2">
+        <a class="btn btn-success" href="{link Image:newImage}"><i class="icon-plus-sign"></i> Nahrát soubor</a>
+    </div>
+</div>
+
+{form fileEditForm}
+<div class="row">
+    <div class="span12">
+        <legend n:block=title>{$data->getName()}</legend>    
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span6">
+        <fieldset>
+            <div class="control-group">
+                {label image_title  /}
+                <div class="controls">
+                    {input image_title}
+                </div>
+            </div>    
+
+            <div class="control-group">
+                {label image_description  /}
+                <div class="controls">
+                    {input image_description}
+                </div>
+            </div>    
+        </fieldset>        
+    </div>
+    <div class="span6">
+        <ul class="thumbnails">
+            <li class="span7 offset5">
+                <a href="#" class="thumbnail">
+                    <img src="{$basePath}/uploads/{$data->getFileName()}" />
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+    
+<div class="row-fluid" style="margin-top: 15px;">
+    <div class="span6">
+        <fieldset>
+            <div class="control-group">
+                {label image_public  /}
+                <div class="controls">
+                    {input image_public}
+                </div>
+            </div>    
+
+            <div class="control-group">
+                <div class="controls">
+                    <label class="checkbox">
+                        Přidat soubory do galerie {$presenter['fileEditForm']['add_category']->getControl()}
+                    </label>
+                </div>
+            </div>        
+
+            <div class="control-group">
+                {label image_category class => 'control-label' /}
+                <div class="controls">
+                    {input image_category}
+                </div>
+            </div>       
+
+            <div class="control-group">
+                <div class="controls">
+                    {input submit class => 'btn'}
+                </div>
+            </div>
+        </fieldset>
+    </div>
+    <div class="span4 offset2">
+        <div class="sidebar-post-box">
+            <h3><strong>Info:</strong></h3>
+            <div class="inside">
+                <div class="section">
+                    <div class="image-time">
+                        <i class="icon-calendar"></i>
+                        Uploaded on: 
+                        {$data->getUploadedAt()|date: 'Y.m.d'}
+                    </div>
+                </div>
+                {foreach $fileInfo as $info}
+                    <div class="section">
+                        <div class="image-name">File URL:
+                            <input type="text" value="{$baseUrl}/upload/{$info['baseName']}" />
+                        </div>
+                        <div class="image-size">Rozměry: 
+                            {$info['image_size'][3]}
+                        </div>
+                    </div>    
+                {/foreach}
+                <div class="section">
+                    <div class="image-ext">
+                    Typ souboru:
+                    {$data->getExt()}
+                    </div>
+                </div>
+            </div>  
+        </div>
+    </div>
+</div>    
+{/form}
+{/block}
+
+{block jscript}
+
+<script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript">
+
+if($('#add_category').is(':checked'))
+{
+    $('#image_category').removeAttr('disabled') 
+}
+else
+{
+    $('#image_category').attr('disabled', 'disabled');
+}
+
+$(function(){
+    $('#add_category:checkbox').on('change', function(){
+        var value = $(this).is(':checked');
+        if (value) {
+            $('#image_category').removeAttr('disabled');
+
+        } else {
+            $('#image_category').attr('disabled', 'disabled');
+        }
+    });
+});  
+
+$(function() {
+    
+    tinyMCE.init({
+        mode : "exact",
+        elements : "editor",
+        theme : "advanced",
+        skin : "o2k7",
+        skin_variant : "silver",
+        width : "100%",
+        height: "200",
+        autoresize_min_height: 200,
+        autoresize_max_height: 400,        
+        theme_advanced_fonts : "Andale Mono=andale mono,times;"+
+            "Arial=arial,helvetica,sans-serif;"+
+            "Arial Black=arial black,avant garde;"+
+            "Book Antiqua=book antiqua,palatino;"+
+            "Comic Sans MS=comic sans ms,sans-serif;"+
+            "Courier New=courier new,courier;"+
+            "Georgia=georgia,palatino;"+
+            "Helvetica=helvetica;"+
+            "Impact=impact,chicago;"+
+            "Palatino Linotype=Palladio L, serif;"+
+            "Symbol=symbol;"+
+            "Tahoma=tahoma,arial,helvetica,sans-serif;"+
+            "Terminal=terminal,monaco;"+
+            "Times New Roman=times new roman,times;"+
+            "Trebuchet MS=trebuchet ms,geneva;"+
+            "Verdana=verdana,geneva;"+
+            "Webdings=webdings;"+
+            "Wingdings=wingdings,zapf dingbats",
+        entity_encoding : "raw",
+        theme_advanced_buttons1 : "bold, italic, underline, strikethrough, separator, separator, justifyleft, justifycenter, justifyright, justifyfull, separator, undo, redo, separator, code, separator, bullist, numlist",
+        theme_advanced_buttons2 : "formatselect, fontsizeselect , fontselect",
+        theme_advanced_buttons3 : "link, unlink, anchor, separator, forecolor, backcolor",
+        plugins : "paste, autoresize",
+        theme_advanced_buttons3_add : "pastetext,pasteword,selectall",
+        paste_auto_cleanup_on_paste : true,
+    });
+})
+
+</script>
+
+{/block}

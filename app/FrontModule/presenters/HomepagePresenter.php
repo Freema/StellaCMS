@@ -33,9 +33,9 @@ class HomepagePresenter extends BasePresenter
     public function renderDefault()
     {
         //$post = $this->em->getRepository('Models\Entity\Post\Post');
-        $user = $this->em->getRepository('Models\Entity\Menu\Menu');
+        //$user = $this->em->getRepository('Models\Entity\Menu\Menu');
         //dump($post);
-        dump($user);
+        //dump($user);
     }
     
     public function handleCreateDefaultUser()

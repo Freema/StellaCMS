@@ -18,7 +18,7 @@ class ImagePresenter extends BasePresenter {
     /** @var Image */
     private $_Image;
     
-    /** @var Models\Entity\Image\Image */
+    /** @var \Models\Entity\Image\Image */
     private $_Page;
     
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
@@ -55,7 +55,11 @@ class ImagePresenter extends BasePresenter {
             $this->flashMessage('Image does not exist.', 'error');
             $this->redirect('default');
         }
-        $this->template->data = $this->_Page;        
+        
+        $info = $this->_Image->findImages($this->_Page->getName().'*');
+        
+        $this->template->data = $this->_Page; 
+        $this->template->fileInfo = $info;
     }
     
     public function handleDeleteMedia($id)

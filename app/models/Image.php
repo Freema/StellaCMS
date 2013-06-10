@@ -165,19 +165,29 @@ class Image extends Object {
         foreach (Finder::find($arg)->in($this->_dir) as $file)
         {
             $ext = '.'.pathinfo($file->getFilename(), PATHINFO_EXTENSION);
+
+            if($this->fileExist($file->getFilename()))
+            {
+                $image_size = getimagesize($this->_dir.$file->getFilename());
+            }
+            else
+            {
+                $image_size = NULL;   
+            }
             
             $return[] = array(
               'name'        =>   $file->getBasename($ext),
               'baseName'    =>   $file->getBasename(),
               'ext'         =>   $ext, 
-              'size'        =>   $file->getSize(),  
-              'date'        =>   date('d.m.Y', $file->getCTime()),   
+              'file_size'   =>   $file->getSize(),  
+              'date'        =>   date('d.m.Y', $file->getCTime()),
+              'image_size'  =>   $image_size,  
             );
         }
         
         return $return;
     }
-    
+
     public function deleteImage($id)
     {
         /* @var $image ImageEntity */

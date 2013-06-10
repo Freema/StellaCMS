@@ -11,7 +11,7 @@ class LoginPresenter extends Presenter
      * @var Forms\LoginForm
      */
     private $_loginForm;
-
+    
     final function injectLoginForm(Forms\LoginForm $factory)
     {
         $this->_loginForm = $factory;
