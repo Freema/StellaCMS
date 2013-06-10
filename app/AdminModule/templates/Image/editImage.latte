@@ -44,7 +44,7 @@
     <div class="span6">
         <ul class="thumbnails">
             <li class="span7 offset5">
-                <a href="#" class="thumbnail">
+                <a data-toggle="lightbox" href="{$basePath}/uploads/{$data->getFileName()}" class="thumbnail">
                     <img src="{$basePath}/uploads/{$data->getFileName()}" />
                 </a>
             </li>
@@ -92,7 +92,7 @@
                     <div class="image-time">
                         <i class="icon-calendar"></i>
                         Uploaded on: 
-                        {$data->getUploadedAt()|date: 'Y.m.d'}
+                        <strong>{$data->getUploadedAt()|date: 'Y.m.d'}</strong>
                     </div>
                 </div>
                 {foreach $fileInfo as $info}
@@ -101,14 +101,14 @@
                             <input type="text" value="{$baseUrl}/upload/{$info['baseName']}" />
                         </div>
                         <div class="image-size">Rozměry: 
-                            {$info['image_size'][3]}
+                            <strong>{$info['image_size'][3]}</strong>
                         </div>
                     </div>    
                 {/foreach}
                 <div class="section">
                     <div class="image-ext">
                     Typ souboru:
-                    {$data->getExt()}
+                    <strong>{$data->getExt()}</strong>
                     </div>
                 </div>
             </div>  
@@ -116,12 +116,16 @@
     </div>
 </div>    
 {/form}
+
 {/block}
 
 {block jscript}
-
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-lightbox.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
+
+$('.thumbnail').lightbox()
 
 if($('#add_category').is(':checked'))
 {

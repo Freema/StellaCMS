@@ -135,7 +135,7 @@ class FileUploadForm extends BaseForm  {
     public function addImage(Form $form)
     {
         $value = $form->values;
-        $category = $this->_category->getOne($value->category);
+        $category = $this->_category->getOne($value->image_category);
         $dir = $this->_image->getDir();
         try 
         {
