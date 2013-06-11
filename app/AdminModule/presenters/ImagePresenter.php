@@ -62,6 +62,15 @@ class ImagePresenter extends BasePresenter {
         $this->template->fileInfo = $info;
     }
     
+    public function actionImageView($name)
+    {
+        if($this->isAjax())
+        {
+            $this->template->imageUrl = $name;
+            $this->setView('imageView');
+        }
+    }
+    
     public function handleDeleteMedia($id)
     {
         try

@@ -44,7 +44,7 @@
     <div class="span6">
         <ul class="thumbnails">
             <li class="span7 offset5">
-                <a data-toggle="lightbox" href="{$basePath}/uploads/{$data->getFileName()}" class="thumbnail">
+                <a class="modal-ajax thumbnail" href="{link Image:imageView $data->getFileName()}" >
                     <img src="{$basePath}/uploads/{$data->getFileName()}" />
                 </a>
             </li>
@@ -116,16 +116,27 @@
     </div>
 </div>    
 {/form}
+<div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 
 {/block}
 
 {block jscript}
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-lightbox.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tiny_mce.js"></script>
 <script type="text/javascript">
 
-$('.thumbnail').lightbox()
+var $modal = $('#ajax-modal');
+
+$('.modal-ajax').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $modal.load(url, '', function(){
+    $modal.modal();
+    });
+
+return false});
 
 if($('#add_category').is(':checked'))
 {

@@ -16,7 +16,7 @@
 </head>
 
 <body n:class="$presenter->isLinkCurrent('Login:default') ? loginPage">
-    {if $user->isLoggedIn()}    
+{if $user->isLoggedIn()}    
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="navbar-inner">
             <div class="container">
@@ -119,29 +119,43 @@
         </div><!-- end navbar-inner ending -->
     </div>
 
-    
-    <div style="margin-top: 50px;">
-            {control breadCrumbs}
-    </div>
-    
-    {/if}  
-        
+{/if}  
+<div class="layout">
+    {if $user->isLoggedIn()} 
+    <div style="padding-top: 50px;">
+        {control breadCrumbs}
+    </div>      
+   
     {snippet flashMessages}
         <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
             <button class="close" data-dismiss="alert" type="button">×</button>
             {$flash->message}
         </div>
-    {/snippet}    
+    {/snippet}
+    {/if}{* block section for logged in users *}
     <div class="container">
     <!-- content block! -->
         {include #content}
     <!-- content block ending! -->
     </div>
+    <div class="push"></div>      
+</div><!-- layout div end -->  
+<footer class="footer-wrapper">
+    <div class="container">
+        {block footer}
+        <div class="row">
+            <div class="span3 pull-right">
+                <p>&COPY; StellaCMS 2013</p>
+            </div>
+        </div>
+        {/block}
+    </div>
+</footer><!-- footer end --->      
 
 <!-- JScript block
 ============================================== -->  
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="{$basePath}/public/admin/js/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript">window.jQuery || document.write('<script src="{$basePath}/public/admin/js/jquery-1.9.1.min.js"><\/script>')</script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/page.js"></script>
 {block jscript}

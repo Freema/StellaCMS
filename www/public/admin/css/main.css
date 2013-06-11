@@ -13,6 +13,32 @@ color pick
 /* #Page Styles
 ================================================== */
 
+html, body {
+    height: 100%;
+}
+ 
+.layout {
+    min-height: 100%;
+    height: auto !important;
+    height: 100%;
+    margin: 0 auto -31px;
+}
+ 
+.push {
+    height: 31px;
+}
+
+footer {
+    background: none repeat scroll 0 0 #EDEDED;
+    border-top: 1px solid #DDDDDD;
+    color: #999999;
+}
+
+.footer-wrapper {
+    position: relative;
+    height: 30px;
+}
+
 .text-center {
     text-align: center;
 }
@@ -173,14 +199,6 @@ color pick
     text-align: center;
     background-color: transparent;
     outline: none;
-}
-
-.lightbox .hide {
-    display: none;
-}
-
-.lightbox .in {
-    display: block;
 }
 
 .lightbox-content {
