@@ -4,34 +4,42 @@ namespace Models\Image;
 use Doctrine\ORM\EntityManager;
 use Models\Entity\Image\Image as ImageEntity;
 use Nette\Image as Thumbnails;
-use Nette\Object;
 use Nette\Utils\Finder;
 /**
  * Description of Image
  *
  * @author Tomáš Grasl
  */
-class Image extends Object {
+class Image extends ImageOrder implements IImageOrder {
     
     /**
      * @var string
      */
-    private $_dir;
+    protected $_dir;
     
     /** @var EntityManager */    
-    private $_em;
+    protected $_em;
     
     /** @var array */
-    private $_thumbnailsSize;
+    protected $_thumbnailsSize;
     
+    /** @var string */
+    protected $_entity;
+
     /**
      * @param string $dir
      */
-    public function __construct(EntityManager $em ,$dir) {
+    public function __construct(EntityManager $em , $dir) 
+    {
         $this->_em = $em;        
         $this->_dir = $dir;
+        $this->setEntity('Models\Entity\Image\Image');        
     }
     
+    public function setEntity($name) {
+        return $this->_entity = $name;
+    }
+
     /**
      * @return string
      */
@@ -193,6 +201,10 @@ class Image extends Object {
         /* @var $image ImageEntity */
         $image = $this->getImageRepository()->getOne($id);
         
+        $this->updateTheOrderAfterDeleting( $image->getId(), 
+                                            $image->getCategory(),
+                                            $image->getImageOrder());
+        
         $dir = $this->getDir();
         
         $fileName = $image->getFileName();
@@ -222,5 +234,27 @@ class Image extends Object {
         return $this->_em->flush();        
     }
     
+    public function lastImageOrder($category = NULL)
+    {
+        $order = $this->lastOrder($category);
+
+        foreach ($order as $item)
+        {
+            $return = $item;
+        }
+       
+        return $return;
+    }
     
+    public function updateImageOrder(ImageEntity $defaults, $newOrder)
+    {
+        $this->updateTheOrderAfterImageUpdate(
+                $defaults->getId(), 
+                $defaults->getCategory(),
+                $defaults->getImageOrder(),
+                $newOrder);          
+        
+        $defaults->setImageOrder($newOrder);
+        $this->_em->flush($defaults);
+    }
 }

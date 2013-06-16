@@ -189,16 +189,37 @@ footer {
     padding: 6px 10px 8px;
 }
 
-/* Modal lightbox
+/* Modal lightbox, modal-ajax
 ================================================= */
+.modal-open {
+    overflow: hidden;
+}
+
+.modal-scrollable {
+    bottom: 0;
+    left: 0;
+    overflow-y: scroll;
+    position: fixed;
+    right: 0;
+    top: 0;
+}
+
 .lightbox {
     position: relative;
-    top: 70px;
+    top: 40px;
     z-index: 1050;
     line-height: 0;
     text-align: center;
     background-color: transparent;
     outline: none;
+}
+
+.lightbox .hide {
+    display: none;
+}
+
+.lightbox .in {
+    display: block;
 }
 
 .lightbox-content {
@@ -222,7 +243,6 @@ footer {
 }
 
 .lightbox-content .lightbox-caption {
-    position: absolute;
     right: 12px;
     bottom: 11px;
     left: 11px;
@@ -237,16 +257,7 @@ footer {
     background: rgba(0, 0, 0, 0.6);
 }
 
-.lightbox-header .close {
-    margin-top: -16px;
-    margin-right: -16px;
-    font-size: 2em;
-    color: white;
-    opacity: .8;
-    filter: alpha(opacity=80);
-}
-
-.lightbox-header .close :hover {
-    opacity: .4;
-    filter: alpha(opacity=40);
+.lightbox-header button {
+    position: relative;
+    top: -5px;
 }

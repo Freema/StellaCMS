@@ -9,17 +9,32 @@ use Nette\Object;
  */
 abstract class BaseForm extends Object{
     
-    protected function prepareForFormItem(array $items, $filter = 'Name')
+    protected function prepareForFormItem(array $items, $filter = 'Name', $isArray = FALSE)
     {
-        $filter = ucfirst($filter);
-        $function = 'get'.$filter;
-
-        if(count($items)){
-            $prepared = array();
-            foreach($items as $item){
-                $prepared[$item->getId()] = $item->$function();
+        if($isArray == TRUE)
+        {
+            if(count($items))
+            {
+                $prepared = array();
+                foreach($items as $item)
+                {
+                    $prepared[$item[$filter]] = $item[$filter];
+                }
+                return $prepared;
             }
-            return $prepared;
+        }
+        else
+        {
+            $filter = ucfirst($filter);
+            $function = 'get'.$filter;
+
+            if(count($items)){
+                $prepared = array();
+                foreach($items as $item){
+                    $prepared[$item->getId()] = $item->$function();
+                }
+                return $prepared;
+            }
         }
 
         return $items;

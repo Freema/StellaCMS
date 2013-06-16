@@ -31,7 +31,9 @@
 <table class="table table-striped list-table">
     <colgroup>
         <col style="width: 65px">
-        <col style="width: 60%">
+        <col style="width: 50%">
+        <col style="width: 10%">
+        <col style="width: 10%">
         <col style="width: 10%">
         <col style="width: 10%">
         <col style="width: 10%">
@@ -40,13 +42,14 @@
         <tr>
             <th></th>
             <th>Název</th>
+            <th>Pořadí</th>
             <th>Katagorie</th>
+            <th>Publikovano</th>
             <th>Uplodnoto</th>
             <th>Id</th>
         </tr>
     </thead>
     <tbody>
-       
         {foreach $tab as $item}
             <tr>
                 <td>
@@ -72,7 +75,17 @@
                         </span>
                     </div>                    
                 </td>
+                <td>{$item['imageOrder']}</td>
                 <td>{$item['category']}</td>
+                <td>
+                    {if $item['public'] == TRUE}
+                    <span class="label label-success">
+                        <i class="icon-ok icon-white"></i>
+                    </span>
+                    {else}
+                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    {/if}
+                </td>
                 <td><abbr title="{$item['uploadedAt']|date: 'Y-m-d H:i:s'}">{$item['uploadedAt']|date: 'Y-m-d'}</abbr></td>
                 <td>{$item['id']}</td>
             </tr>    

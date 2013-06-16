@@ -21,14 +21,18 @@ class FileUploadForm extends BaseForm  {
     protected $_image;
     
     /** @var EntityRepository */
-    protected $_category;
+    protected $_categoryRepo;
     
+    /** @var EntityRepository */
+    protected $_imageRepo;
+
     /** @var Image */
     protected $_defaults;
 
     public function __construct(EntityManager $em, ImageModel $image) {
         $this->_em = $em;
-        $this->_category = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        $this->_categoryRepo = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        $this->_imageRepo = $em->getRepository('Models\Entity\Image\Image');
         $this->_image = $image;
     }
     
@@ -50,7 +54,7 @@ class FileUploadForm extends BaseForm  {
     {
         $form = new Form;
 
-        $c = $this->prepareForFormItem($this->_category->getImageCategories(), 'title'); 
+        $c = $this->prepareForFormItem($this->_categoryRepo->getImageCategories(), 'title'); 
         
         $form->addCheckbox('add_category', 'Přidat do galerie: ');
         
@@ -83,7 +87,9 @@ class FileUploadForm extends BaseForm  {
         $form = new Form;
         $defaults = $this->_defaults;
         
-        $c = $this->prepareForFormItem($this->_category->getImageCategories(), 'title'); 
+        $c = $this->prepareForFormItem($this->_categoryRepo->getImageCategories(), 'title'); 
+
+        
         if($defaults->getCategory() == NULL){
             $check = false;
         }else{
@@ -92,12 +98,22 @@ class FileUploadForm extends BaseForm  {
         
         if($this->_defaults->getCategory())
         {
-            $default['category'] = $this->_defaults->getCategory()->getId();            
+            $default['category'] = $this->_defaults->getCategory()->getId();  
         }
         else
         {
             $default['category'] = 0;
+        }
+        
+        if(!$this->_defaults->getImageOrder() == NULL)
+        {
+            $default['order'] = $this->_defaults->getImageOrder();  
+        }
+        else
+        {
+            $default['order'] = 0;  
         }        
+        $o = $this->prepareForFormItem($this->_imageRepo->getImageOrder($this->_defaults->getCategory()), 'imageOrder', TRUE);
         
         $form->addText('image_title', 'Titulek: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
@@ -116,10 +132,13 @@ class FileUploadForm extends BaseForm  {
         
         $form->addSelect('image_category', 'Kategorie: ', $c)
              ->setPrompt('- No category -')
-             ->setDefaultValue($default['category']);        
+             ->setDefaultValue($default['category']);
+        
+        $form->addSelect('image_order', 'Pořadí: ', $o)
+             ->setDefaultValue($default['order']);
 
         $form->addSubmit('submit', NULL)
-             ->setAttribute('class', 'btn btn-success');        
+             ->setAttribute('class', 'btn btn-success');
         
         $form->onSuccess[] = callback($this, 'editImage');
 
@@ -135,25 +154,27 @@ class FileUploadForm extends BaseForm  {
     public function addImage(Form $form)
     {
         $value = $form->values;
-        $category = $this->_category->getOne($value->image_category);
+        $category = $this->_categoryRepo->getOne($value->image_category);
         $dir = $this->_image->getDir();
         try 
         {
             if(count($value->fileselect)){
+                
+                $x = (int) $this->_image->lastImageOrder($category);
                 foreach($value->fileselect as $image)
                 {
                     /* @var $image FileUpload */
-
                     $info = new SplFileInfo($dir.$image->getName());
                     $ext = '.'.pathinfo($info->getFilename(), PATHINFO_EXTENSION);
                     $fileName = $info->getBasename($ext);
-
+                    $x = $x + 1;
                     $imageModel = new Image($image->getName());
 
                     if($value->add_category == TRUE){
                         $imageModel->setCategory($category);
                     }                    
 
+                    $imageModel->setImageOrder($x);
                     $imageModel->setExt($ext);
                     $imageModel->setName($fileName);
 
@@ -175,7 +196,7 @@ class FileUploadForm extends BaseForm  {
     public function editImage(Form $form)
     {
         $value = $form->values;
-        $category = $this->_category->getOne($value->image_category);
+        $category = $this->_categoryRepo->getOne($value->image_category);
         try 
         {
             $image = $this->_defaults;
@@ -192,6 +213,11 @@ class FileUploadForm extends BaseForm  {
             }
 
             $this->_em->flush($image);
+            
+            if(!($value->image_order === $this->_defaults->getImageOrder()))
+            {
+                $this->_image->updateImageOrder($this->_defaults, $value->image_order);
+            }
 
             $form->presenter->redirect('Image:default');
         }
