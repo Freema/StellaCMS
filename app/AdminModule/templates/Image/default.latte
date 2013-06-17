@@ -9,7 +9,7 @@
 
 {block content}
 
-<h2 class="page-header">Knihovna médií</h2>    
+<h2 class="page-header">Knihovna médií</h2> 
 <div class="control-panel row">
     <div class="span2">
         <a class="btn btn-success" href="{link Image:newImage}"><i class="icon-plus-sign"></i> Nahrát soubor</a>
@@ -41,8 +41,18 @@
     <thead>
         <tr>
             <th></th>
-            <th>Název</th>
-            <th>Pořadí</th>
+            <th>
+                {var $order = array('name' => 'ASC') }
+                <a href="{link this ,NULL, $order, status => en}">
+                    Název
+                </a>
+            </th>
+            <th>
+                {var $order = array('order' => 'ASC') }
+                <a href="{link Image:default ,NULL, $order}">
+                    Pořadí
+                </a>
+            </th>
             <th>Katagorie</th>
             <th>Publikovano</th>
             <th>Uplodnoto</th>

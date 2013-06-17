@@ -25,6 +25,15 @@ class Image extends ImageOrder implements IImageOrder {
     
     /** @var string */
     protected $_entity;
+    
+    /** @var array */
+    protected $filter;
+    
+    /** @var array */
+    protected $sort;
+    
+    /** @var integer */
+    protected $page;
 
     /**
      * @param string $dir
@@ -64,6 +73,21 @@ class Image extends ImageOrder implements IImageOrder {
         $this->_thumbnailsSize = $size;
     }
     
+    public function setSort(array $sort)
+    {
+        $this->sort = $sort;
+    }
+    
+    public function setFilter(array $filter)
+    {
+        $this->filter = $filter;
+    }
+    
+    public function setPage($page)
+    {
+        $this->page = $page;
+    }
+    
     /**
      * @return ImageEntity
      */
@@ -77,11 +101,65 @@ class Image extends ImageOrder implements IImageOrder {
      */
     public function loadImageTab()
     {
-        $query = $this->_em->createQuery('SELECT i.id, c.title AS category, i.file, i.name, i.ext, i.description, i.public, i.uploadedAt, i.imageOrder
-                                          FROM Models\Entity\Image\Image i
-                                          LEFT JOIN i.category c');
+        $query = $this->_em->createQueryBuilder();
+        $query->select('i.id, c.title AS category, i.file, i.name, i.ext, i.description, i.public, i.uploadedAt, i.imageOrder');
+        $query->from('Models\Entity\Image\Image', 'i');
+        $query->leftJoin('i.category', 'c');
         
-        return $query->getResult();
+        
+        if(!empty($this->sort))
+        {
+            $sort_typs = array('ASC', 'DESC');
+            if(isset($this->sort['name']))
+            {
+                if(in_array($this->sort['name'], $sort_typs))
+                {
+                    $query->addOrderBy('i.name', $this->sort['name']);
+                }
+            }
+            
+            if(isset($this->sort['order']))
+            {
+                if(in_array($this->sort['order'], $sort_typs))
+                {
+                    $query->addOrderBy('i.imageOrder', $this->sort['order']);
+                }
+            }
+            
+            if(isset($this->sort['categorii']))
+            {
+                if(in_array($this->sort['categorii'], $sort_typs))
+                {
+                    $query->addOrderBy('category', $this->sort['categorii']);
+                }
+            }
+            
+            if(isset($this->sort['public']))
+            {
+                if(in_array($this->sort['public'], $sort_typs))
+                {
+                    $query->addOrderBy('i.public', $this->sort['public']);
+                }
+            }
+            
+            if(isset($this->sort['uploadet_at']))
+            {
+                if(in_array($this->sort['uploadet_at'], $sort_typs))
+                {
+                    $query->addOrderBy('i.uploadedAt', $this->sort['uploadet_at']);
+                }
+            }
+            
+            if(isset($this->sort['id']))
+            {
+                if(in_array($this->sort['id'], $sort_typs))
+                {
+                    $query->addOrderBy('i.id', $this->sort['id']);
+                }
+            }
+        }
+        
+        return $query->getQuery()->getResult();
     }
     
     /**

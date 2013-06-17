@@ -21,6 +21,12 @@ class ImagePresenter extends BasePresenter {
     /** @var \Models\Entity\Image\Image */
     private $_Page;
     
+    /** @persistent */
+    public $status;
+    
+    /** @persistent */
+    public $filter;
+
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
         $this->_fileUploadForm = $form;
     }
@@ -29,10 +35,21 @@ class ImagePresenter extends BasePresenter {
     {
         $this->_Image = $service;
     }
-
-    public function renderDefault() 
+    
+    public function actionDefault(array $filter, array $sort)
     {
+        dump($filter);
+        dump($this->status);
+        dump($this->filter);
+        
+        $this->_Image->setFilter($filter);
+        $this->_Image->setSort($sort);
+        
         $this->template->tab = $this->_Image->loadImageTab();
+    }
+
+    public function renderDefault()
+    {
         $size = $this->_Image->getSize();
         
         $this->template->registerHelper('smallThumb', function($name) use ($size) {
