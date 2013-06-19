@@ -22,10 +22,17 @@ class ImagePresenter extends BasePresenter {
     private $_Page;
     
     /** @persistent */
-    public $status;
+    public $sort = array(
+        'name'          => 'NONE',
+        'order'         => 'NONE',
+        'categorii'     => 'NONE',
+        'public'        => 'NONE',
+        'uploadet_at'   => 'NONE',
+        'id'            => 'NONE',
+        );
     
     /** @persistent */
-    public $filter;
+    public $filter = array('ext' => 'all');
 
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
         $this->_fileUploadForm = $form;
@@ -36,13 +43,12 @@ class ImagePresenter extends BasePresenter {
         $this->_Image = $service;
     }
     
-    public function actionDefault(array $filter, array $sort)
+    public function actionDefault(array $sort, array $filter)
     {
-        dump($filter);
-        dump($this->status);
-        dump($this->filter);
+       
+       // $this->_Image->setFilter($this->filter);
         
-        $this->_Image->setFilter($filter);
+        
         $this->_Image->setSort($sort);
         
         $this->template->tab = $this->_Image->loadImageTab();
