@@ -1,0 +1,31 @@
+<hr />
+<div class="pagination">
+    {if $pages > 1}
+    <ul class="pull-left">
+        {if $page == $firstPage}
+        <li class="disabled"><span>Prev</span></li>
+        {else}
+            <li><a href="{plink this, $page-1}">Prev</a></li>
+        {/if}
+        {foreach $links as $link}
+            {if $link == '...'}
+                <li class="disabled"><span>{$link}</span></li>
+            {elseif $link == $page}
+                <li class="active"><span>{$link}</span></li>
+            {else}
+                <li><a href="{plink this, $link}">{$link}</a></li>
+            {/if}    
+        {/foreach}
+        {if $page == $lastPage}
+                <li class="disabled"><span>Next</span></li>
+        {else}       
+            <li><a href="{plink this, $page+1}">Next</a></li>
+        {/if}
+    {/if}        
+    </ul>
+    <ul class="pull-right">
+        <li><a href="{link PageNumbers! 15}">15</a></li>
+        <li><a href="{link PageNumbers! 30}">30</a></li>
+        <li><a href="{link PageNumbers! 50}">50</a></li>
+    </ul>
+</div>

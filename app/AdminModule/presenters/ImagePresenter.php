@@ -1,6 +1,7 @@
 <?php
 namespace AdminModule;
 
+use Components\Paginator\PagePaginator;
 use Models\Image\Image;
 use Stella\ModelException;
 /**
@@ -20,6 +21,9 @@ class ImagePresenter extends BasePresenter {
     
     /** @var \Models\Entity\Image\Image */
     private $_Page;
+    
+    /** @persistent */
+    public $page;
     
     /** @persistent */
     public $sort = array(
@@ -43,15 +47,22 @@ class ImagePresenter extends BasePresenter {
         $this->_Image = $service;
     }
     
-    public function actionDefault(array $sort, array $filter)
+    public function actionDefault($page, array $sort, array $filter)
     {
-       
        // $this->_Image->setFilter($this->filter);
-        
         
         $this->_Image->setSort($sort);
         
         $this->template->tab = $this->_Image->loadImageTab();
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        $paginator->page = $page;
+        $paginator->itemCount = 100;
+        
+        $offset = $paginator->getOffSet();
+        
+        //dump($offset);
     }
 
     public function renderDefault()
@@ -123,5 +134,10 @@ class ImagePresenter extends BasePresenter {
     {
         return $this->_fileUploadForm->createForm($this->_Page);
     }
+    
+    public function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }    
 
 }
