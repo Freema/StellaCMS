@@ -12,3 +12,56 @@ Admin:
 				editArticle:
 					label: Upravit příspěvek
 					link: Post:editArticle
+		Category:
+			label: Kategorie
+			link: Category:default
+			children:
+				addCategory:
+					label: Vytvořit kategorii
+					link: Category:addCategory
+				editCategory:
+					label: Upravit kategorii
+					link: Category:editCategory
+		Tag:
+			label: Štítky
+			link: Tag:default
+			children:
+				addTag:
+					label: Vytvořit šítek
+					link: Category:addCategory
+				editTag:
+					label: Upravit štítek
+					link: Category:editCategory
+		Image:
+			label: Knihovna médií
+			link: Image:default
+			children:
+				newImage:
+					label: Nahrát nový soubor
+					link: Image:newImage
+				editImage:
+					label: Upravit mediální soubor
+					link: Image:editImage
+				multiFileUpload:
+					label: HTML File Upload
+					link: Image:multiFileUpload
+		ImageCategory:
+			label: Kategorie medií
+			link: ImageCategory:default
+			children:
+				addCategory:
+					label: Vytvořit kategorii
+					link: ImageCategory:addCategory
+				editCategory:
+					label: Upravit kategorii
+					link: ImageCategory:editCategory
+		Link:
+			label: Odkazy
+			link: Link:default
+			children:
+				addLink:
+					label: Vytvořit odkaz
+					link: Link:addLink
+				editLink:
+					label: Upravit okaz
+					link: Link:editLink

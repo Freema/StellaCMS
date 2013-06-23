@@ -1,15 +1,15 @@
 <?php
-namespace Models\Image;
+namespace Models\Tag;
 
 use Doctrine\ORM\EntityManager;
 use Nette\Object;
 
 /** 
- * Description of ImageCategory
+ * Description of Tag
  *
  * @author Tomáš Grasl
  */
-class ImageCategory extends Object {
+class Tag extends Object {
     
     /** @var EntityManager */    
     private $_em;
@@ -24,13 +24,13 @@ class ImageCategory extends Object {
     protected $maxResults;
     
     /** @var integer */
-    protected $firstResult;     
+    protected $firstResult;      
     
     public function __construct(EntityManager $em)
     {
         $this->_em = $em;        
     }
-    
+
     /**
      * @param array $sort
      */
@@ -61,35 +61,35 @@ class ImageCategory extends Object {
     public function setFirstResult($result)
     {
         $this->firstResult = (int) $result;
-    }        
+    }    
     
     /**
-     * @return Models\Entity\ImageCategory\ImageCategory
+     * @return \Models\Entity\Tag\Tag
      */
-    public function getImageCategoryRepository()
+    public function getTagRepository()
     {
-        return $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        return $this->_em->getRepository('Models\Entity\Tag\Tag');
     }
     
     /**
      * @return integer
      */
-    public function categoryItemsCount()
+    public function tagItemsCount()
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('count(c.id)');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
+        $query->select('count(t.id)');
+        $query->from('Models\Entity\Tag\Tag', 't');
         
         return $query->getQuery()->getSingleScalarResult();
     }      
 
-    public function loadImageCategoryTab()
+    public function loadTagTab()
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('c.id, c.title, c.slug, c.description, COUNT(i.id) AS images');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
-        $query->leftJoin('c.image', 'i');
-        $query->groupBy('c.id');
+        $query->select('t.id, t.name, t.slug, t.description, COUNT(p.id) AS posts');
+        $query->from('Models\Entity\Tag\Tag', 't');
+        $query->leftJoin('t.posts', 'p');
+        $query->groupBy('t.id');
         
         if(!empty($this->sort))
         {
@@ -98,7 +98,7 @@ class ImageCategory extends Object {
             {
                 if(in_array($this->sort['id'], $sort_typs))
                 {
-                    $query->addOrderBy('c.id', $this->sort['id']);
+                    $query->addOrderBy('t.id', $this->sort['id']);
                 }
             }
             
@@ -106,7 +106,7 @@ class ImageCategory extends Object {
             {
                 if(in_array($this->sort['title'], $sort_typs))
                 {
-                    $query->addOrderBy('c.title', $this->sort['title']);
+                    $query->addOrderBy('t.name', $this->sort['title']);
                 }
             }
             
@@ -114,15 +114,15 @@ class ImageCategory extends Object {
             {
                 if(in_array($this->sort['slug'], $sort_typs))
                 {
-                    $query->addOrderBy('c.slug', $this->sort['slug']);
+                    $query->addOrderBy('t.slug', $this->sort['slug']);
                 }
             }
             
-            if(isset($this->sort['images']))
+            if(isset($this->sort['posts']))
             {
-                if(in_array($this->sort['images'], $sort_typs))
+                if(in_array($this->sort['posts'], $sort_typs))
                 {
-                    $query->addOrderBy('images', $this->sort['images']);
+                    $query->addOrderBy('posts', $this->sort['posts']);
                 }
             }
         }        
@@ -130,16 +130,13 @@ class ImageCategory extends Object {
         $query->setMaxResults($this->maxResults);
         $query->setFirstResult($this->firstResult);
         
-        return $query->getQuery()->getResult();   
-        
-        
-        return $query->getResult();
+        return $query->getQuery()->getResult(); 
     }
     
-    public function deleteCategory($id)
+    public function deleteTag($id)
     {
-        $category = $this->getImageCategoryRepository()->getOne($id);
-        $this->_em->remove($category);
+        $tag = $this->getTagRepository()->getOne($id);
+        $this->_em->remove($tag);
         return $this->_em->flush();
     }
 }

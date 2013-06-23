@@ -1,5 +1,7 @@
 <?php
 namespace AdminModule;
+
+use Components\Paginator\PagePaginator;
 /**
  * Description of CategoriePresenter
  *
@@ -21,6 +23,17 @@ class CategoryPresenter extends BasePresenter {
      * @var \Models\Entity\Category\Category 
      */
     private $_Page;
+    
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'id'            => 'NONE',
+        'title'         => 'NONE',
+        'slug'          => 'NONE',
+        'posts'         => 'NONE',
+    );       
     
     final function injectCategoryForm(Forms\CategoryForm $factory)
     {
@@ -46,7 +59,23 @@ class CategoryPresenter extends BasePresenter {
         return $this->_CategoryForm->createForm($this->_Page);
     }
     
-    public function renderDefault() {
+    public function actionDefault($page, array $sort) {
+        
+        $this->_Category->setSort($sort);
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
+        $paginator->page = $page;
+        $paginator->itemCount = $this->_Category->categoryItemsCount();
+ 
+        $this->_Category->setFirstResult($paginator->getOffSet());        
+        $this->_Category->setMaxResults($paginator->getMaxResults());           
+        
         $this->template->tab = $this->_Category->loadCategoryTab();
     }
     
@@ -78,5 +107,9 @@ class CategoryPresenter extends BasePresenter {
             $this->invalidateControl('flashMessages');
         }
     }
-
+    
+    protected function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }   
 }

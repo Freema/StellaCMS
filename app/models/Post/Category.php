@@ -1,15 +1,15 @@
 <?php
-namespace Models\Image;
+namespace Models\Category;
 
 use Doctrine\ORM\EntityManager;
 use Nette\Object;
 
 /** 
- * Description of ImageCategory
+ * Description of Category
  *
  * @author Tomáš Grasl
  */
-class ImageCategory extends Object {
+class Category extends Object {
     
     /** @var EntityManager */    
     private $_em;
@@ -24,7 +24,7 @@ class ImageCategory extends Object {
     protected $maxResults;
     
     /** @var integer */
-    protected $firstResult;     
+    protected $firstResult;      
     
     public function __construct(EntityManager $em)
     {
@@ -61,14 +61,14 @@ class ImageCategory extends Object {
     public function setFirstResult($result)
     {
         $this->firstResult = (int) $result;
-    }        
+    }    
     
     /**
-     * @return Models\Entity\ImageCategory\ImageCategory
+     * @return Models\Entity\Category\Category
      */
-    public function getImageCategoryRepository()
+    public function getCategoryRepository()
     {
-        return $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        return $this->_em->getRepository('Models\Entity\Category\Category');
     }
     
     /**
@@ -78,17 +78,17 @@ class ImageCategory extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(c.id)');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
+        $query->from('Models\Entity\Category\Category', 'c');
         
         return $query->getQuery()->getSingleScalarResult();
-    }      
-
-    public function loadImageCategoryTab()
+    }       
+    
+    public function loadCategoryTab()
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('c.id, c.title, c.slug, c.description, COUNT(i.id) AS images');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
-        $query->leftJoin('c.image', 'i');
+        $query->select('c.id, c.title, c.slug, c.description, COUNT(p.category) AS posts');
+        $query->from('Models\Entity\Category\Category', 'c');
+        $query->leftJoin('c.posts', 'p');
         $query->groupBy('c.id');
         
         if(!empty($this->sort))
@@ -118,11 +118,11 @@ class ImageCategory extends Object {
                 }
             }
             
-            if(isset($this->sort['images']))
+            if(isset($this->sort['posts']))
             {
-                if(in_array($this->sort['images'], $sort_typs))
+                if(in_array($this->sort['posts'], $sort_typs))
                 {
-                    $query->addOrderBy('images', $this->sort['images']);
+                    $query->addOrderBy('posts', $this->sort['posts']);
                 }
             }
         }        
@@ -130,15 +130,12 @@ class ImageCategory extends Object {
         $query->setMaxResults($this->maxResults);
         $query->setFirstResult($this->firstResult);
         
-        return $query->getQuery()->getResult();   
-        
-        
-        return $query->getResult();
+        return $query->getQuery()->getResult();         
     }
     
     public function deleteCategory($id)
     {
-        $category = $this->getImageCategoryRepository()->getOne($id);
+        $category = $this->getCategoryRepository()->getOne($id);
         $this->_em->remove($category);
         return $this->_em->flush();
     }

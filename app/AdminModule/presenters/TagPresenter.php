@@ -1,5 +1,7 @@
 <?php
 namespace AdminModule;
+
+use Components\Paginator\PagePaginator;
 /**
  * Description of TagPresenter
  *
@@ -22,6 +24,17 @@ class TagPresenter extends BasePresenter {
     */
     private $_Page;
     
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'id'            => 'NONE',
+        'title'         => 'NONE',
+        'slug'          => 'NONE',
+        'posts'         => 'NONE',
+    );    
+    
     public function injectLinkForm(Forms\TagForm $factory)
     {
         $this->_TagForm = $factory;
@@ -42,7 +55,23 @@ class TagPresenter extends BasePresenter {
         return $this->_TagForm->createForm($this->_Page);
     }
 
-    public function renderDefault() {
+    public function actionDefault($page, array $sort) {
+        
+        $this->_Tag->setSort($sort);
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
+        $paginator->page = $page;
+        $paginator->itemCount = $this->_Tag->tagItemsCount();
+ 
+        $this->_Tag->setFirstResult($paginator->getOffSet());        
+        $this->_Tag->setMaxResults($paginator->getMaxResults());        
+        
         $this->template->tab = $this->_Tag->loadTagTab();        
     }
 
@@ -66,5 +95,10 @@ class TagPresenter extends BasePresenter {
             $this->invalidateControl('tagTable');
             $this->invalidateControl('flashMessages');
         }
-    }  
+    }
+    
+    protected function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }     
 }

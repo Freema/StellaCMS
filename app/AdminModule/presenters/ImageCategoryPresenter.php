@@ -1,6 +1,6 @@
 <?php
 namespace AdminModule;
-
+use Components\Paginator\PagePaginator;
 use Models\Image\ImageCategory;
 /**
  * Description of ImageCategory
@@ -23,6 +23,17 @@ class ImageCategoryPresenter extends BasePresenter {
      * @var \Models\Entity\ImageCategory\ImageCategory
      */
     private $_Page;
+    
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'id'            => 'NONE',
+        'title'         => 'NONE',
+        'slug'          => 'NONE',
+        'images'        => 'NONE',
+    );      
     
     final function injectCategoryForm(Forms\ImageCategoryForm $factory)
     {
@@ -48,7 +59,23 @@ class ImageCategoryPresenter extends BasePresenter {
         return $this->_ImageCategoryForm->createForm($this->_Page);
     }
     
-    public function renderDefault() {
+    public function actionDefault($page, array $sort) {
+        
+        $this->_ImageCategory->setSort($sort);
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
+        $paginator->page = $page;
+        $paginator->itemCount = $this->_ImageCategory->categoryItemsCount();
+ 
+        $this->_ImageCategory->setFirstResult($paginator->getOffSet());        
+        $this->_ImageCategory->setMaxResults($paginator->getMaxResults());          
+        
         $this->template->tab = $this->_ImageCategory->loadImageCategoryTab();
     }
     
@@ -80,5 +107,9 @@ class ImageCategoryPresenter extends BasePresenter {
             $this->invalidateControl('flashMessages');
         }
     }
-
+    
+    protected function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }   
 }

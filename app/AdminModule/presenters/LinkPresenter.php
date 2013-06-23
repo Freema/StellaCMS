@@ -1,5 +1,7 @@
 <?php
 namespace AdminModule;
+
+use Components\Paginator\PagePaginator;
 /**
  * Description of LinkPresenter
  *
@@ -22,6 +24,17 @@ class LinkPresenter extends BasePresenter {
     */
     private $_Page;
     
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'id'            => 'NONE',
+        'title'         => 'NONE',
+        'slug'          => 'NONE',
+        'date'          => 'NONE',
+    );     
+    
     public function injectLinkForm(Forms\LinkForm $factory)
     {
         $this->_LinkForm = $factory;
@@ -42,7 +55,23 @@ class LinkPresenter extends BasePresenter {
         return $this->_LinkForm->createForm($this->_Page);
     }
 
-    public function renderDefault() {
+    public function actionDefault($page, array $sort) {
+        
+        $this->_Link->setSort($sort);
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
+        $paginator->page = $page;
+        $paginator->itemCount = $this->_Link->linkItemsCount();
+ 
+        $this->_Link->setFirstResult($paginator->getOffSet());        
+        $this->_Link->setMaxResults($paginator->getMaxResults());         
+        
         $this->template->tab = $this->_Link->loadLinkTab();        
     }
 
@@ -66,5 +95,10 @@ class LinkPresenter extends BasePresenter {
             $this->invalidateControl('linkTable');
             $this->invalidateControl('flashMessages');
         }
-    }    
+    }
+
+    protected function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }  
 }

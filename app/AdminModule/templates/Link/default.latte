@@ -26,11 +26,83 @@
     </colgroup>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Název</th>
-            <th>Název v URL</th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_id = $presenter->sort}
+                {ifset $sort_id['id']}
+                    {if $sort_id['id'] == 'ASC'}
+                        {var $sort_id['id'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_id['id'] == 'DESC'}
+                        {var $sort_id['id'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_id['id'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Link:default $page, $sort_id}">
+                    ID
+                </a>                  
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_title = $presenter->sort}
+                {ifset $sort_title['title']}
+                    {if $sort_title['title'] == 'ASC'}
+                        {var $sort_title['title'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_title['title'] == 'DESC'}
+                        {var $sort_title['title'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_title['title'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Link:default $page, $sort_title}">
+                    Název
+                </a>                  
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_slug = $presenter->sort}
+                {ifset $sort_slug['slug']}
+                    {if $sort_slug['slug'] == 'ASC'}
+                        {var $sort_slug['slug'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_slug['slug'] == 'DESC'}
+                        {var $sort_slug['slug'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_slug['slug'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Link:default $page, $sort_slug}">
+                    Název v URL
+                </a>                  
+            </th>
             <th>Popis</th>
-            <th>Příspěvky</th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_date = $presenter->sort}
+                {ifset $sort_date['date']}
+                    {if $sort_date['date'] == 'ASC'}
+                        {var $sort_date['date'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_date['date'] == 'DESC'}
+                        {var $sort_date['date'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_date['date'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Link:default $page, $sort_date}">
+                    Datum
+                </a>                 
+            </th>                
         </tr>
     </thead>
     <tbody>
@@ -52,4 +124,9 @@
     </tbody>
 </table>
 {/snippet}
+
+<div class="row">
+    {control pagination}
+</div>
+
 {/block}
