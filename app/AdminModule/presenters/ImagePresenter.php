@@ -49,7 +49,7 @@ class ImagePresenter extends BasePresenter {
     
     public function actionDefault($page, array $sort, array $filter)
     {
-       // $this->_Image->setFilter($this->filter);
+       // $this->_Image->setFilter($filter);
         $this->_Image->setSort($sort);
         
         /* @var $paginator PagePaginator */
@@ -138,7 +138,7 @@ class ImagePresenter extends BasePresenter {
         return $this->_fileUploadForm->createForm($this->_Page);
     }
     
-    public function createComponentPagination() {
+    protected function createComponentPagination() {
         $paginator = new PagePaginator();
         return $paginator;
     }    

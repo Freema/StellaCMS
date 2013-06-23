@@ -198,10 +198,6 @@ class Image extends ImageOrder implements IImageOrder {
                 {
                     $query->addOrderBy('i.id', $this->sort['id']);
                 }
-                else
-                {
-                    $query->addOrderBy('i.id', 'ASC');
-                }                
             }
         }
         

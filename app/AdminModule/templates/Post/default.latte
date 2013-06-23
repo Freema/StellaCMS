@@ -38,14 +38,122 @@
     </colgroup>
     <thead>
         <tr>
-            <th>ID</th>
-            <th>Název</th>
-            <th>Autor</th>
-            <th>Rubriky</th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_id = $presenter->sort}
+                {ifset $sort_id['id']}
+                    {if $sort_id['id'] == 'ASC'}
+                        {var $sort_id['id'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_id['id'] == 'DESC'}
+                        {var $sort_id['id'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_id['id'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_id, NULL}">
+                    ID
+                </a>            
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_title = $presenter->sort}
+                {ifset $sort_title['title']}
+                    {if $sort_title['title'] == 'ASC'}
+                        {var $sort_title['title'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_title['title'] == 'DESC'}
+                        {var $sort_title['title'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_title['title'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_title, NULL}">
+                    Název
+                </a>              
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_author = $presenter->sort}
+                {ifset $sort_author['author']}
+                    {if $sort_author['author'] == 'ASC'}
+                        {var $sort_author['author'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_author['author'] == 'DESC'}
+                        {var $sort_author['author'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_author['author'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_author, NULL}">
+                    Autor
+                </a>                   
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_categorii = $presenter->sort}
+                {ifset $sort_categorii['categorii']}
+                    {if $sort_categorii['categorii'] == 'ASC'}
+                        {var $sort_categorii['categorii'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_categorii['categorii'] == 'DESC'}
+                        {var $sort_categorii['categorii'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_categorii['categorii'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_categorii, NULL}">
+                    Rubriky
+                </a>                 
+            </th>
             <th>Štítky</th>
             <th>Komentaře</th>
-            <th>Publikovano</th>
-            <th>Datum</th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_public = $presenter->sort}
+                {ifset $sort_public['public']}
+                    {if $sort_public['public'] == 'ASC'}
+                        {var $sort_public['public'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_public['public'] == 'DESC'}
+                        {var $sort_public['public'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_public['public'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_public, NULL}">
+                    Publikovano
+                </a>                 
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_date = $presenter->sort}
+                {ifset $sort_date['uploadet_at']}
+                    {if $sort_date['uploadet_at'] == 'ASC'}
+                        {var $sort_date['uploadet_at'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_date['uploadet_at'] == 'DESC'}
+                        {var $sort_date['uploadet_at'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_date['uploadet_at'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Post:default $page, $sort_date, NULL}">
+                    Datum
+                </a>                 
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -102,6 +210,11 @@
     </tbody>
 </table>
 {/snippet}
+
+<div class="row">
+    {control pagination}
+</div>
+
 <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 {/block}
 

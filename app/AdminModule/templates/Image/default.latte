@@ -179,7 +179,13 @@
                     </div>                    
                 </td>
                 <td>{$item['imageOrder']}</td>
-                <td>{$item['category']}</td>
+                <td>
+                    {if $item['category']}
+                        {$item['category']}
+                    {else}
+                        Nezařazené
+                    {/if}
+                </td>
                 <td>
                     {if $item['public'] == TRUE}
                     <span class="label label-success">

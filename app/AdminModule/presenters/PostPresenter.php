@@ -1,5 +1,7 @@
 <?php
 namespace AdminModule;
+
+use Components\Paginator\PagePaginator;
 /**
  * Description of ObsahStranekPresenter
  *
@@ -27,6 +29,19 @@ class PostPresenter extends BasePresenter {
     */
     private $_Page;
     
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'id'            => 'NONE',
+        'title'         => 'NONE',
+        'author'        => 'NONE',
+        'categorii'     => 'NONE',
+        'public'        => 'NONE',
+        'uploadet_at'   => 'NONE',
+        );
+    
     final function injectPostForm(Forms\PostForm $factory)
     {
         $this->_PostForm = $factory;
@@ -52,25 +67,55 @@ class PostPresenter extends BasePresenter {
         return $this->_PostForm->createForm($this->_Page);        
     }
 
-    public function renderDefault($category = NULL) {
-      
-        $this->template->cFilter = $this->_Category->getCategoryRepository()->getCategories();
+    public function actionDefault($page, array $sort, $category)
+    {
+        $cFilter = $this->_Category->getCategoryRepository()->getCategories();
         
-        if($category)
+        if(!is_null($category))
         {
-            $this->template->tab = $this->_Post->loadPostTab(array('category' => $category));
+            $cf_test = $this->_checkCategoryExist($category, $cFilter);
+            $this->_Post->setFilter($cf_test);
+        }
+        
+        $this->_Post->setSort($sort);
+        
+        /* @var $paginator PagePaginator */
+        $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
+        $paginator->page = $page;
+        $paginator->itemCount = $this->_Post->postItemsCount();
+ 
+        $this->_Post->setFirstResult($paginator->getOffSet());        
+        $this->_Post->setMaxResults($paginator->getMaxResults());
+        
+        $this->template->tab = $this->_Post->loadPostTab();
+
+        $this->template->cFilter = $cFilter;
+    }    
+    
+    private function _checkCategoryExist($id, array $category)
+    {
+        foreach ($category as $item)
+        {
+            if($id == $item->getId())
+            {
+                $return = $id;
+            }
+        }
+        
+        if(isset($return))
+        {
+            return $return;
         }
         else
         {
-            $this->template->tab = $this->_Post->loadPostTab();
+            return NULL;
         }
     }
-    
-    public function renderAddArticle()
-    {
-        
-    }
-
 
     public function actionEditArticle($id)
     {
@@ -92,6 +137,11 @@ class PostPresenter extends BasePresenter {
             $this->invalidateControl('articleTable');
             $this->invalidateControl('flashMessages');
         }
-    }    
+    }
+    
+    protected function createComponentPagination() {
+        $paginator = new PagePaginator();
+        return $paginator;
+    }       
     
 }
