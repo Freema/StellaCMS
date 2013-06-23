@@ -50,19 +50,22 @@ class ImagePresenter extends BasePresenter {
     public function actionDefault($page, array $sort, array $filter)
     {
        // $this->_Image->setFilter($this->filter);
-        
         $this->_Image->setSort($sort);
-        
-        $this->template->tab = $this->_Image->loadImageTab();
         
         /* @var $paginator PagePaginator */
         $paginator = $this['pagination'];
+        if(is_null($page))
+        {
+            $page = 1;
+        }
+       
         $paginator->page = $page;
-        $paginator->itemCount = 100;
-        
-        $offset = $paginator->getOffSet();
-        
-        //dump($offset);
+        $paginator->itemCount = $this->_Image->imageItemsCount();
+ 
+        $this->_Image->setFirstResult($paginator->getOffSet());        
+        $this->_Image->setMaxResults($paginator->getMaxResults());
+      
+        $this->template->tab = $this->_Image->loadImageTab();        
     }
 
     public function renderDefault()

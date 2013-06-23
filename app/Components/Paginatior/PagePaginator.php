@@ -15,7 +15,7 @@ use Nette\Utils\Paginator;
 class PagePaginator extends Control {
     
     /** @var Paginator */
-    private $paginator;
+    public $paginator;
 
     /**
      * @var integer 
@@ -33,31 +33,6 @@ class PagePaginator extends Control {
     public $itemCount;
     
     /**
-    public function __construct($session) {
-        parent::__construct();
-        
-        if (!($session instanceof Nette\Application\UI\Presenter))
-        {
-            throw new Nette\InvalidStateException("neni instanci presenteru Nette\Application\UI\Presenter");           
-        }
-        
-        $this->session = $session->getSession()->getSection('pagination');
-        
-        if(empty($this->session->pagination))
-        {
-            $current = 15;
-        }
-        else
-        {
-            $current = $this->session->pagination;
-        }
-            
-        $this->page_numbers_current = $current;  
-    }
-     * 
-     */    
-    
-    /**
      * @param integer $current
      */
     public function setItemsPerPage($current)
@@ -65,6 +40,9 @@ class PagePaginator extends Control {
         $this->itemsPerPage = (int) $current;  
     }
     
+    /**
+     * @return integer
+     */
     public function getOffset()
     {
         if (!$this->paginator) {
@@ -77,6 +55,11 @@ class PagePaginator extends Control {
         
         return $offSet;
     }
+    
+    public function getMaxResults()
+    {
+        return $this->paginator->getItemsPerPage();
+    }         
     
     public function render()
     {
@@ -122,9 +105,25 @@ class PagePaginator extends Control {
     public function getPaginator()
     {
         $paginator = new Paginator;
+        
+        $session = $this->getPresenter()->getSession()->getSection('pagination');
+        
+        if(!$session->pagination == NULL)
+        {
+            $this->setItemsPerPage($session->pagination);
+        }        
+        
         $paginator->page = $this->page;
         $paginator->itemCount = $this->itemCount;
         $paginator->itemsPerPage = $this->itemsPerPage;
         return $this->paginator = $paginator;
     }
+    
+    public function handlePageNumbers($number)
+    {
+        $session = $this->getPresenter()->getSession()->getSection('pagination');
+        $session->pagination = $number;
+        
+        $this->redirect('this');
+    }    
 }

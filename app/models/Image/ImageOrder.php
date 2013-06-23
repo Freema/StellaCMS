@@ -28,7 +28,6 @@ abstract class ImageOrder extends Object {
     {
         $this->_entity = $name;
     }
-
     
     /**
      * 
@@ -41,8 +40,8 @@ abstract class ImageOrder extends Object {
     protected function lastOrder($where = NULL)
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('MAX(o.imageOrder) AS order')
-              ->from($this->_entity, 'o');
+        $query->select('MAX(o.imageOrder)');
+        $query->from($this->_entity, 'o');
         
         if(isset($where))
         {
@@ -54,7 +53,7 @@ abstract class ImageOrder extends Object {
             $query->where('o.category IS NULL');
         }
 
-        $query->getQuery()->getSingleResult();
+        return $query->getQuery()->getSingleResult();
     }
 
     /**

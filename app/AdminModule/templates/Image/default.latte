@@ -74,7 +74,7 @@
                     {/if}
                 {/ifset}
                 
-                <a href="{link Image:default $sort_order, $presenter->filter}">
+                <a href="{link Image:default $page, $sort_order, $presenter->filter}">
                 Pořadí
                 </a>
             </th>
@@ -92,7 +92,7 @@
                         <i class="icon-minus"></i>
                     {/if}
                 {/ifset}
-                <a href="{link Image:default $sort_categorii, $presenter->filter}">
+                <a href="{link Image:default $page, $sort_categorii, $presenter->filter}">
                 Katagorie
                 </a>
             </th>
@@ -110,7 +110,7 @@
                         <i class="icon-minus"></i>
                     {/if}
                 {/ifset}
-                <a href="{link Image:default $sort_public, $presenter->filter}">
+                <a href="{link Image:default $page, $sort_public, $presenter->filter}">
                 Publikovano
                 </a>            
             </th>
@@ -128,7 +128,7 @@
                         <i class="icon-minus"></i>
                     {/if}
                 {/ifset}
-                <a href="{link Image:default $sort_upload, $presenter->filter}">
+                <a href="{link Image:default $page, $sort_upload, $presenter->filter}">
                 Uplodnoto
                 </a>            
             </th>
@@ -146,7 +146,7 @@
                         <i class="icon-minus"></i>
                     {/if}
                 {/ifset}
-                <a href="{link Image:default $sort_id, $presenter->filter}">
+                <a href="{link Image:default $page, $sort_id, $presenter->filter}">
                 Id
                 </a>                  
             </th>
@@ -196,9 +196,11 @@
     </tbody>
 </table>
 
-{control pagination}
-
 {/snippet}
+<div class="row">
+    {control pagination}
+</div>
+
 <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
 {/block}
 

@@ -197,28 +197,41 @@ class FileUploadForm extends BaseForm  {
     {
         $value = $form->values;
         $category = $this->_categoryRepo->getOne($value->image_category);
+
         try 
         {
             $image = $this->_defaults;
+            
             $image->setTitle($value->image_title);
             $image->setDescription($value->image_description);
             $image->setPublish($value->image_public); 
 
-            if(!empty($category)){
+            if(!empty($category))
+            {
+                $this->_image->updateImageOrderAfterCategoryChange($image);
+                $order = $this->_image->lastImageOrder($category) + 1;
+                $image->setImageOrder($order);
                 $image->setCategory($category);
             }
             else
             {
+                $this->_image->updateImageOrderAfterCategoryChange($image);
+                $order = $this->_image->lastImageOrder(NULL) + 1;
+                $image->setImageOrder($order);                
                 $image->removeCategory();
             }
 
             $this->_em->flush($image);
             
+            /*
             if(!($value->image_order === $this->_defaults->getImageOrder()))
             {
                 $this->_image->updateImageOrder($this->_defaults, $value->image_order);
             }
+             * 
+             */
 
+            
             $form->presenter->redirect('Image:default');
         }
         catch(FormException $e)

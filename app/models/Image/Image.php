@@ -34,6 +34,12 @@ class Image extends ImageOrder implements IImageOrder {
     
     /** @var integer */
     protected $page;
+    
+    /** @var integer */
+    protected $maxResults;
+    
+    /** @var integer */
+    protected $firstResult;
 
     /**
      * @param string $dir
@@ -73,27 +79,64 @@ class Image extends ImageOrder implements IImageOrder {
         $this->_thumbnailsSize = $size;
     }
     
+    /**
+     * @param array $sort
+     */
     public function setSort(array $sort)
     {
         $this->sort = $sort;
     }
     
+    /**
+     * @param array $filter
+     */
     public function setFilter(array $filter)
     {
         $this->filter = $filter;
     }
     
+    /**
+     * @param integer $page
+     */
     public function setPage($page)
     {
-        $this->page = $page;
+        $this->page = (int) $page;
     }
     
+    /**
+     * @param integer $result
+     */
+    public function setMaxResults($result)
+    {
+        $this->maxResults = (int) $result;
+    }
+    
+    /**
+     * @param integer $result
+     */
+    public function setFirstResult($result)
+    {
+        $this->firstResult = (int) $result;
+    }
+
     /**
      * @return ImageEntity
      */
     public function getImageRepository()
     {
         return $this->_em->getRepository('Models\Entity\Image\Image');                
+    }
+    
+    /**
+     * @return integer
+     */
+    public function imageItemsCount()
+    {
+        $query = $this->_em->createQueryBuilder();
+        $query->select('count(i.id)');
+        $query->from('Models\Entity\Image\Image', 'i');
+        
+        return $query->getQuery()->getSingleScalarResult();
     }
 
     /**
@@ -105,7 +148,6 @@ class Image extends ImageOrder implements IImageOrder {
         $query->select('i.id, c.title AS category, i.file, i.name, i.ext, i.description, i.public, i.uploadedAt, i.imageOrder');
         $query->from('Models\Entity\Image\Image', 'i');
         $query->leftJoin('i.category', 'c');
-        
         
         if(!empty($this->sort))
         {
@@ -162,6 +204,9 @@ class Image extends ImageOrder implements IImageOrder {
                 }                
             }
         }
+        
+        $query->setMaxResults($this->maxResults);
+        $query->setFirstResult($this->firstResult);
         
         return $query->getQuery()->getResult();
     }
@@ -326,6 +371,13 @@ class Image extends ImageOrder implements IImageOrder {
         }
        
         return $return;
+    }
+    
+    public function updateImageOrderAfterCategoryChange(ImageEntity $image)
+    {
+        $this->updateTheOrderAfterDeleting( $image->getId(), 
+                                            $image->getCategory(),
+                                            $image->getImageOrder());        
     }
     
     public function updateImageOrder(ImageEntity $defaults, $newOrder)
