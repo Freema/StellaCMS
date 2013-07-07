@@ -68,6 +68,12 @@ footer {
     margin-bottom: 10px;
 }
 
+.form-horizontal label,
+.form-horizontal .control-label 
+{
+    text-align: left;
+}
+
 /* Modal 
 ================================================== */
 

@@ -58,10 +58,13 @@ class LinkForm extends BaseForm {
              ->addRule(Form::MAX_LENGTH, NULL, 100);
         
         $form->addText('link_description', 'Popis: ')
-             ->addRule(Form::MAX_LENGTH, NULL, 30);
+             ->addRule(Form::MAX_LENGTH, NULL, 100);
         
         $form->addRadioList('link_target', 'Zobrazení odkazu: ', $radio)
              ->getSeparatorPrototype()->setName(NULL);
+        
+        $form->addText('link_css_class', 'CSS trida odkazu: ')
+             ->addRule(Form::MAX_LENGTH, NULL, 50);
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -99,12 +102,16 @@ class LinkForm extends BaseForm {
              ->setDefaultValue($this->_defaults->getUrl());
         
         $form->addText('link_description', 'Popis: ')
-             ->addRule(Form::MAX_LENGTH, NULL, 30)
+             ->addRule(Form::MAX_LENGTH, NULL, 100)
              ->setDefaultValue($this->_defaults->getDescription());
         
         $form->addRadioList('link_target', 'Zobrazení odkazu: ', $radio)
-             ->setDefaultValue(1)
+             ->setDefaultValue($this->_defaults->getTarget())
              ->getSeparatorPrototype()->setName(NULL);
+        
+        $form->addText('link_css_class', 'CSS trida odkazu: ')
+             ->addRule(Form::MAX_LENGTH, NULL, 50)
+             ->setDefaultValue($this->_defaults->getCssClass());
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -141,7 +148,8 @@ class LinkForm extends BaseForm {
                 $link->setUrl($value->link_url);
                 $link->setDescription($value->link_description);
                 $link->setTarget($value->link_target);
-
+                $link->setCssClass($value->link_css_class);
+                
                 $this->_em->flush($link);
                 $form->presenter->redirect('Link:editLink', $this->_defaults->getId());                  
             }
@@ -149,6 +157,7 @@ class LinkForm extends BaseForm {
             {
                 $link = new Link($value->link_title, $value->link_url, $value->link_description);
                 $link->setTarget($value->link_target);
+                $link->setCssClass($value->link_css_class);
                 
                 $this->_em->persist($link);
                 $this->_em->flush();

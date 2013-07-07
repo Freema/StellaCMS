@@ -38,7 +38,6 @@ class CheckboxList extends BaseControl
 	protected $items = array();
 
 
-
 	/**
 	 * @param string $label
 	 * @param array $items  Options from which to choose
