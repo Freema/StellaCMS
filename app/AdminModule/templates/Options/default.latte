@@ -7,15 +7,146 @@
 
 <div class="tabbable"> 
     <ul class="nav nav-tabs">
-        <li class="active"><a href="#tab1" data-toggle="tab">Section 1</a></li>
-        <li><a href="#tab2" data-toggle="tab">Section 2</a></li>
+        <li class="active"><a href="#page" data-toggle="tab">Nastavení stranky</a></li>
+        <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
     </ul>
     <div class="tab-content">
-        <div class="tab-pane active" id="tab1">
-            <p>I'm in Section 1.</p>
+        <div class="tab-pane active" id="page">
+            <p>Page nastaveni!.</p>
         </div>
-        <div class="tab-pane" id="tab2">
-            <p>Howdy, I'm in Section 2.</p>
+        <div class="tab-pane" id="facebook">
+            
+            {form openGraphForm}
+                <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </div>
+            <div class="row-fluid">
+                <div class="span12">
+                    <fieldset class="form-inline">
+                        <legend>Nastavení</legend>
+                        <label class="checkbox inline">
+                            &nbsp;Aktivovat OG hlavičku
+                            {input Open_Graph_Active} 
+                        </label>
+                        <label class="checkbox inline">
+                            &nbsp;Cashovat hlavičku 
+                            {input Open_Graph_Cash}
+                        </label>
+                        &nbsp;
+                        {input submit}
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row-fluid">
+                <div class="span6">
+                    <fieldset class="form-horizontal">
+                        <legend>Základní údaje</legend>
+                        <div class="control-group">
+                            {label Open_Graph_Title class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Title}
+                            </div>
+                        </div> 
+
+                        <div class="control-group">
+                            {label Open_Graph_Type class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Type}
+                            </div>
+                        </div>   
+
+                        <div class="control-group">
+                            {label Open_Graph_Url class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Url}
+                            </div>
+                        </div>  
+
+                        <div class="control-group">
+                            {label Open_Graph_Image class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Image}
+                            </div>
+                        </div>  
+                    </fieldset>
+                </div>
+                <div class="span6">
+                    <fieldset class="form-horizontal">
+                        <legend>Rozšířené údaje</legend>
+                        <div class="control-group">
+                            {label Open_Graph_Site_Name class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Site_Name}
+                            </div>
+                        </div>  
+
+                        <div class="control-group">
+                            {label Open_Graph_Description class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Description}
+                            </div>
+                        </div>  
+
+                        <div class="control-group">
+                            {label Open_Graph_Latitude class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Latitude}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Street_Address class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Street_Address}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Region class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Region}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Postal_Code class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Postal_Code}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Country_Name class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Country_Name}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Email class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Email}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Phone_Number class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Phone_Number}
+                            </div>
+                        </div>                
+
+                        <div class="control-group">
+                            {label Open_Graph_Fax_Number class => 'control-label' /}
+                            <div class="controls">
+                                {input Open_Graph_Fax_Number}
+                            </div>
+                        </div>                
+                    </fieldset>
+                </div>
+            </div>
+            {/form}
+            
         </div>
     </div>
 </div>

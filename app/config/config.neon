@@ -79,7 +79,8 @@ common:
                     class: AdminModule\Forms\FileUploadForm(@database, @model.image)
                 Form.imageCategory:
                     class: AdminModule\Forms\ImageCategoryForm(@database)
-
+                Form.OpenGraphForm:
+                    class: AdminModule\Forms\OpenGraphForm(@database, @model.options.facebook)
 
 production < common:
 
