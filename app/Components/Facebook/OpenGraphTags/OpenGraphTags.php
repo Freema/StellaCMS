@@ -16,6 +16,9 @@
  *
  * 0. You just DO WHAT THE FUCK YOU WANT TO.
  *
+ * @update:
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ * 
  */
 
 namespace FbTools;
@@ -25,6 +28,11 @@ use Nette;
 class OpenGraphTags extends Nette\Application\UI\Control
 {
 
+    /**
+     * @todo keys: street_address, postal_code, country_name they are not valid()
+     * 
+     * @var array
+     */
     public $og = array(
         /* COMMON */
         'title' => NULL,
@@ -105,7 +113,6 @@ class OpenGraphTags extends Nette\Application\UI\Control
 
     function __set($name, $val)
     {
-
         if (Nette\Utils\Arrays::searchKey($this->og, $name) !== FALSE) {
             $this->og[$name] = Nette\Utils\Strings::normalize($val);
         } else if (Nette\Utils\Arrays::searchKey($this->fb, $name) !== FALSE) {
@@ -118,6 +125,7 @@ class OpenGraphTags extends Nette\Application\UI\Control
             }
         }
     }
+    
 
     /* GETTERS & SETTERS */
 

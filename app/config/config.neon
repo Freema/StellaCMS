@@ -60,6 +60,9 @@ common:
                 model.imageCategory:
                     class: Models\Image\ImageCategory
 
+                model.options.facebook:
+                    class: Models\Omptions\Facebook
+
                 Form.login:
                     class: AdminModule\Forms\LoginForm
                 Form.post:

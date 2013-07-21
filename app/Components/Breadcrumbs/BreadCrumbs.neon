@@ -65,3 +65,6 @@ Admin:
 				editLink:
 					label: Upravit okaz
 					link: Link:editLink
+		Options:
+			label: Nastavení
+			link: Options:default

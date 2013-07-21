@@ -58,27 +58,33 @@ class Breadcrumbs extends Control{
         {
             $return[] = array('label' => $model['label'], 'link'    => $model['link']);
             
-            foreach ($model['children'] as $key => $presenter)
+            if(isset($model['children']))
             {
-                if($key == $super[1])
+                foreach ($model['children'] as $key => $presenter)
                 {
-                    $return[] = array('label' => $presenter['label'], 'link'    => $presenter['link']);
-                    foreach ($presenter['children'] as $key => $action)
+                    if($key == $super[1])
                     {
-                        if($key == $super[2])
+                        $return[] = array('label' => $presenter['label'], 'link'    => $presenter['link']);
+                        if(isset($presenter['children']))
                         {
-                            $page = array('label' => $action['label'], 'link'    => $action['link']);
-                            if(isset($super[3])){
-                                $parameter = array(
-                                    'parameter'     => $super[3]);
-                                $page = array_merge($page, $parameter);
+                            foreach ($presenter['children'] as $key => $action)
+                            {
+                                if($key == $super[2])
+                                {
+                                    $page = array('label' => $action['label'], 'link'    => $action['link']);
+                                    if(isset($super[3])){
+                                        $parameter = array(
+                                            'parameter'     => $super[3]);
+                                        $page = array_merge($page, $parameter);
+                                    }
+
+                                    $return[] = $page;
+                                    break;
+                                }
                             }
-                            
-                            $return[] = $page;
-                            break;
                         }
+                        break;
                     }
-                    break;
                 }
             }
        }
