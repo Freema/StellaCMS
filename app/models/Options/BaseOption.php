@@ -4,6 +4,7 @@ namespace Models\Omptions;
 use Doctrine\ORM\EntityManager;
 use Nette\Caching\Cache;
 use Nette\Caching\Storages\FileStorage;
+use Doctrine\ORM\Query;
 
 /**
  * Description of Base option abstract class
@@ -13,7 +14,7 @@ use Nette\Caching\Storages\FileStorage;
 abstract class BaseOption {
     
     /** @var string */
-    protected $cash_name = 'Options';
+    protected $storage_name = 'Options';
 
     /** @var EntityManager */   
     protected $_em;
@@ -21,9 +22,13 @@ abstract class BaseOption {
     /** @var Cache */
     protected $cache;
     
+    /** @var Query::HYDRATE_ARRAY */
+    public $hydrate_mode = Query::HYDRATE_ARRAY;
+    
+    
     function __construct(EntityManager $em,FileStorage $cacheStoreage) {
         $this->_em = $em;  
-        $this->cache = new Cache($cacheStoreage, $this->cash_name);
+        $this->cache = new Cache($cacheStoreage, $this->storage_name);
     }
     
     public function getOptionRepository()

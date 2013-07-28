@@ -105,7 +105,10 @@
                             <a class="dropdown-toggle" data-toggle="dropdown" href="#menu-options">Nastavení <b class="caret"></b></a>
                             <ul class="dropdown-menu">
                                 <li>
-                                    <a tabindex="-1" href="{link Options:default#faceBook}">Facebook nastavení</a>
+                                    <a tabindex="-1" href="{link Options:default#page}">Nastavení stranky</a>
+                                </li>
+                                <li>
+                                    <a tabindex="-1" href="{link Options:default#facebook}">Facebook nastavení</a>
                                 </li>
                             </ul>
                         </li>
@@ -133,7 +136,7 @@
     <div style="padding-top: 50px;">
         {control breadCrumbs}
     </div>      
-   
+    
     {snippet flashMessages}
         <div n:foreach="$flashes as $flash" class="alert alert-{$flash->type}">
             <button class="close" data-dismiss="alert" type="button">×</button>

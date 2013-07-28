@@ -19,84 +19,100 @@ class OpenGraphForm extends BaseForm {
     protected $_FbService;
     
     /** @var array data form database! */
-    private $_data;
+    protected $_defaults;
 
     public function __construct(EntityManager $em, Facebook $service) {
         $this->_em = $em;
         $this->_FbService = $service;
     }
 
-    public function createForm()
+    public function createForm($defalts)
     {
-        return $this->_addForm();
+        $this->_defaults = $this->getOptionsData($defalts);        
+        return $this->_updateForm();
     }
     
-    private function _addForm()
+    private function _updateForm()
     {
         $form = new Form;
-        
-        $this->_data = $this->getOptionsData();
-        
+       
         $disabled = $this->isDisabled();
 
-        $form->addCheckbox('Open_Graph_Active', 'Aktivovat OG hlavičku: ');
+        $form->addCheckbox('Open_Graph_Active', 'Aktivovat OG hlavičku: ')
+             ->setDefaultValue($this->_defaults['Open_Graph_Active']);
         
-        $form->addCheckbox('Open_Graph_Cash', 'Cashovat hlavičku: ');
+        $form->addCheckbox('Open_Graph_Cash', 'Cashovat hlavičku: ')
+             ->setDefaultValue($this->_defaults['Open_Graph_Cash'])
+             ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Title', 'Title: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Title'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Type', 'Type: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Type'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Url', 'Url: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Url'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Image', 'Obrazek: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Image'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Site_Name', 'Jméno stránky: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Site_Name'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Description', 'Popis stránky: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Description'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Latitude', 'Zeměpisná šířka: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Latitude'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Street_Address', 'Jmeno ulice: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Street_Address'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Region', 'Region: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Region'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Postal_Code', 'PSČ: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Postal_Code'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Country_Name', 'Název země: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Country_Name'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Email', 'Email: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Email'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Phone_Number', 'Telefoní číslo: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Phone_Number'])
              ->setDisabled($disabled);
         
         $form->addText('Open_Graph_Fax_Number', 'Číslo faxu: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
+             ->setDefaultValue($this->_defaults['Open_Graph_Fax_Number'])
              ->setDisabled($disabled);
         
         $form->addSubmit('submit', NULL)
@@ -113,12 +129,10 @@ class OpenGraphForm extends BaseForm {
         return $form;        
     }
     
-    protected function getOptionsData()
+    protected function getOptionsData($defaults)
     {
-        $options = $this->_FbService->getFacebookOptions();
-        
         $data = array();
-        foreach($options as $option)
+        foreach($defaults as $option)
         {
             $data[$option['option_name']] = $option['option_value'];
         }
@@ -128,11 +142,11 @@ class OpenGraphForm extends BaseForm {
     
     protected function isDisabled()
     {
-        if(!empty($this->_data))
+        if(!empty($this->_defaults))
         {
-            if(isset($this->_data['Open_Graph_Active']))
+            if(isset($this->_defaults['Open_Graph_Active']))
             {
-                return !(bool) $this->_data['Open_Graph_Active'];
+                return !(bool) $this->_defaults['Open_Graph_Active'];
             }
             else
             {
@@ -147,8 +161,12 @@ class OpenGraphForm extends BaseForm {
     
     public function onsuccess(Form $form)
     {
-        $value = $form->values;
+        $values = $form->values;
+       
+        $updateValue = $this->FormItemsUpadates($values);
+        $this->_FbService->updateOGdata($updateValue);
         
-        $form->presenter->redirect('Menu:default');        
+        $form->presenter->flashMessage('OG hlavička upravena.', 'success');
+        $form->presenter->redirect('Options:default#facebook');
     }  
 }

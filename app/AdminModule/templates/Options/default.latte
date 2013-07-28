@@ -6,13 +6,50 @@
 {block content}
 
 <div class="tabbable"> 
+   
     <ul class="nav nav-tabs">
         <li class="active"><a href="#page" data-toggle="tab">Nastavení stranky</a></li>
         <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
     </ul>
     <div class="tab-content">
         <div class="tab-pane active" id="page">
-            <p>Page nastaveni!.</p>
+            {form pageForm}
+                <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </div>
+                
+                <fieldset class="form-inline">
+                    <legend>Nastavení stranky</legend>
+                    {input submit}
+                </fieldset>
+                <fieldset class="form-horizontal">
+                    <label class="checkbox inline">
+                        Aktivovat cashovani
+                        {input Page_Options_Cash} 
+                    </label>                
+                    
+                    <div class="control-group">
+                        {label Page_Options_Page_Name class => 'control-label' /}
+                        <div class="controls">
+                            {input Page_Options_Page_Name}
+                        </div>
+                    </div> 
+
+                    <div class="control-group">
+                        {label Page_Options_Page_Description class => 'control-label' /}
+                        <div class="controls">
+                            {input Page_Options_Page_Description}
+                        </div>
+                    </div> 
+
+                    <div class="control-group">
+                        {label Page_Options_Admin_Email class => 'control-label' /}
+                        <div class="controls">
+                            {input Page_Options_Admin_Email}
+                        </div>
+                    </div> 
+                </fieldset>
+            {/form}
         </div>
         <div class="tab-pane" id="facebook">
             
@@ -152,4 +189,17 @@
 </div>
 
 {/block}
+
+{block jscript}
+
+<script type="text/javascript">
+$(document).ready(function() {
+    if (location.hash !== '') $('a[href="' + location.hash + '"]').tab('show');
+    return $('a[data-toggle="tab"]').on('shown', function(e) {
+      return location.hash = $(e.target).attr('href').substr(1);
+    });
+});    
+</script>
+
+{/block}    
 

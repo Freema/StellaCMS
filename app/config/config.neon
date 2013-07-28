@@ -59,7 +59,8 @@ common:
                         - setResize(%gallery.thumbnail%)
                 model.imageCategory:
                     class: Models\Image\ImageCategory
-
+                model.options.page:
+                    class: Models\Omptions\Page
                 model.options.facebook:
                     class: Models\Omptions\Facebook
 
@@ -79,6 +80,8 @@ common:
                     class: AdminModule\Forms\FileUploadForm(@database, @model.image)
                 Form.imageCategory:
                     class: AdminModule\Forms\ImageCategoryForm(@database)
+                Form.PageForm:
+                    class: AdminModule\Forms\PageForm(@database, @model.options.page)
                 Form.OpenGraphForm:
                     class: AdminModule\Forms\OpenGraphForm(@database, @model.options.facebook)
 
