@@ -108,6 +108,24 @@ class ImagePresenter extends BasePresenter {
         }
     }
     
+    public function actionGalerie($resize = NULL)
+    {
+        $size = $this->_Image->getSize();        
+        
+        $this->template->registerHelper('largeThumb', function($name) use ($size) {
+           $helper = Image::largeThumb($name, $size); 
+           return $helper;
+        });
+        
+        $this->template->registerHelper('smallThumb', function($name) use ($size) {
+           $helper = Image::smallThumb($name, $size); 
+           return $helper;
+        });        
+        
+        $this->template->resize = $resize;
+        $this->template->images = $this->_Image->loadImageTab();
+    }
+    
     public function handleDeleteMedia($id)
     {
         try
@@ -126,6 +144,18 @@ class ImagePresenter extends BasePresenter {
             $this->flashMessage($e->getMessage());
             $this->redirect('this');
         }
+    }
+    
+    public function handleImageSort()
+    {
+        if(!$this->isAjax()){
+            $this->redirect('this');
+        }
+        else 
+        {
+            $data = $this->getHttpRequest()->post['listOrder'];
+            dump($data);
+        }        
     }
     
     protected function createComponentFileUpload()

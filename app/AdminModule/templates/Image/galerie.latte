@@ -1,0 +1,86 @@
+{**
+ * galerie template.
+ *
+ * @param array $images
+*}
+{block title}
+    <title>Galerie obrazků</title>
+{/block}
+
+{block content}
+    
+    <ul class="nav nav-pills">
+        <li {ifset $resize}
+            {ifCurrent this 'largeThumb'}
+            class="active"
+            {/ifCurrent}
+            {else}
+            class="active"
+            {/ifset}>
+            <a href="{link this 'largeThumb'}">Velky náhled</a>
+        </li>
+        <li {ifCurrent this 'smallThumb'}class="active"{/ifCurrent}>
+            <a href="{link this 'smallThumb'}">Malí náhled</a>
+        </li>
+    </ul>
+    
+    {snippet imageBox}
+        <ul id="image_sort" class="thumbnails">
+            {foreach $images as $data}
+                {ifset $resize}
+                    {if $resize === 'largeThumb'}
+            <li id="listOrder_{$data['id']}" class="span3">                
+                <div class="thumbnail">                    
+                    <img src="{$basePath}/uploads/{$data['file']|largeThumb}" alt="">
+                    {elseif $resize === 'smallThumb'}
+            <li id="listOrder_{$data['id']}" class="span2">                
+                <div class="thumbnail">                    
+                    <img src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
+                    {/if}
+                {else}
+            <li id="listOrder_{$data['id']}" class="span3">                
+                <div class="thumbnail">                    
+                    <img src="{$basePath}/uploads/{$data['file']|largeThumb}" alt="">
+                {/ifset}    
+                    <p><span class="label label-info">Poradi: </span> {$data['imageOrder']}</p>
+                    <p><span class="label label-info">Text: </span> {$data['description']}</p>
+                    <p>
+                        <a class="btn btn-info" href="{link galerie:editImage $data['id']}"><i class="icon-pencil"></i></a>                        
+                        <a class="btn btn-danger ajax" href="{link delete! $data['id']}"><i class="icon-trash"></i></a>
+                    {var $public = $data['public']}
+                    {if $public == 1}
+                        <a href="{link publicImage! 0, $data['id']}" class="btn btn-success ajax"  title="Publikováno" data-toggle="tooltip"><i class="icon-ok"></i></a>
+                    {else}
+                        <a href="{link publicImage! 1, $data['id']}" class="btn btn-danger ajax" title="Nepublikováno" data-toggle="tooltip"><i class="icon-off"></i></a>
+                    {/if}
+                    </p>
+                </div>
+            </li>
+            {/foreach}
+        </ul>
+    {/snippet}  
+{/block}
+
+{block jscript}
+<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript">
+$(function() {
+    $("#image_sort li").on('mouseover', function(){
+        $("#image_sort").sortable({ opacity: 0.5, cursor: 'move',update: function() {
+                
+            var order = $(this).sortable("serialize"); 
+
+            $.ajax({
+                url: {link imageSort!},
+                type: "POST",
+                data: order,
+                dataType: "JSON",
+                async: false
+                //success: window.location.reload( true )
+            });
+        }								  
+        });
+    });
+});
+</script>
+{/block}

@@ -51,6 +51,10 @@ class Image extends ImageOrder implements IImageOrder {
         $this->setEntity('Models\Entity\Image\Image');        
     }
     
+    /**
+     * @param object $name
+     * @return object
+     */
     public function setEntity($name) {
         return $this->_entity = $name;
     }
