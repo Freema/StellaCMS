@@ -5,7 +5,7 @@ use Nette\Object;
 /**
  * Description of form
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 abstract class BaseForm extends Object {
     
@@ -14,38 +14,92 @@ abstract class BaseForm extends Object {
      */
     protected $_defaults;
 
-    protected function prepareForFormItem(array $items, $filter = 'Name', $isArray = FALSE)
+    /**
+     * @param array $items
+     * @param string $filter
+     * @return array
+     */
+    protected function prepareForFormItem(array $items, $filter = 'Name', $parent = FALSE)
     {
-        if($isArray == TRUE)
+        if($parent == TRUE)
+        {
+            $filter = ucfirst($filter);
+            $function = 'get'.$filter;        
+
+            foreach ($items as $item)
+            {
+                if($item->getParent() == NULL)
+                {
+                    $parent = NULL;
+                }
+                else
+                {
+                    $parent = $item->getParent()->getId();
+                }
+                $pre_tree[$item->getId()] = array(
+                    'parent'    => $parent,
+                    'title'     => $item->$function(), 
+                );
+            }            
+            
+            return $this->_menuSplit($pre_tree);
+        }
+        else
         {
             if(count($items))
             {
                 $prepared = array();
                 foreach($items as $item)
                 {
-                    $prepared[$item[$filter]] = $item[$filter];
+                    if(is_array($item))
+                    {
+                        $prepared[$item[$filter]] = $item[$filter];
+                    }
+                    elseif(is_object($item))
+                    {
+                        $filter = ucfirst($filter);
+                        $function = 'get'.$filter;
+                        $prepared[$item->getId()] = $item->$function();
+                    }
                 }
                 return $prepared;
             }
+            return $items;            
         }
-        else
-        {
-            $filter = ucfirst($filter);
-            $function = 'get'.$filter;
-
-            if(count($items)){
-                $prepared = array();
-                foreach($items as $item){
-                    $prepared[$item->getId()] = $item->$function();
-                }
-                return $prepared;
-            }
-        }
-
-        return $items;
     }
     
-    protected function FormItemsDif($old, $new)
+    /**
+     * @param array $menuItems
+     * @return array
+     */
+    private function _menuSplit(array $menuItems)
+    {
+        foreach ($menuItems as &$menuItem)
+            $menuItem['children'] = array();
+
+        foreach ($menuItems as $id => &$menuItem)
+        {
+            if ($menuItem['parent'] != null)
+                $menuItems[$menuItem['parent']]['children'][$id] = &$menuItem;
+        }
+
+        foreach (array_keys($menuItems) as $id)
+        {
+            if ($menuItems[$id]['parent'] != null)
+                unset($menuItems[$id]);
+        }
+
+        return $menuItems;
+    }
+    
+    /**
+     * Find differences between the two arrays.
+     * 
+     * @param array $old
+     * @param array | null $new
+     * @return array
+     */
+    protected function FormItemsDif(array $old, $new)
     {
         $diff = array();
         
@@ -63,6 +117,11 @@ abstract class BaseForm extends Object {
         return $diff;
     }
     
+    /**
+     * @param \Nette\ArrayHash $values
+     * @return array
+     * @throws \BadMethodCallException
+     */
     protected function FormItemsUpadates(\Nette\ArrayHash $values)
     {
         if(empty($this->_defaults))

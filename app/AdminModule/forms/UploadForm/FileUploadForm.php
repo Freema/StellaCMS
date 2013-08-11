@@ -113,7 +113,7 @@ class FileUploadForm extends BaseForm  {
         {
             $default['order'] = 0;  
         }        
-        $o = $this->prepareForFormItem($this->_imageRepo->getImageOrder($this->_defaults->getCategory()), 'imageOrder', TRUE);
+        $o = $this->prepareForFormItem($this->_imageRepo->getImageOrder($this->_defaults->getCategory()), 'imageOrder');
         
         $form->addText('image_title', 'Titulek: ')
              ->addRule(Form::MAX_LENGTH, null, 100)

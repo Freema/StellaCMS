@@ -90,6 +90,7 @@ class PostForm extends BaseForm
         
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');        
+        $test = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
         
         $default = array();
         if($this->_defaults->getCategory())
@@ -178,6 +179,7 @@ class PostForm extends BaseForm
                     $default[] = $tagl->getId();
                 }                
                 
+                /** $row najde rozdil mezi tagy */                
                 $row = $this->FormItemsDif($default, $value->tags);                
 
                 if($row['remove'])

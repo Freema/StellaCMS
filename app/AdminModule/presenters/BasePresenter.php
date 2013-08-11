@@ -41,7 +41,7 @@ abstract class BasePresenter extends Presenter
                     throw new InvalidStateException('Entity manager has already been set');
             }
             $this->_em = $em;
-
+            
             return $this;
     }    
 
