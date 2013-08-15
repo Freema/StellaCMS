@@ -88,9 +88,8 @@ class PostForm extends BaseForm
     {
         $form = new Form;
         
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');        
-        $test = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
         
         $default = array();
         if($this->_defaults->getCategory())

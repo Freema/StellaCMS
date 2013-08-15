@@ -13,6 +13,11 @@ abstract class BaseForm extends Object {
      * @var object
      */
     protected $_defaults;
+    
+    /**
+     * @var array | string 
+     */
+    private $_formItems;
 
     /**
      * @param array $items
@@ -42,7 +47,9 @@ abstract class BaseForm extends Object {
                 );
             }            
             
-            return $this->_menuSplit($pre_tree);
+            $split = $this->_menuSplit($pre_tree);
+            $this->_formItems($split);
+            return $this->_formItems;
         }
         else
         {
@@ -90,6 +97,39 @@ abstract class BaseForm extends Object {
         }
 
         return $menuItems;
+    }
+    
+    /**
+     * create depth view in select box
+     * @param array $items
+     * @param integer $depth
+     */
+    private function _formItems(array $items, $depth = NULL)
+    {
+        foreach ($items as $key => $value)
+        {
+            if($depth)
+            {
+                $separator = null;
+                for ($i = 0; $i < $depth; $i++) {
+                    $separator .= '_';
+                }
+            }
+            else
+            {
+                $separator = NULL;
+            }            
+            if(empty($value['children']))
+            {
+
+                $this->_formItems[$key] = $separator.' '.$value['title'];                
+            }
+            else
+            {
+                $this->_formItems[$key] = $separator.' '.$value['title'];  
+                $this->_formItems($value['children'], $depth + 1);
+            }
+        }
     }
     
     /**
