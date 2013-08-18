@@ -123,9 +123,15 @@ class ImagePresenter extends BasePresenter {
         });        
         
         $this->template->resize = $resize;
-        $this->template->images = $this->_Image->loadImageTab();
+        $imageRes =  $this->_Image;
+        $imageRes->setSort(array('order' => 'ASC'));
+        $this->template->images = $imageRes->loadImageTab();
     }
     
+    /**
+     * Controller pro vymazani obrazku.
+     * @param integer $id
+     */
     public function handleDeleteMedia($id)
     {
         try
@@ -154,9 +160,31 @@ class ImagePresenter extends BasePresenter {
         else 
         {
             $data = $this->getHttpRequest()->post['listOrder'];
-            dump($data);
+            $this->_Image->updateImageOrderList($data);
         }        
     }
+    
+    /**
+     * @param integer $public
+     * @param integer $imageId
+     */
+    public function handlePublicImage($public, $imageId)
+    {
+        $this->_Categories->setCategorie('galerie');
+        $this->_Categories->changePublic($public, $imageId);
+        
+        $public == 1 ? $set = 'zveřejněna' : $set = 'zneverejněna';
+        $this->flashMessage('Fotka byla ' . $set . '!');
+
+        if(!$this->isAjax()){
+            $this->redirect('this');
+        }
+        else 
+        {
+            $this->invalidateControl('imageBox');
+            $this->invalidateControl('flashMessages');
+        }
+    }    
     
     protected function createComponentFileUpload()
     {

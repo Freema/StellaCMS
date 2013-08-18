@@ -69,11 +69,15 @@ class PostPresenter extends BasePresenter {
 
     public function actionDefault($page, array $sort, $category)
     {
-        $cFilter = $this->_Category->getCategoryRepository()->getCategories();
+        $cFilter = $this->_PostForm->prepareForFormItem(
+                $this->_Category->getCategoryRepository()->getCategories(),
+                'title', 
+                TRUE);
         
         if(!is_null($category))
         {
             $cf_test = $this->_checkCategoryExist($category, $cFilter);
+            dump($cf_test);
             $this->_Post->setFilter($cf_test);
         }
         
@@ -97,19 +101,16 @@ class PostPresenter extends BasePresenter {
         $this->template->cFilter = $cFilter;
     }    
     
+    /**
+     * @param int $id
+     * @param array $category
+     * @return integer | null
+     */
     private function _checkCategoryExist($id, array $category)
     {
-        foreach ($category as $item)
+        if(array_key_exists($id, $category))
         {
-            if($id == $item->getId())
-            {
-                $return = $id;
-            }
-        }
-        
-        if(isset($return))
-        {
-            return $return;
+            return $id;
         }
         else
         {

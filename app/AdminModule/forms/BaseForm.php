@@ -24,7 +24,7 @@ abstract class BaseForm extends Object {
      * @param string $filter
      * @return array
      */
-    protected function prepareForFormItem(array $items, $filter = 'Name', $parent = FALSE)
+    public function prepareForFormItem(array $items, $filter = 'Name', $parent = FALSE)
     {
         if($parent == TRUE)
         {
@@ -121,7 +121,6 @@ abstract class BaseForm extends Object {
             }            
             if(empty($value['children']))
             {
-
                 $this->_formItems[$key] = $separator.' '.$value['title'];                
             }
             else

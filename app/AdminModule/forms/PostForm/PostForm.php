@@ -49,8 +49,8 @@ class PostForm extends BaseForm
     {
         $form = new Form;
         
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
         $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
         
         $form->addText('title', 'Title: ')
              ->addRule(Form::FILLED, NULL)

@@ -361,6 +361,12 @@ class Image extends ImageOrder implements IImageOrder {
         return $this->_em->flush();        
     }
     
+    /**
+     * 
+     *  
+     * @param type $category
+     * @return type
+     */
     public function lastImageOrder($category = NULL)
     {
         $order = $this->lastOrder($category);
@@ -373,6 +379,11 @@ class Image extends ImageOrder implements IImageOrder {
         return $return;
     }
     
+    /**
+     * Upraví pořadí po změně kategorie
+     * 
+     * @param \Models\Entity\Image\Image $image
+     */
     public function updateImageOrderAfterCategoryChange(ImageEntity $image)
     {
         $this->updateTheOrderAfterDeleting( $image->getId(), 
@@ -380,6 +391,12 @@ class Image extends ImageOrder implements IImageOrder {
                                             $image->getImageOrder());        
     }
     
+    /**
+     * Upraví pořádí konkrétního elementu
+     * 
+     * @param \Models\Entity\Image\Image $defaults
+     * @param type $newOrder
+     */
     public function updateImageOrder(ImageEntity $defaults, $newOrder)
     {
         $this->updateTheOrderAfterImageUpdate(
@@ -391,4 +408,26 @@ class Image extends ImageOrder implements IImageOrder {
         $defaults->setImageOrder($newOrder);
         $this->_em->flush($defaults);
     }
+    
+    /**
+     * @param array $data
+     */
+    public function updateImageOrderList(array $data)
+    {
+        $x = 1;
+        $qb = $this->_em->createQueryBuilder();
+        
+        foreach ($data as $value)
+        {
+            $query = $qb->update('Models\Entity\Image\Image', 'i')
+                        ->set('i.imageOrder', '?1')
+                        ->where('i.id = ?2')
+                        ->setParameter(1, $x)
+                        ->setParameter(2, $value);
+            
+            $query->getQuery()->execute();
+            
+            $x ++;
+        }
+    }    
 }

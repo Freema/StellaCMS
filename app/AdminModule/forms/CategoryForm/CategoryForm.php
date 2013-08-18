@@ -46,7 +46,7 @@ class CategoryForm extends BaseForm {
     {
         $form = new Form;
         
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);        
         
         $form->addText('title', 'Title: ')
              ->addRule(Form::FILLED, null)
@@ -79,7 +79,7 @@ class CategoryForm extends BaseForm {
     {
         $form = new Form;
        
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title');
+        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
         
         if($this->_defaults->getParent() == NULL)
         {

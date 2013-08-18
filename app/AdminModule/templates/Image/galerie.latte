@@ -45,13 +45,13 @@
                     <p><span class="label label-info">Poradi: </span> {$data['imageOrder']}</p>
                     <p><span class="label label-info">Text: </span> {$data['description']}</p>
                     <p>
-                        <a class="btn btn-info" href="{link galerie:editImage $data['id']}"><i class="icon-pencil"></i></a>                        
-                        <a class="btn btn-danger ajax" href="{link delete! $data['id']}"><i class="icon-trash"></i></a>
+                        <a class="btn" href="{link Image:editImage $data['id']}"><i class="icon-pencil"></i></a>                        
+                        <a class="btn ajax" href="{link deleteMedia! $data['id']}"><i class="icon-trash"></i></a>
                     {var $public = $data['public']}
                     {if $public == 1}
-                        <a href="{link publicImage! 0, $data['id']}" class="btn btn-success ajax"  title="Publikováno" data-toggle="tooltip"><i class="icon-ok"></i></a>
+                        <a href="{link hhpublicImage! 0, $data['id']}" class="btn ajax"  title="Publikováno" data-toggle="tooltip"><i class="icon-ok"></i></a>
                     {else}
-                        <a href="{link publicImage! 1, $data['id']}" class="btn btn-danger ajax" title="Nepublikováno" data-toggle="tooltip"><i class="icon-off"></i></a>
+                        <a href="{link hhpublicImage! 1, $data['id']}" class="btn ajax" title="Nepublikováno" data-toggle="tooltip"><i class="icon-off"></i></a>
                     {/if}
                     </p>
                 </div>
@@ -62,23 +62,44 @@
 {/block}
 
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui-1.10.3.custom.min.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui.js"></script>
 <script type="text/javascript">
+$(function () {
+    $('<div id="ajax-spinner-box"><div id="ajax-spinner"></div></div>').appendTo("body").ajaxStop(function () {
+        $(this).hide().css({
+            position: "fixed",
+            left: "50%",
+            top: "50%"
+        });
+    }).hide();
+});        
+   
 $(function() {
+    
     $("#image_sort li").on('mouseover', function(){
         $("#image_sort").sortable({ opacity: 0.5, cursor: 'move',update: function() {
                 
-            var order = $(this).sortable("serialize"); 
+        $("#ajax-spinner-box").show().css({
+            'position': 'fixed',
+            'top': '0',
+            'right': '0',
+            'width': '100%',
+            'height': '100%',
+            'background-color': '#F0F8FF',
+            'opacity': '0.75' 
+        });
+                
+                var order = $(this).sortable("serialize"); 
 
-            $.ajax({
-                url: {link imageSort!},
-                type: "POST",
-                data: order,
-                dataType: "JSON",
-                async: false
-                //success: window.location.reload( true )
-            });
-        }								  
+                $.ajax({
+                    url: {link imageSort!},
+                    type: "POST",
+                    data: order,
+                    dataType: "JSON",
+                    async: false,
+                    success: window.location.reload( true )
+                });
+            }								  
         });
     });
 });
