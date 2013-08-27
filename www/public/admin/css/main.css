@@ -94,6 +94,36 @@ footer {
     top: 0;
 }
 
+/** image modal */
+
+.image-modal  {
+    width: 90%;
+    left: 5%;
+    margin-left: 0;
+}
+
+#selectable > li {
+    margin-left: 29px;
+}
+
+#selectable > li:hover {
+    border-color: #0088cc;
+    -webkit-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    -moz-box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+    box-shadow: 0 1px 4px rgba(0, 105, 214, 0.25);
+}
+
+#selectable .ui-selecting { 
+    background-color: #0088cc;
+}
+
+#selectable .ui-selected {
+    background-color: #F39814;
+    -webkit-box-shadow: 0 1px 4px rgba(243, 152, 20, 0.5);
+    -moz-box-shadow: 0 1px 4px rgba(243, 152, 20, 0.5);
+    box-shadow: 0 1px 4px rgba(243, 152, 20, 0.5);
+}
+
 /* Table
 ================================================== */
 

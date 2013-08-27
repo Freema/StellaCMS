@@ -64,6 +64,9 @@ common:
                 model.options.facebook:
                     class: Models\Omptions\Facebook
 
+                components.slideShow:
+                    class: Components\SlideShow\SlideshowService
+
                 Form.login:
                     class: AdminModule\Forms\LoginForm
                 Form.post:
@@ -84,6 +87,9 @@ common:
                     class: AdminModule\Forms\PageForm(@database, @model.options.page)
                 Form.OpenGraphForm:
                     class: AdminModule\Forms\OpenGraphForm(@database, @model.options.facebook)
+                Form.SlideShowForm:
+                    class: AdminModule\Forms\OpenGraphForm(@database, @components.slideShow)
+                
 
 production < common:
 

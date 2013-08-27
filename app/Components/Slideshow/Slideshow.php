@@ -1,99 +1,78 @@
 <?php
-namespace Models\Post;
-
-use Doctrine\ORM\EntityManager;
-use Nette\Object;
+namespace Components\Slideshow;
 /**
- * Description of Article
+ * Description of SlideShow
  *
  * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
-class Post extends Object {
+
+use Doctrine\ORM\EntityManager;
+use Models\Entity\Post\SlideShowScript;
+use Models\Entity\SlideShow\SlideShow;
+use Nette\Object;
+
+class SlideshowService extends Object  {
     
     /** @var EntityManager */    
     private $_em;
     
     /** @var array */
-    protected $filter;
-    
-    /** @var array */
-    protected $sort;
-    
-    /** @var integer */
-    protected $page;
-    
-    /** @var integer */
-    protected $maxResults;
-    
-    /** @var integer */
-    protected $firstResult;    
+    private $_type = array(
+        array(
+            'name'      => 'twitter_bootstrap_carosel_V3.0',
+            'script'    => 'carousel.js'
+            ),
+    );
     
     public function __construct(EntityManager $em)
     {
         $this->_em = $em;        
     }
-
-    /**
-     * @param array $sort
-     */
-    public function setSort(array $sort)
-    {
-        $this->sort = $sort;
-    }
     
     /**
-     * @param array $filter
+     * Entity mager for slide_show taleble. 
+     * @return SlideShow
      */
-    public function setFilter($filter)
+    public function getSlideShowRepository()
     {
-        $this->filter = $filter;
-    }
-    
-    /**
-     * @param integer $page
-     */
-    public function setPage($page)
-    {
-        $this->page = (int) $page;
-    }
-    
-    /**
-     * @param integer $result
-     */
-    public function setMaxResults($result)
-    {
-        $this->maxResults = (int) $result;
-    }
-    
-    /**
-     * @param integer $result
-     */
-    public function setFirstResult($result)
-    {
-        $this->firstResult = (int) $result;
-    }
-    
-    /**
-     * @return Models\Entity\Post\Post
-     */
-    public function getPostRepository()
-    {
-        return $this->_em->getRepository('Models\Entity\Post\Post');
-    }
-    
-    /**
-     * @return integer
-     */
-    public function postItemsCount()
-    {
-        $query = $this->_em->createQueryBuilder();
-        $query->select('count(p.id)');
-        $query->from('Models\Entity\Post\Post', 'p');
-        
-        return $query->getQuery()->getSingleScalarResult();
+        return $this->_em->getRepository('Models\Entity\SlideShow\SlideShow');
     }    
+    
+    /**
+     * Entity mager for slide_show_script taleble. 
+     * @return SlideShowScript
+     */
+    public function getSlideShowScriptRepository()
+    {
+        return $this->_em->getRepository('Models\Entity\SlideShow\SlideShowScript');
+    }
 
-    public function loadPostTab()
+    /**
+     * @param bool $explode
+     * @return array
+     */
+    public function getScriptType($explode = TRUE)
+    {
+        if($explode == TRUE)
+        {
+            $return = array();
+            foreach ($this->_type as $value)
+            {
+                $return[] = $value['name'];
+            }
+            
+            return $return;
+        }
+        else
+        {
+            return $this->_type;
+        }
+    }
+    
+    /**
+     * TODO'
+     */
+    public function loadSlideShowTab()
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('p');
@@ -151,24 +130,6 @@ class Post extends Object {
                     $query->addOrderBy('p.createdAt', $this->sort['uploadet_at']);
                 }
             }
-        }        
-        
-        if(!empty($this->filter))
-        {
-            $query->where('c.id = ?1');
-            $query->setParameter(1, $this->filter);
         }
-        
-        $query->setMaxResults($this->maxResults);
-        $query->setFirstResult($this->firstResult);
-        
-        return $query->getQuery()->getResult();        
     }
-    
-    public function deleteArticle($id)
-    {
-        $category = $this->getPostRepository()->getOne($id);
-        $this->_em->remove($category);
-        return $this->_em->flush();
-    }        
 }

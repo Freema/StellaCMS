@@ -128,6 +128,28 @@ class ImagePresenter extends BasePresenter {
         $this->template->images = $imageRes->loadImageTab();
     }
     
+    public function actionSelectImage() {
+        if($this->isAjax())
+        {
+            $size = $this->_Image->getSize();        
+
+            $this->template->registerHelper('smallThumb', function($name) use ($size) {
+               $helper = Image::smallThumb($name, $size); 
+               return $helper;
+            });        
+
+            $imageRes =  $this->_Image;
+            $imageRes->setSort(array('order' => 'ASC'));
+            $this->template->images = $imageRes->loadImageTab();            
+            
+            $this->setView('selectImage');
+        }
+        else
+        {
+            throw new \Nette\Application\BadRequestException;
+        }
+    }    
+    
     /**
      * Controller pro vymazani obrazku.
      * @param integer $id

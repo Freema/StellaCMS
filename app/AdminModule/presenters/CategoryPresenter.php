@@ -5,7 +5,7 @@ use Components\Paginator\PagePaginator;
 /**
  * Description of CategoriePresenter
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 class CategoryPresenter extends BasePresenter {
 

@@ -4,7 +4,7 @@ namespace AdminModule;
 /**
  * Description of ControlPanelPresenter
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 class ControlPanelPresenter extends BasePresenter {
 
