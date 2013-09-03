@@ -223,15 +223,6 @@ class FileUploadForm extends BaseForm  {
 
             $this->_em->flush($image);
             
-            /*
-            if(!($value->image_order === $this->_defaults->getImageOrder()))
-            {
-                $this->_image->updateImageOrder($this->_defaults, $value->image_order);
-            }
-             * 
-             */
-
-            
             $form->presenter->redirect('Image:default');
         }
         catch(FormException $e)

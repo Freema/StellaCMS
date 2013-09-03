@@ -88,7 +88,7 @@ common:
                 Form.OpenGraphForm:
                     class: AdminModule\Forms\OpenGraphForm(@database, @model.options.facebook)
                 Form.SlideShowForm:
-                    class: AdminModule\Forms\OpenGraphForm(@database, @components.slideShow)
+                    class: AdminModule\Forms\SlideShowForm(@database, @components.slideShow)
                 
 
 production < common:

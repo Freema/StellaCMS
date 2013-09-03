@@ -10,5 +10,155 @@
 <h2 class="page-header">Slideshow nastavení</h2>
 
 
+{snippet slideShowTable}
+<table class="table table-striped list-table">
+    <colgroup>
+
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_file = $presenter->sort}
+                {ifset $sort_file['file']}
+                    {if $sort_file['file'] == 'ASC'}
+                        {var $sort_file['file'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_file['file'] == 'DESC'}
+                        {var $sort_file['file'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_file['file'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_file, NULL}">
+                    Název
+                </a>              
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_order = $presenter->sort}
+                {ifset $sort_order['order']}
+                    {if $sort_order['order'] == 'ASC'}
+                        {var $sort_order['order'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_order['order'] == 'DESC'}
+                        {var $sort_order['order'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_order['order'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_order, NULL}">
+                    Pořadí
+                </a>                   
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_categorii = $presenter->sort}
+                {ifset $sort_categorii['categorii']}
+                    {if $sort_categorii['categorii'] == 'ASC'}
+                        {var $sort_categorii['categorii'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_categorii['categorii'] == 'DESC'}
+                        {var $sort_categorii['categorii'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_categorii['categorii'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_categorii, NULL}">
+                    Rubriky
+                </a>                 
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_date = $presenter->sort}
+                {ifset $sort_date['uploadet_at']}
+                    {if $sort_date['uploadet_at'] == 'ASC'}
+                        {var $sort_date['uploadet_at'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_date['uploadet_at'] == 'DESC'}
+                        {var $sort_date['uploadet_at'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_date['uploadet_at'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_date, NULL}">
+                    Datum
+                </a>                 
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_id = $presenter->sort}
+                {ifset $sort_id['id']}
+                    {if $sort_id['id'] == 'ASC'}
+                        {var $sort_id['id'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_id['id'] == 'DESC'}
+                        {var $sort_id['id'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_id['id'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_id, NULL}">
+                    ID
+                </a>            
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $tab as $item}
+            <tr>
+                <td>
+                    <a href="{link SlideShow:updateImage $item->getId()}">
+                        <img width="60" height="60" src="{$basePath}/uploads/{$item->getFileName()|smallThumb}" />
+                    </a>
+                </td>
+                <td>
+                    <strong>{$item->getFileName()}</strong>
+                    <div class="tab-actions">
+                        <span>
+                            <a href="{link Image:editImage $item->getId()}">
+                                <i class="icon-edit"></i>
+                                Upravit
+                            </a>
+                        </span>
+                        <span>
+                            <a href="{link deleteMedia! $item->getId()}" class="delete">
+                                <i class="icon-trash"></i>
+                                 Smazat
+                            </a>
+                        </span>
+                    </div>                    
+                </td>
+                <td>{$item->getImageOrder()}</td>
+                <td>
+                    {if $item->getCategory()}
+                        {$item->getCategory()}
+                    {else}
+                        Nezařazené
+                    {/if}
+                </td>
+                <td><abbr title="{$item->getUpdateAt()|date: 'Y-m-d H:i:s'}">{$item->getUpdateAt()|date: 'Y-m-d'}</abbr></td>
+                <td>{$item->getId()}</td>
+            </tr>    
+        {/foreach}        
+    </tbody>
+</table>
+{/snippet}
+
+<div class="row">
+    {control pagination}
+</div>
 
 {/block}

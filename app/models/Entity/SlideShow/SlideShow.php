@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Models\Image\ImageCategory;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShoRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
  * @ORM\Table(name="slide_show")
  * @ORM\HasLifecycleCallbacks
  */
@@ -20,7 +20,7 @@ class SlideShow
     protected $id;
 
     /**
-     * @ORM\Column(type="string", length=150, unique=true)
+     * @ORM\Column(type="string", length=150)
      */
     protected $file;
     
@@ -64,18 +64,14 @@ class SlideShow
         $this->script = NULL;
         $this->category = NULL;
         $this->imageOrder = NULL;
-    }
-    
-    /**
-     * @ORM\PreUpdate
-     */
-    public function onUpadate()
-    {
-        $this->updateAt = new DateTime('now');
+        $this->updateAt = $this->updateAt = new DateTime('now');
     }
 
-    /** @ORM\PostPersist */
-    public function doStuffOnSlideShowPersist()
+    /**
+     * @ORM\PrePersist
+     * @ORM\PreUpdate
+     */
+    public function updateDate()
     {
         $this->updateAt = new DateTime('now');
     }    

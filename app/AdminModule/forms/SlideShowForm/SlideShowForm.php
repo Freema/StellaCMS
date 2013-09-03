@@ -28,7 +28,7 @@ class SlideShowForm extends BaseForm
     public function __construct(EntityManager $em, SlideshowService $service) {
         $this->_em = $em;
         $this->_slideShowService = $service;
-        $this->_category = $em->getRepository('Models\Entity\Category\Category');
+        $this->_category = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
     }
     
     public function createForm($defaults = NULL)
@@ -49,12 +49,18 @@ class SlideShowForm extends BaseForm
     {
         $form = new Form;
 
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
+        $c = $this->prepareForFormItem($this->_category->getImageCategories(), 'title');
+        $types = $this->_slideShowService->type;
         
-        $form->addHidden('slide_show_file')
+        foreach ($types as $key => $value)
+        {
+            $s[$key] = $value['name'];
+        }
+        
+        $form->addText('slide_show_name', 'Název: ')
              ->addRule(Form::FILLED, NULL);
         
-        $form->addSelect('slide_show_script', 'Typ: ', array('boostrap', 'flexbox'))
+        $form->addSelect('slide_show_script', 'Typ: ', $s)
              ->addRule(Form::FILLED, NULL);
         
         $form->addSelect('slide_show_category', 'Kategorie: ', $c)
@@ -140,15 +146,47 @@ class SlideShowForm extends BaseForm
     {
         try 
         {
-            $value = $form->values;
-           
+            $post = $form->getHttpData();
+            $value = $form->getValues();
+            if(!isset($post['slide_show_file']))
+            {
+                $form->getPresenter()->flashMessage('Není vybraný žádný obrázek', 'error');
+                $form->getPresenter()->redirect('this');
+            }
+            
             if($this->_defaults)
             {
                 dump($value);
             }
             else
             {
-                dump($value);
+                $category = $this->_category->findOneBy(array('id' => $value->slide_show_category));
+                
+                $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
+                
+                if(isset($this->_slideShowService->type[$value->slide_show_script]))
+                {
+                    $script->setOptions($this->_slideShowService->type[$value->slide_show_script]);
+                }
+                $this->_em->persist($script);
+                $this->_em->flush($script);   
+                
+                foreach ($post['slide_show_file'] as $key => $value)
+                {
+                    $slide = new \Models\Entity\SlideShow\SlideShow($value['file']);
+                    $slide->setImageOrder($key);
+                    $slide->setScript($script);
+                    
+                    if(!($category == NULL))
+                    {
+                        $slide->setCategory($category);
+                    }
+                    $this->_em->persist($slide);     
+                }
+                $this->_em->flush($slide);
+                
+                $form->presenter->flashMessage('Slideshow byla vytvořena.', 'success');
+                $form->presenter->redirect('SlideShow:default');
             }
         }
         catch(FormException $e)

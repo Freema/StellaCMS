@@ -1,10 +1,12 @@
 <?php
 
+use AdminModule\Forms\CheckboxList;
+use AdminModule\Forms\MultyFileUpload;
+use Models\PageRouter\PageRouter;
 use Nella\Console\Config\Extension as Extension2;
 use Nella\Doctrine\Config\Extension;
 use Nella\Doctrine\Config\MigrationsExtension;
 use Nette\Config\Configurator;
-use Models\PageRouter\PageRouter;
 
 /**
  * My Application bootstrap file.
@@ -42,8 +44,8 @@ if (!is_writable($container->expand('%tempDir%'))) {
 $pageRouter = new PageRouter();
 $container->router[] = $pageRouter->createRouter();
 
-AdminModule\Forms\MultyFileUpload::register();
-AdminModule\Forms\CheckboxList::register();
+MultyFileUpload::register();
+CheckboxList::register();
 
 // Configure and run the application!
 $container->application->run();

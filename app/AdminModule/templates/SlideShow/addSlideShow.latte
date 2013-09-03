@@ -9,11 +9,63 @@
 {block content}
 <h2 class="page-header">Vytvořit slideshow</h2>
 <div class="control-panel row">
-    <div class="span4">
+    <div class="span2">
         <a class="btn btn-success btn-ajax" href="{link Image:selectImage}"><i class="icon-plus-sign"></i> Vybrat obrázek</a>
     </div>
+    <div class="span2">
+        <a class="btn btn-ajax" data-toggle="modal" href="{link ImageCategory:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
+    </div>
+    <hr />    
 </div>
 
+{snippet slideSowPreviw}
+    {form slideShowForm}
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+
+        {ifset $parrams}
+            <div class="slideshow-preview well">
+                <ul id="slideshow-preview" class="thumbnails">
+            {foreach $parrams as $key => $value}
+            {var $num = $key + 1}
+            <li id="listOrder_{$num}">                
+                <div class="thumbnail">                    
+                    <img src="{$basePath}/uploads/{$value|smallThumb}" alt="">
+                    <input type="hidden" value="{$value}" name="slide_show_file[{$num}][file]">
+                </div>
+            </li>
+            {/foreach}
+                </ul>
+            </div>
+        {/ifset}
+
+        <div class="control-group">
+            {label slide_show_name class => 'control-label' /}
+            <div class="controls">
+                {input slide_show_name disabled => 'disabled'}
+            </div>
+        </div>      
+
+        <div class="control-group">
+            {label slide_show_script class => 'control-label' /}
+            <div class="controls">
+                {input slide_show_script disabled => 'disabled'}
+            </div>
+        </div>      
+
+        <div class="control-group">
+            {label slide_show_category class => 'control-label' /}
+            <div class="controls">
+                {input slide_show_category disabled => 'disabled'}
+            </div>
+        </div>      
+
+        <div class="control-group">
+            {input submit disabled => 'disabled'}
+        </div>
+    {/form}
+{/snippet}
 <div id="ajax-modal" class="modal image-modal hide fade" tabindex="-1"></div>
 {/block}
 
@@ -29,18 +81,43 @@ $('.btn-ajax').on('click', function(){
 
     $modal.load(url, '', function(){
     $modal.modal();
-    });
+});
 
 return false});
 
-var $modal = $('#ajax-modal');
-
 $modal.on('click', '#submit-selected', function () {
-
+        
     var submit = $('#selected-data').val();
-    
-    console.log(submit);
-    
+    var split = submit.split(";");
+
+    $.ajax({
+        url: {link this},
+        type: "POST",
+        data: {'status' : split},
+        dataType: "JSON",
+        async: false,
+        success: function (payload) {
+            if (payload.snippets) {
+                for (var i in payload.snippets) {
+                    $('#' + i).html(payload.snippets[i]);
+                }
+            }
+            $('#slide_show_name').prop("disabled", false);
+            $('#slide_show_script').prop("disabled", false);
+            $('#slide_show_category').prop("disabled", false);
+            $('#submit').prop("disabled", false);            
+            
+            $("#slideshow-preview li").on('mouseover', function(){
+               $("#slideshow-preview").sortable({ 
+                   opacity: 0.5,
+                   cursor: 'move',
+                   placeholder: "ui-state-highlight",
+                   update: function() {}								  
+                });
+                $('#slideshow-preview').disableSelection();
+            });
+        }
+    });
 });
 
 </script>

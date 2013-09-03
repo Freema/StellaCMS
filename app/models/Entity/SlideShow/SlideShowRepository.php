@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Post; 
+namespace Models\Entity\SlideShow;
 use Doctrine\ORM\EntityRepository;
 /**
  * Description of SlideShowRepository

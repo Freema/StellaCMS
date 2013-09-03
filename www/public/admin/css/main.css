@@ -298,6 +298,21 @@ footer {
     top: -5px;
 }
 
+/* Slide show page
+================================================= */
+
+.slideshow-preview {
+    padding: 20px 20px 0;    
+}
+
+.ui-state-highlight { 
+    border: 2px solid #F39814;
+    height: 150px;
+    width: 150px;
+    display: block;
+    margin-left: 30px;
+    margin-bottom: 20px;
+}
 
 /* Page footer
 ================================================= */

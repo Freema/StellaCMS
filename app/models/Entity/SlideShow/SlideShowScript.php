@@ -1,10 +1,12 @@
 <?php
 
 namespace Models\Entity\SlideShow;
+
 use Doctrine\ORM\Mapping as ORM;
+use Nette\Utils\Json;
 
 /**
- * @ORM\Entity(repositoryClass="SlideShowRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
  * @ORM\Table(name="slide_show_script")
  */
 class SlideShowScript
@@ -23,11 +25,6 @@ class SlideShowScript
     protected $name;
     
     /**
-     * @ORM\Column(type="string", length=32)
-     */
-    protected $url;
-    
-    /**
      * @ORM\Column(type="text")
      */
     protected $description;
@@ -37,10 +34,9 @@ class SlideShowScript
      */
     protected $options;
 
-    public function __construct($name, $url, $description)
+    public function __construct($name, $description)
     {
         $this->name = (string) $name;
-        $this->url = (string) $url;
         $this->description = (string) $description;
     }
     
@@ -57,15 +53,7 @@ class SlideShowScript
      */
     public function getName()
     {
-        return $this->title;
-    }
-   
-    /**
-     * @return string
-     */
-    public function getUrl()
-    {
-        return $this->slug;
+        return $this->name;
     }
 
     /**
@@ -75,7 +63,6 @@ class SlideShowScript
     {
         return $this->description;
     }
-    
 
     /**
      * @return string
@@ -90,6 +77,6 @@ class SlideShowScript
      */
     public function setOptions($options)
     {
-        $this->options = (string) $options;        
+        $this->options = Json::encode($options);        
     }
 }
