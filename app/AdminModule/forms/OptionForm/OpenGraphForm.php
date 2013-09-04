@@ -162,10 +162,10 @@ class OpenGraphForm extends BaseForm {
     public function onsuccess(Form $form)
     {
         $values = $form->values;
-       
+
         $updateValue = $this->FormItemsUpadates($values);
         $this->_FbService->updateOGdata($updateValue);
-        
+
         $form->presenter->flashMessage('OG hlavička upravena.', 'success');
         $form->presenter->redirect('Options:default#facebook');
     }  

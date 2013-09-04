@@ -142,7 +142,7 @@ class SlideShow
      */
     public function setScript(SlideShowScript $script)
     {
-        $this->description = $script;
+        $this->script = $script;
         return $this;
     }
     

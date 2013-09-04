@@ -82,64 +82,7 @@ class SlideShowForm extends BaseForm
     
     private function _editForm()
     {
-        $form = new Form;
-        
-        $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');        
-        $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
-        
-        $default = array();
-        if($this->_defaults->getCategory())
-        {
-            $default['category'] = $this->_defaults->getCategory()->getId();            
-        }
-        else
-        {
-            $default['category'] = 0;
-        }
-        
-        if($this->_defaults->getTags())
-        {
-            $default['tags'] = array();
-            foreach ($this->_defaults->getTags() as $value)
-            {
-                $default['tags'][] = $value->getId();
-            }
-        }
-        
-        $form->addText('title', 'Title: ')
-             ->setDefaultValue($this->_defaults->getTitle())
-             ->addRule(Form::FILLED, NULL)
-             ->addRule(Form::MAX_LENGTH, NULL, 100);
-        
-        $form->addSelect('category', 'Kategorie: ', $c)
-             ->setDefaultValue($default['category'])   
-             ->setPrompt('- No category -');
-        
-        $form->addTextArea('text', 'Text: ')
-             ->setDefaultValue($this->_defaults->getContent())   
-             ->setHtmlId('editor');
 
-        $form->addCheckboxList('tags', 'Štítky: ', $t)
-             ->setDefaultValue($default['tags'])
-             ->setAttribute('class', 'checkbox')
-             ->getSeparatorPrototype()->setName(NULL); 
-        
-        $form->addSelect('publish', 'Publikovat: ', array('Koncept', 'Publikovat'))
-             ->addRule(Form::FILLED, NULL)
-             ->setDefaultValue($this->_defaults->getPublish());
-        
-        $form->addSubmit('submit', NULL)
-             ->setAttribute('class', 'btn btn-success');
-        
-        $form->onSuccess[] = callback($this, 'onsuccess');
-
-        $vybratBtn = $form['submit']->getControlPrototype();
-        $vybratBtn->setName("button");
-        $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
-        $vybratBtn->add(' Upravit članek');
-        
-        return $form;   
     }
 
     public function onsuccess(Form $form)
@@ -160,30 +103,15 @@ class SlideShowForm extends BaseForm
             }
             else
             {
-                $category = $this->_category->findOneBy(array('id' => $value->slide_show_category));
+                $uniq = $this->_slideShowService->getSlideShowScriptRepository()
+                             ->findOneBy(array('name' => $value->slide_show_name));
                 
-                $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
-                
-                if(isset($this->_slideShowService->type[$value->slide_show_script]))
+                if($uniq)
                 {
-                    $script->setOptions($this->_slideShowService->type[$value->slide_show_script]);
+                    throw new FormException('Už existuje slideshow s timhle nazvem.');
                 }
-                $this->_em->persist($script);
-                $this->_em->flush($script);   
                 
-                foreach ($post['slide_show_file'] as $key => $value)
-                {
-                    $slide = new \Models\Entity\SlideShow\SlideShow($value['file']);
-                    $slide->setImageOrder($key);
-                    $slide->setScript($script);
-                    
-                    if(!($category == NULL))
-                    {
-                        $slide->setCategory($category);
-                    }
-                    $this->_em->persist($slide);     
-                }
-                $this->_em->flush($slide);
+                $this->_slideShowService->insertNewSlideShow($value, $post);
                 
                 $form->presenter->flashMessage('Slideshow byla vytvořena.', 'success');
                 $form->presenter->redirect('SlideShow:default');

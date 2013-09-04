@@ -221,5 +221,33 @@ class SlideshowService extends Object  {
         return $query->getQuery()->getResult();          
     }
     
+    final function insertNewSlideShow(\Nette\ArrayHash $value, array $post)
+    {
+        $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
+
+        if(isset($this->type[$value->slide_show_script]))
+        {
+            $script->setOptions($this->type[$value->slide_show_script]);
+        }
+        $this->_em->persist($script);
+
+        foreach ($post['slide_show_file'] as $key => $file)
+        {
+            $slide = new \Models\Entity\SlideShow\SlideShow($file['file']);
+            $slide->setImageOrder($key);
+            $slide->setScript($script);
+
+            if($value->offsetExists('slide_show_category'))
+            {
+                $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
+                                      ->findOneBy(array('id' => $value->slide_show_category));
+                $slide->setCategory($category);
+            }
+                    
+            $this->_em->persist($slide);     
+        }
+        $this->_em->flush();        
+    }
+    
     
 }

@@ -156,8 +156,8 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <a href="{link Image:editImage $item['id']}">
-                        <img width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
+                    <a class="modal-ajax-lightbox" href="{link Image:imageView $item['file']}" >                    
+                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
                     </a>
                 </td>
                 <td>
@@ -208,6 +208,7 @@
 </div>
 
 <div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+<div id="lightbox" class="lightbox hide fade" tabindex="-1" data-replace="true"></div>
 {/block}
 
 {block jscript}
@@ -226,6 +227,18 @@ $('#cFbutton').click(function() {
         window.location = {link Image:default $presenter->sort}+"?filter[ext]="+selected;
     }
 })
+
+var $image_modal = $('#lightbox');
+
+$('.modal-ajax-lightbox').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $image_modal.load(url, '', function(){
+    $image_modal.modal();
+    });
+
+return false});
 
 var $modal = $('#ajax-modal');
 

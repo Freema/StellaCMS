@@ -120,8 +120,8 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <a href="{link SlideShow:updateImage $item->getId()}">
-                        <img width="60" height="60" src="{$basePath}/uploads/{$item->getFileName()|smallThumb}" />
+                    <a class="modal-ajax" href="{link Image:imageView $item->getFileName()}" >
+                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item->getFileName()|smallThumb}" />
                     </a>
                 </td>
                 <td>
@@ -161,4 +161,24 @@
     {control pagination}
 </div>
 
+<div id="lightbox" class="lightbox hide fade" tabindex="-1" data-replace="true"></div>
+{/block}
+
+{block jscript}
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript">
+
+var $modal = $('#lightbox');
+
+$('.modal-ajax').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $modal.load(url, '', function(){
+    $modal.modal();
+    });
+
+return false});
+</script>
 {/block}

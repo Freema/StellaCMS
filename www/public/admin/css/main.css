@@ -278,24 +278,20 @@ footer {
           background-clip: padding-box;
 }
 
-.lightbox-content .lightbox-caption {
-    right: 12px;
-    bottom: 11px;
-    left: 11px;
-    padding: 2%;
-    font-size: 14px;
-    line-height: 18px;
-    color: white;
-    text-align: center;
-    text-shadow: 0 -1px 0 #000000;
-    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.3);
-    background: #000;
-    background: rgba(0, 0, 0, 0.6);
+.lightbox-header {
+    border-bottom: 1px solid #EEEEEE;
+    padding: 10px 1px;
+}
+
+.lightbox-header h4 {
+    margin: 0;
+    padding: 0;
+    text-align: left;    
 }
 
 .lightbox-header button {
     position: relative;
-    top: -5px;
+    top: -20px;
 }
 
 /* Slide show page
