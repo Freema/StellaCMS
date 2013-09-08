@@ -1,6 +1,6 @@
 {**
  * default template.
- *
+ * var $tab array
 *}
 {block title}
     <title>Slideshow nastavení</title>
@@ -18,6 +18,25 @@
     <thead>
         <tr>
             <th>
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_slideshow = $presenter->sort}
+                {ifset $sort_slideshow['script']}
+                    {if $sort_slideshow['script'] == 'ASC'}
+                        {var $sort_slideshow['script'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_slideshow['script'] == 'DESC'}
+                        {var $sort_slideshow['script'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_slideshow['script'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link SlideShow:default $page, $sort_slideshow, NULL}">
+                    Slideshow
+                </a>                 
             </th>
             <th>
                 {var $page = $presenter->page}
@@ -120,37 +139,54 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <a class="modal-ajax" href="{link Image:imageView $item->getFileName()}" >
-                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item->getFileName()|smallThumb}" />
+                    <a class="modal-ajax" href="{link Image:imageView $item['file']}" >
+                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
                     </a>
                 </td>
                 <td>
-                    <strong>{$item->getFileName()}</strong>
+                    {$item['script']}
                     <div class="tab-actions">
                         <span>
-                            <a href="{link Image:editImage $item->getId()}">
+                            <a href="{link SlideShow:updateSlideShow $item['scriptId']}">
                                 <i class="icon-edit"></i>
                                 Upravit
                             </a>
                         </span>
                         <span>
-                            <a href="{link deleteMedia! $item->getId()}" class="delete">
+                            <a href="{link deleteSlideshow! $item['scriptId']}" class="delete">
+                                <i class="icon-trash"></i>
+                                 Smazat
+                            </a>
+                        </span>
+                    </div>                      
+                </td>
+                <td>
+                    <strong>{$item['file']}</strong>
+                    <div class="tab-actions">
+                        <span>
+                            <a href="{link SlideShow:image $item['id']}">
+                                <i class="icon-edit"></i>
+                                Upravit
+                            </a>
+                        </span>
+                        <span>
+                            <a href="{link deleteMedia! $item['id']}" class="delete">
                                 <i class="icon-trash"></i>
                                  Smazat
                             </a>
                         </span>
                     </div>                    
                 </td>
-                <td>{$item->getImageOrder()}</td>
+                <td>{$item['imageOrder']}</td>
                 <td>
-                    {if $item->getCategory()}
-                        {$item->getCategory()}
+                    {if $item['category']}
+                        {$item['category']}
                     {else}
                         Nezařazené
                     {/if}
                 </td>
-                <td><abbr title="{$item->getUpdateAt()|date: 'Y-m-d H:i:s'}">{$item->getUpdateAt()|date: 'Y-m-d'}</abbr></td>
-                <td>{$item->getId()}</td>
+                <td><abbr title="{$item['updateAt']|date: 'Y-m-d H:i:s'}">{$item['updateAt']|date: 'Y-m-d'}</abbr></td>
+                <td>{$item['id']}</td>
             </tr>    
         {/foreach}        
     </tbody>

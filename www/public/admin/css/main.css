@@ -310,6 +310,14 @@ footer {
     margin-bottom: 20px;
 }
 
+/* Thumb mails
+================================================= */
+
+.thumbnail-header .close {
+    display: block;
+    margin-bottom: 4px;
+}
+
 /* Page footer
 ================================================= */
 

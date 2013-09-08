@@ -2,8 +2,9 @@
 namespace Models\Entity\SlideShow;
 
 use DateTime;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Image\ImageCategory;
+use Models\Entity\ImageCategory\ImageCategory;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
@@ -35,8 +36,8 @@ class SlideShow
     protected $title;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\SlideShow\SlideShowScript")
-     * @ORM\JoinColumn(name="script_id", referencedColumnName="id", onDelete="SET NULL")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\SlideShow\SlideShowScript", inversedBy="slideshow")
+     * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $script;
 
@@ -61,7 +62,7 @@ class SlideShow
         $this->file = (string) $file;
         $this->name = '';
         $this->title = '';
-        $this->script = NULL;
+        $this->script = new ArrayCollection;   
         $this->category = NULL;
         $this->imageOrder = NULL;
         $this->updateAt = $this->updateAt = new DateTime('now');

@@ -4,7 +4,6 @@ namespace AdminModule;
 use AdminModule\Forms\SlideShowForm;
 use Components\Paginator\PagePaginator;
 use Components\Slideshow\SlideshowService;
-use Models\Entity\SlideShow\SlideShow;
 use Models\Image\Image;
 
 /**
@@ -28,7 +27,7 @@ class SlideShowPresenter extends BasePresenter {
     private $_SlideShow;
     
     /**
-    * @var SlideShow 
+    * @var Slideshow
     */
     private $_Page;
     
@@ -38,6 +37,7 @@ class SlideShowPresenter extends BasePresenter {
     /** @persistent */
     public $sort = array(
         'id'            => 'NONE',
+        'script'        => 'NONE',
         'file'          => 'NONE',
         'order'         => 'NONE',
         'categorii'     => 'NONE',
@@ -64,25 +64,8 @@ class SlideShowPresenter extends BasePresenter {
         return $this->_SlideShowForm->createForm();
     }
     
-    public function actionDefault($page, array $sort, $category)
+    public function actionDefault($page, array $sort)
     {
-        /*
-        $cFilter = $this->_PostForm->prepareForFormItem(
-                $this->_Category->getCategoryRepository()->getCategories(),
-                'title', 
-                TRUE);
-         * 
-         */
-        /*
-        if(!is_null($category))
-        {
-            $cf_test = $this->_checkCategoryExist($category, $cFilter);
-            dump($cf_test);
-            $this->_Post->setFilter($cf_test);
-        }
-         * 
-         */
-        
         $size = $this->_Image->getSize();        
 
         $this->template->registerHelper('smallThumb', function($name) use ($size) {
@@ -106,11 +89,9 @@ class SlideShowPresenter extends BasePresenter {
         $this->_SlideShow->setMaxResults($paginator->getMaxResults());
         
         $this->template->tab = $this->_SlideShow->loadSlideShowTab();
-
-       // $this->template->cFilter = $cFilter;
     }    
     
-    public function actionAddSlideShow() {
+    public function renderAddSlideShow() {
         
         if($this->isAjax())
         {
@@ -138,6 +119,29 @@ class SlideShowPresenter extends BasePresenter {
             
             $this->invalidateControl('slideSowPreviw');            
         }
+    }
+    
+    public function actionUpdateSlideShow($id)
+    {
+        if(!($this->_Page = $this->_SlideShow->getSlideShowScriptRepository()->getOne($id)))
+        {
+            $this->flashMessage('SlideShow does not exist.', 'error');
+            $this->redirect('default');
+        }
+        
+        $size = $this->_Image->getSize();        
+
+        $this->template->registerHelper('smallThumb', function($name) use ($size) {
+           $helper = Image::smallThumb($name, $size); 
+           return $helper;
+        });         
+        
+        $this->template->data = $this->_Page;        
+    }
+    
+    public function actionImage($name)
+    {
+        
     }
     
     protected function createComponentPagination() {

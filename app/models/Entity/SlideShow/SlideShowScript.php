@@ -2,6 +2,7 @@
 
 namespace Models\Entity\SlideShow;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Json;
 
@@ -33,11 +34,17 @@ class SlideShowScript
      * @ORM\Column(type="text")
      */
     protected $options;
+    
+    /**
+     * @ORM\OneToMany(targetEntity="Models\Entity\SlideShow\SlideShow", mappedBy="script")
+     */
+    protected $slideshow;    
 
     public function __construct($name, $description)
     {
         $this->name = (string) $name;
         $this->description = (string) $description;
+        $this->slideshow = new ArrayCollection;        
     }
     
     /**
@@ -46,6 +53,11 @@ class SlideShowScript
     public function getId()
     {
         return $this->id;
+    }
+    
+    public function getSlideShow()
+    {
+        return $this->slideshow;
     }
 
     /**

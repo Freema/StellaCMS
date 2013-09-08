@@ -152,7 +152,7 @@ class SlideshowService extends Object  {
     public function loadSlideShowTab()
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('s');
+        $query->select('s.id, s.file, s.imageOrder,sc.id as scriptId ,s.updateAt, sc.name AS script, c.title AS category');
         $query->from('Models\Entity\SlideShow\SlideShow', 's');
         $query->leftJoin('s.script', 'sc');
         $query->leftJoin('s.category', 'c');
@@ -176,11 +176,11 @@ class SlideshowService extends Object  {
                 }
             }
             
-            if(isset($this->sort['name']))
+            if(isset($this->sort['script']))
             {
-                if(in_array($this->sort['name'], $sort_typs))
+                if(in_array($this->sort['script'], $sort_typs))
                 {
-                    $query->addOrderBy('sc.name', $this->sort['name']);
+                    $query->addOrderBy('sc.name', $this->sort['script']);
                 }
             }
             
