@@ -28,42 +28,55 @@
         <div class="slideshow-preview well">
             <ul id="slideshow-preview" class="thumbnails">
         {foreach $data->getSlideShow() as $value}
-        <li id="listOrder_{$value->getImageOrder()}">
+        <li>
             <div class="thumbnail">                    
                 <div class="thumbnail-header">
                     <a class="close">×</a>
                 </div>                    
                 <img src="{$basePath}/uploads/{$value->getFileName()|smallThumb}" alt="">
-                <input type="hidden" value="{$value->getFileName()}" name="slide_show_file[{$value->getImageOrder()}][file]">
+                <input type="hidden" value="{$value->getId()}" name="slide_show_file[][id]">
             </div>
         </li>
         {/foreach}
+        {ifset $parrams}
+            {foreach $parrams as $key => $value}
+            <li>
+                <div class="thumbnail">                    
+                    <div class="thumbnail-header">
+                        <a class="close">×</a>
+                    </div>                    
+                    <img src="{$basePath}/uploads/{$value|smallThumb}" alt="">
+                    <input type="hidden" value="{$value}" name="slide_show_file[][name]">
+                </div>
+            </li>
+            {/foreach}
+        {/ifset}
             </ul>
         </div>
 
         <div class="control-group">
             {label slide_show_name class => 'control-label' /}
             <div class="controls">
-                {input slide_show_name disabled => 'disabled'}
+                {input slide_show_name}
             </div>
         </div>      
 
         <div class="control-group">
             {label slide_show_script class => 'control-label' /}
             <div class="controls">
-                {input slide_show_script disabled => 'disabled'}
+                {input slide_show_script}
             </div>
         </div>      
 
         <div class="control-group">
             {label slide_show_category class => 'control-label' /}
             <div class="controls">
-                {input slide_show_category disabled => 'disabled'}
+                {input slide_show_category}
             </div>
         </div>      
 
         <div class="control-group">
-            {input submit disabled => 'disabled'}
+            {input submit}
         </div>
     {/form}
 {/snippet}
@@ -73,6 +86,7 @@
 {block jscript}
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui.js"></script>
 <script type="text/javascript">
 var $modal = $('#ajax-modal');
 
@@ -85,6 +99,38 @@ $('.btn-ajax').on('click', function(){
 });
 
 return false});
+
+function slideShowWell()
+{
+    $(".slideshow-preview").on('mouseover', function(){
+       $("#slideshow-preview").sortable({ 
+           opacity: 0.5,
+           cursor: 'move',
+           placeholder: "ui-state-highlight",
+           update: function() {}								  
+        });
+        $('#slideshow-preview').disableSelection();
+
+        var $thumb = $('.close');
+
+        $thumb.on('click', function(){
+
+            $element = $(this).parent().parent().parent();
+            $element.remove();
+
+            if($('#slideshow-preview li').length == 0)
+            {
+                $('.slideshow-preview').remove();
+                $('#slide_show_name').prop("disabled", true);
+                $('#slide_show_script').prop("disabled", true);
+                $('#slide_show_category').prop("disabled", true);
+                $('#submit').prop("disabled", true);
+            }
+        });     
+    });    
+}
+
+slideShowWell();
 
 $modal.on('click', '#submit-selected', function () {
         
@@ -103,27 +149,7 @@ $modal.on('click', '#submit-selected', function () {
                     $('#' + i).html(payload.snippets[i]);
                 }
             }
-            $('#slide_show_name').prop("disabled", false);
-            $('#slide_show_script').prop("disabled", false);
-            $('#slide_show_category').prop("disabled", false);
-            $('#submit').prop("disabled", false);
-            
-            var $thumb = $('.close');
-
-            $thumb.on('click', function(){
-                console.log('click');    
-                $(this).parent().parent().parent().remove();
-            });                
-
-            $("#slideshow-preview li").on('mouseover', function(){
-               $("#slideshow-preview").sortable({ 
-                   opacity: 0.5,
-                   cursor: 'move',
-                   placeholder: "ui-state-highlight",
-                   update: function() {}								  
-                });
-                $('#slideshow-preview').disableSelection();
-            });
+            slideShowWell();
         }
     });
 });

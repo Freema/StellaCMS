@@ -9,6 +9,7 @@ namespace AdminModule\Forms;
 use Components\Slideshow\SlideshowService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Models\Entity\SlideShow\SlideShowScript;
 use Nette\Application\UI\Form;
 
 class SlideShowForm extends BaseForm
@@ -22,7 +23,7 @@ class SlideShowForm extends BaseForm
     /** @var EntityRepository */
     protected $_category;
 
-    /** @var Post */
+    /** @var SlideShowScript */
     protected $_defaults;
     
     public function __construct(EntityManager $em, SlideshowService $service) {
@@ -31,7 +32,7 @@ class SlideShowForm extends BaseForm
         $this->_category = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
     }
     
-    public function createForm($defaults = NULL)
+    public function createForm(SlideShowScript $defaults = NULL)
     {
         if(!$defaults)
         {
@@ -40,7 +41,6 @@ class SlideShowForm extends BaseForm
         else
         {
             $this->_defaults = $defaults;
-            
             return $this->_editForm(); 
         }
     }
@@ -82,7 +82,50 @@ class SlideShowForm extends BaseForm
     
     private function _editForm()
     {
+        $form = new Form;
 
+        $c = $this->prepareForFormItem($this->_category->getImageCategories(), 'title');
+        $types = $this->_slideShowService->type;
+        
+        foreach ($types as $key => $value)
+        {
+            $s[$key] = $value['name'];
+        }
+        
+        $default = array();
+        if($this->_defaults->getCategory())
+        {
+            $default['category'] = $this->_defaults->getCategory()->getId();            
+        }
+        else
+        {
+            $default['category'] = 0;
+        }
+        
+        $form->addText('slide_show_name', 'Název: ')
+             ->setDefaultValue($this->_defaults->getName())   
+             ->addRule(Form::FILLED, NULL);
+        
+        $form->addSelect('slide_show_script', 'Typ: ', $s)
+             ->setDefaultValue($this->_defaults->getScriptId())   
+             ->addRule(Form::FILLED, NULL);
+        
+        $form->addSelect('slide_show_category', 'Kategorie: ', $c)
+             ->setDefaultValue($default['category'])   
+             ->setPrompt('- No category -');
+        
+        $form->addSubmit('submit', NULL)
+             ->setAttribute('class', 'btn btn-success');
+        
+        $form->onSuccess[] = callback($this, 'onsuccess');
+
+        $vybratBtn = $form['submit']->getControlPrototype();
+        $vybratBtn->setName("button");
+        $vybratBtn->type = 'submit'; 
+        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->add(' Vytvořit slideshow');
+        
+        return $form;  
     }
 
     public function onsuccess(Form $form)
@@ -100,6 +143,7 @@ class SlideShowForm extends BaseForm
             if($this->_defaults)
             {
                 dump($value);
+                dump($post['slide_show_file']);
             }
             else
             {

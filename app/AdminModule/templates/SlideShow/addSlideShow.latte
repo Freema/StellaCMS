@@ -75,6 +75,7 @@
 {block jscript}
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui.js"></script>
 <script type="text/javascript">
 var $modal = $('#ajax-modal');
 
@@ -113,8 +114,18 @@ $modal.on('click', '#submit-selected', function () {
             var $thumb = $('.close');
 
             $thumb.on('click', function(){
-                console.log('click');    
-                $(this).parent().parent().parent().remove();
+                
+                $element = $(this).parent().parent().parent();
+                $element.remove();
+                
+                if($('#slideshow-preview li').length == 0)
+                {
+                    $('.slideshow-preview').remove();
+                    $('#slide_show_name').prop("disabled", true);
+                    $('#slide_show_script').prop("disabled", true);
+                    $('#slide_show_category').prop("disabled", true);
+                    $('#submit').prop("disabled", true);
+                }
             });                
 
             $("#slideshow-preview li").on('mouseover', function(){

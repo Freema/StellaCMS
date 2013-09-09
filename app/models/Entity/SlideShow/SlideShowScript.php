@@ -5,6 +5,7 @@ namespace Models\Entity\SlideShow;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Json;
+use Models\Entity\ImageCategory\ImageCategory;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
@@ -29,6 +30,11 @@ class SlideShowScript
      * @ORM\Column(type="text")
      */
     protected $description;
+    
+    /**
+     * @ORM\Column(type="integer")
+     */
+    protected $script_id;
 
     /**
      * @ORM\Column(type="text")
@@ -38,7 +44,13 @@ class SlideShowScript
     /**
      * @ORM\OneToMany(targetEntity="Models\Entity\SlideShow\SlideShow", mappedBy="script")
      */
-    protected $slideshow;    
+    protected $slideshow; 
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory",  inversedBy="image")
+     * @ORM\JoinColumn(onDelete="SET NULL")
+     */
+    protected $category;    
 
     public function __construct($name, $description)
     {
@@ -75,6 +87,24 @@ class SlideShowScript
     {
         return $this->description;
     }
+    
+    /**
+     * @return integer
+     */
+    public function getScriptId()
+    {
+        return $this->script_id;
+    }
+    
+    /**
+     * @param integer $id
+     * @return SlideShowScript
+     */
+    public function setScriptId($id)
+    {
+        $this->script_id = (int) $id;
+        return $this;        
+    }
 
     /**
      * @return string
@@ -91,4 +121,38 @@ class SlideShowScript
     {
         $this->options = Json::encode($options);        
     }
+    
+    /**
+     * Get Category
+     * 
+     * @return ImageCategory
+     */
+    public function getCategory()
+    {
+        return $this->category;
+    }
+    
+    
+    /**
+     * Set Category to NULL
+     * 
+     * @return SlideShowScript
+     */
+    public function removeCategory()
+    {
+        $this->category = NULL;
+        return $this;
+    }    
+
+    /**
+     * Set Category
+     * 
+     * @param ImageCategory $category
+     * @return SlideShowScript
+     */
+    public function setCategory(ImageCategory $category)
+    {
+        $this->category = $category;
+        return $this;
+    }    
 }

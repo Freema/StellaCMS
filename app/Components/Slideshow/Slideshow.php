@@ -155,7 +155,7 @@ class SlideshowService extends Object  {
         $query->select('s.id, s.file, s.imageOrder,sc.id as scriptId ,s.updateAt, sc.name AS script, c.title AS category');
         $query->from('Models\Entity\SlideShow\SlideShow', 's');
         $query->leftJoin('s.script', 'sc');
-        $query->leftJoin('s.category', 'c');
+        $query->leftJoin('sc.category', 'c');
         
         if(!empty($this->sort))
         {
@@ -225,10 +225,15 @@ class SlideshowService extends Object  {
     {
         $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
 
-        if(isset($this->type[$value->slide_show_script]))
+        $script->setOptions($this->type[$value->slide_show_script]);
+        $script->setScriptId($value->slide_show_script);
+        if($value->offsetExists('slide_show_category'))
         {
-            $script->setOptions($this->type[$value->slide_show_script]);
+            $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
+                                  ->findOneBy(array('id' => $value->slide_show_category));
+            $script->setCategory($category);
         }
+        
         $this->_em->persist($script);
 
         foreach ($post['slide_show_file'] as $key => $file)
@@ -236,13 +241,6 @@ class SlideshowService extends Object  {
             $slide = new \Models\Entity\SlideShow\SlideShow($file['file']);
             $slide->setImageOrder($key);
             $slide->setScript($script);
-
-            if($value->offsetExists('slide_show_category'))
-            {
-                $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
-                                      ->findOneBy(array('id' => $value->slide_show_category));
-                $slide->setCategory($category);
-            }
                     
             $this->_em->persist($slide);     
         }

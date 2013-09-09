@@ -4,7 +4,6 @@ namespace Models\Entity\SlideShow;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Entity\ImageCategory\ImageCategory;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
@@ -40,12 +39,6 @@ class SlideShow
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $script;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory",  inversedBy="image")
-     * @ORM\JoinColumn(onDelete="SET NULL")
-     */
-    protected $category;
     
     /**
      * @ORM\Column(type="integer")
@@ -63,7 +56,6 @@ class SlideShow
         $this->name = '';
         $this->title = '';
         $this->script = new ArrayCollection;   
-        $this->category = NULL;
         $this->imageOrder = NULL;
         $this->updateAt = $this->updateAt = new DateTime('now');
     }
@@ -144,39 +136,6 @@ class SlideShow
     public function setScript(SlideShowScript $script)
     {
         $this->script = $script;
-        return $this;
-    }
-    
-    /**
-     * Get Category
-     * 
-     * @return ImageCategory
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * Set Category
-     * 
-     * @param ImageCategory $category
-     * @return SlideShow
-     */
-    public function setCategory(ImageCategory $category)
-    {
-        $this->category = $category;
-        return $this;
-    }
-    
-    /**
-     * Set Category to NULL
-     * 
-     * @return SlideShow
-     */
-    public function removeCategory()
-    {
-        $this->category = NULL;
         return $this;
     }
 

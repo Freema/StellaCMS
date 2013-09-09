@@ -61,18 +61,30 @@ class SlideShowPresenter extends BasePresenter {
 
     protected function createComponentSlideShowForm()
     {
-        return $this->_SlideShowForm->createForm();
+        if($this->_Page)
+        {
+            return $this->_SlideShowForm->createForm($this->_Page);
+        }
+        else
+        {
+            return $this->_SlideShowForm->createForm();
+        }
     }
     
-    public function actionDefault($page, array $sort)
-    {
+    public function startup() {
+        parent::startup();
+        
         $size = $this->_Image->getSize();        
 
         $this->template->registerHelper('smallThumb', function($name) use ($size) {
            $helper = Image::smallThumb($name, $size); 
            return $helper;
-        });          
-        
+        });             
+    }
+
+
+    public function actionDefault($page, array $sort)
+    {
         $this->_SlideShow->setSort($sort);
         
         /* @var $paginator PagePaginator */
@@ -105,18 +117,9 @@ class SlideShowPresenter extends BasePresenter {
                 }
                 else
                 {
-                    $size = $this->_Image->getSize();        
-
-                    $this->template->registerHelper('smallThumb', function($name) use ($size) {
-                       $helper = Image::smallThumb($name, $size); 
-                       return $helper;
-                    });  
-
                     $this->template->parrams = $parrams['status']; 
                 }
-
             }
-            
             $this->invalidateControl('slideSowPreviw');            
         }
     }
@@ -129,14 +132,25 @@ class SlideShowPresenter extends BasePresenter {
             $this->redirect('default');
         }
         
-        $size = $this->_Image->getSize();        
-
-        $this->template->registerHelper('smallThumb', function($name) use ($size) {
-           $helper = Image::smallThumb($name, $size); 
-           return $helper;
-        });         
+        $this->template->data = $this->_Page;
         
-        $this->template->data = $this->_Page;        
+        if($this->isAjax())
+        {
+            $parrams = $this->request->getPost();
+            if(isset($parrams['status']))
+            {
+                if(array_search("", $parrams['status']) === 0)
+                {
+                    $this->flashMessage('Image not selected', 'error');
+                    $this->invalidateControl('flashMessages');
+                }
+                else
+                {
+                    $this->template->parrams = $parrams['status']; 
+                }
+            }
+            $this->invalidateControl('slideSowPreviw');            
+        }        
     }
     
     public function actionImage($name)
