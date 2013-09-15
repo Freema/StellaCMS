@@ -71,6 +71,19 @@ class SlideShowScript
     {
         return $this->slideshow;
     }
+    
+    /**
+     * set new name for the slideshow script
+     * 
+     * @param string $name
+     * @return \Models\Entity\SlideShow\SlideShowScript
+     */
+    public function setName($name)
+    {
+        $this->name = (string) $name;
+        
+        return $this;
+    }
 
     /**
      * @return string
@@ -79,7 +92,20 @@ class SlideShowScript
     {
         return $this->name;
     }
-
+    
+    /**
+     * set description 
+     * 
+     * @param type $text
+     * @return \Models\Entity\SlideShow\SlideShowScript
+     */
+    public function setDescription($text)
+    {
+        $this->description = $text;
+        
+        return $this;
+    }
+            
     /**
      * @return string
      */

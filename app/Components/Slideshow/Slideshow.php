@@ -221,11 +221,16 @@ class SlideshowService extends Object  {
         return $query->getQuery()->getResult();          
     }
     
+    /**
+     * @param \Nette\ArrayHash $value
+     * @param array $post
+     */
     final function insertNewSlideShow(\Nette\ArrayHash $value, array $post)
     {
         $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
 
         $script->setOptions($this->type[$value->slide_show_script]);
+        $script->setDescription($value->slide_show_desc);
         $script->setScriptId($value->slide_show_script);
         if($value->offsetExists('slide_show_category'))
         {
@@ -247,5 +252,28 @@ class SlideshowService extends Object  {
         $this->_em->flush();        
     }
     
-    
+    /**
+     * @param \Models\Entity\SlideShow\SlideShowScript $slideShow
+     * @param \Nette\ArrayHash $value
+     * @param array $post
+     */
+    final function updateSlideShow(\Models\Entity\SlideShow\SlideShowScript $slideShow, \Nette\ArrayHash $value, array $post)
+    {
+        
+        
+        if($value->offsetExists('slide_show_category'))
+        {
+            $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
+                                  ->findOneBy(array('id' => $value->slide_show_category));
+            $slideShow->setCategory($category);
+        }
+        else
+        {
+            $slideShow->removeCategory();
+        }
+        
+        dump($slideShow);
+        dump($value);
+        dump($post);
+    }
 }

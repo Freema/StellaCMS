@@ -63,6 +63,9 @@ class SlideShowForm extends BaseForm
         $form->addSelect('slide_show_script', 'Typ: ', $s)
              ->addRule(Form::FILLED, NULL);
         
+        $form->addTextArea('slide_show_desc', 'Text: ')
+             ->setHtmlId('editor')->getControlPrototype();
+        
         $form->addSelect('slide_show_category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');
         
@@ -110,6 +113,10 @@ class SlideShowForm extends BaseForm
              ->setDefaultValue($this->_defaults->getScriptId())   
              ->addRule(Form::FILLED, NULL);
         
+        $form->addTextArea('slide_show_desc', 'Text: ')
+             ->setDefaultValue($this->_defaults->getDescription())
+             ->setHtmlId('editor')->getControlPrototype();        
+        
         $form->addSelect('slide_show_category', 'Kategorie: ', $c)
              ->setDefaultValue($default['category'])   
              ->setPrompt('- No category -');
@@ -123,7 +130,7 @@ class SlideShowForm extends BaseForm
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
         $vybratBtn->create('i class="icon-ok-sign"');
-        $vybratBtn->add(' Vytvořit slideshow');
+        $vybratBtn->add(' Upravit slideshow');
         
         return $form;  
     }
@@ -134,6 +141,7 @@ class SlideShowForm extends BaseForm
         {
             $post = $form->getHttpData();
             $value = $form->getValues();
+            
             if(!isset($post['slide_show_file']))
             {
                 $form->getPresenter()->flashMessage('Není vybraný žádný obrázek', 'error');
@@ -142,11 +150,11 @@ class SlideShowForm extends BaseForm
             
             if($this->_defaults)
             {
-                dump($value);
-                dump($post['slide_show_file']);
+                $this->_slideShowService->updateSlideShow($this->_defaults, $value, $post);
+
             }
             else
-            {
+            {               
                 $uniq = $this->_slideShowService->getSlideShowScriptRepository()
                              ->findOneBy(array('name' => $value->slide_show_name));
                 

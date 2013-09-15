@@ -96,6 +96,10 @@ footer {
 
 /** image modal */
 
+.modal {
+    width: auto;
+}
+
 .image-modal  {
     width: 90%;
     left: 5%;
