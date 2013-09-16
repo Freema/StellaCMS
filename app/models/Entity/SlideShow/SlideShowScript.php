@@ -43,6 +43,7 @@ class SlideShowScript
     
     /**
      * @ORM\OneToMany(targetEntity="Models\Entity\SlideShow\SlideShow", mappedBy="script")
+     * @ORM\OrderBy({"imageOrder" = "ASC"})
      */
     protected $slideshow; 
     

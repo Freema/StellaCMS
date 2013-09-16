@@ -30,7 +30,7 @@ class SlideShow
     protected $name;
     
     /**
-     * @ORM\Column(type="string", length=100)
+     * @ORM\Column(type="text")
      */    
     protected $title;
     

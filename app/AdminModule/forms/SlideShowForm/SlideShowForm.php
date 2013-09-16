@@ -9,6 +9,7 @@ namespace AdminModule\Forms;
 use Components\Slideshow\SlideshowService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
+use Models\Entity\SlideShow\SlideShow AS SlideShowEntity;
 use Models\Entity\SlideShow\SlideShowScript;
 use Nette\Application\UI\Form;
 
@@ -17,7 +18,7 @@ class SlideShowForm extends BaseForm
     /** @var EntityManager */
     protected $_em;
     
-    /** @var SlideShow */
+    /** @var SlideshowService */
     protected $_slideShowService;
     
     /** @var EntityRepository */
@@ -43,6 +44,12 @@ class SlideShowForm extends BaseForm
             $this->_defaults = $defaults;
             return $this->_editForm(); 
         }
+    }
+    
+    public function createEditForm(SlideShowEntity $defaults)
+    {
+        $this->_defaults = $defaults;
+        return $this->_editFormImage();
     }
 
     private function _addForm()
@@ -134,6 +141,40 @@ class SlideShowForm extends BaseForm
         
         return $form;  
     }
+    
+    private function _editFormImage()
+    {
+        $form = new Form;
+       
+        $form->addText('slide_show_image_name', 'Název: ')
+             ->setDefaultValue($this->_defaults->getName());
+        
+        $form->addTextArea('slide_show_image_title', 'Text: ')
+             ->setDefaultValue($this->_defaults->getTitle())
+             ->setHtmlId('editor')->getControlPrototype();  
+        
+        $form->addSubmit('submit', NULL)
+             ->setAttribute('class', 'btn btn-success');        
+        
+        $form->onSuccess[] = callback($this, 'editImage');
+
+        $vybratBtn = $form['submit']->getControlPrototype();
+        $vybratBtn->setName("button");
+        $vybratBtn->type = 'submit'; 
+        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->add(' Upravit slide');
+        
+        return $form;          
+    }
+    
+    public function editImage(Form $form)
+    {
+        $value = $form->getValues();
+        
+        $this->_slideShowService->updateSlideShowImage($this->_defaults, $value);
+        $form->presenter->flashMessage('Slide byl upraven.', 'success');
+        $form->presenter->redirect('SlideShow:default');                
+    }
 
     public function onsuccess(Form $form)
     {
@@ -151,7 +192,9 @@ class SlideShowForm extends BaseForm
             if($this->_defaults)
             {
                 $this->_slideShowService->updateSlideShow($this->_defaults, $value, $post);
-
+                
+                $form->presenter->flashMessage('Slideshow byla upravena.', 'success');
+                $form->presenter->redirect('SlideShow:default');                
             }
             else
             {               

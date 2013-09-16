@@ -259,8 +259,6 @@ class SlideshowService extends Object  {
      */
     final function updateSlideShow(\Models\Entity\SlideShow\SlideShowScript $slideShow, \Nette\ArrayHash $value, array $post)
     {
-        
-        
         if($value->offsetExists('slide_show_category'))
         {
             $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
@@ -272,8 +270,62 @@ class SlideshowService extends Object  {
             $slideShow->removeCategory();
         }
         
-        dump($slideShow);
-        dump($value);
-        dump($post);
+        $slideShow->setName($value->slide_show_name);
+        $slideShow->setOptions($this->type[$value->slide_show_script]);        
+        $slideShow->setDescription($value->slide_show_desc);
+        
+        $oldItems = array();
+        $newItems = array();
+        $order = 1;
+        /* @var $slide SlideShow */
+        foreach($slideShow->getSlideShow() as $slide)
+        {
+            $oldItems[] = $slide->getId();
+        }
+
+        foreach($post['slide_show_file'] as $slide_show_file)
+        {
+            if(isset($slide_show_file['id']))
+            {
+                /* @var $slideShowImageUpdate SlideShow */
+                $slideShowImageUpdate = $this->getSlideShowRepository()->findOneBy(array('id' => $slide_show_file['id']));
+                $slideShowImageUpdate->setImageOrder($order);
+                $this->_em->merge($slideShowImageUpdate);
+                
+                $newItems[] = $slide_show_file['id'];                
+                $order = $order + 1;
+            }
+            if(isset($slide_show_file['name']))
+            {
+                $slideShowImageNew = new \Models\Entity\SlideShow\SlideShow($slide_show_file['name']);
+                $slideShowImageNew->setImageOrder($order);
+                $slideShowImageNew->setScript($slideShow);
+                $this->_em->persist($slideShowImageNew);
+                
+                $newItems[] = $slide_show_file['name'];
+                $order = $order + 1;
+            }
+        }
+        
+        $itemsDif = \AdminModule\Forms\BaseForm::FormItemsDif($oldItems, $newItems); 
+ 
+        if(isset($itemsDif['remove']))
+        {
+            foreach($itemsDif['remove'] as $deleteId)
+            {
+                $slideShowImageDelete = $this->getSlideShowRepository()->findOneBy(array('id' => $deleteId));
+                $this->_em->remove($slideShowImageDelete);
+            }
+        }
+        
+        $this->_em->flush();
+    }
+    
+    public function updateSlideShowImage(\Models\Entity\SlideShow\SlideShow $slideShow, \Nette\ArrayHash $value)
+    {
+        $slideShow->setName($value->slide_show_image_name);
+        $slideShow->setTitle($value->slide_show_image_title);
+        
+        $this->_em->flush($slideShow);
     }
 }

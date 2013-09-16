@@ -179,7 +179,7 @@ class PostForm extends BaseForm
                 }                
                 
                 /** $row najde rozdil mezi tagy */                
-                $row = $this->FormItemsDif($default, $value->tags);                
+                $row = self::FormItemsDif($default, $value->tags);                
 
                 if($row['remove'])
                 {

@@ -1,2 +1,186 @@
+{**
+ * edit image template.
+ *
+ * @param Models\Entity\Image\Image $data
+ * @param string $header   
+ *
+*}
 
 {block content}
+
+<h2 class="page-header">Upravit Slider</h2>
+
+{form editImageForm}
+<div class="row-fluid">
+    <div class="span6">
+        <fieldset>
+            <div class="control-group">
+                {label slide_show_image_name  /}
+                <div class="controls">
+                    {input slide_show_image_name}
+                </div>
+            </div>    
+            <div class="control-group">
+                {label slide_show_image_title  /}
+                <div class="controls">
+                    {input slide_show_image_title class => 'span12'}
+                </div>
+            </div>    
+        </fieldset>        
+    </div>
+    <div class="span4 offset2">
+        <div class="sidebar-post-box">
+            <h3><strong>Info:</strong></h3>
+            <div class="inside">
+                <div class="section">
+                    <div class="image-time">
+                        <i class="icon-calendar"></i>
+                        Uploaded on: 
+                        <strong>{$data->getUpdateAt()|date: 'Y-m-d'}</strong>
+                    </div>
+                </div>
+                <div class="section">
+                    <div class="image-id">
+                        <i class="icon-picture"></i>
+                        Image id:
+                        <strong>{$data->getId()}</strong>
+                    </div>
+                </div>
+                {foreach $fileInfo as $info}
+                    <div class="section">
+                        <div class="image-name">File URL:
+                            <input type="text" value="{$baseUrl}/upload/{$info['baseName']}" />
+                        </div>
+                        <div class="image-size">Rozměry: 
+                            <strong>{$info['image_size'][3]}</strong>
+                        </div>
+                    </div>    
+                {/foreach}
+            </div>  
+        </div>
+    </div>    
+</div>
+    
+<div class="row-fluid" style="margin-top: 15px;">
+    <div class="span6">
+        <div class="row-fluid">
+            <div class="span4">
+                <div class="control-group">
+                    <div class="controls">
+                        {input submit class => 'btn'}
+                    </div>
+                </div>
+            </div>
+            <div class="span3">
+                <div class="control-group">
+                    <div class="controls">
+                        <a href="{link SlideShow:default}" class="btn">
+                            <i class="icon-remove"></i> 
+                            Zrušit
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row-fluid" style="margin-top: 12px;">
+    <div class="span12">
+        <ul class="thumbnails">
+            <li>
+                <a class="modal-ajax thumbnail span12" href="{link Image:imageView $data->getFileName()}" >
+                    <img src="{$basePath}/uploads/{$data->getFileName()}" style="max-height: 410px" />
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+{/form}
+
+<div id="lightbox" class="lightbox hide fade" tabindex="-1" data-replace="true"></div>
+
+{/block}
+
+{block jscript}
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tiny_mce.js"></script>
+<script type="text/javascript">
+
+var $modal = $('#lightbox');
+
+$('.modal-ajax').on('click', function(){
+    $('body').modalmanager('loading');
+    var url = $(this).attr('href')
+
+    $modal.load(url, '', function(){
+    $modal.modal();
+    });
+
+return false});
+
+if($('#add_category').is(':checked'))
+{
+    $('#image_category').removeAttr('disabled') 
+}
+else
+{
+    $('#image_category').attr('disabled', 'disabled');
+}
+
+$(function(){
+    $('#add_category:checkbox').on('change', function(){
+        var value = $(this).is(':checked');
+        if (value) {
+            $('#image_category').removeAttr('disabled');
+
+        } else {
+            $('#image_category').attr('disabled', 'disabled');
+        }
+    });
+});  
+
+$(function() {
+    
+    tinyMCE.init({
+        mode : "exact",
+        elements : "editor",
+        theme : "advanced",
+        skin : "o2k7",
+        skin_variant : "silver",
+        width : "100%",
+        height: "200",
+        autoresize_min_height: 200,
+        autoresize_max_height: 400,        
+        theme_advanced_fonts : "Andale Mono=andale mono,times;"+
+            "Arial=arial,helvetica,sans-serif;"+
+            "Arial Black=arial black,avant garde;"+
+            "Book Antiqua=book antiqua,palatino;"+
+            "Comic Sans MS=comic sans ms,sans-serif;"+
+            "Courier New=courier new,courier;"+
+            "Georgia=georgia,palatino;"+
+            "Helvetica=helvetica;"+
+            "Impact=impact,chicago;"+
+            "Palatino Linotype=Palladio L, serif;"+
+            "Symbol=symbol;"+
+            "Tahoma=tahoma,arial,helvetica,sans-serif;"+
+            "Terminal=terminal,monaco;"+
+            "Times New Roman=times new roman,times;"+
+            "Trebuchet MS=trebuchet ms,geneva;"+
+            "Verdana=verdana,geneva;"+
+            "Webdings=webdings;"+
+            "Wingdings=wingdings,zapf dingbats",
+        entity_encoding : "raw",
+        theme_advanced_buttons1 : "bold, italic, underline, strikethrough, separator, separator, justifyleft, justifycenter, justifyright, justifyfull, separator, undo, redo, separator, code, separator, bullist, numlist",
+        theme_advanced_buttons2 : "formatselect, fontsizeselect , fontselect",
+        theme_advanced_buttons3 : "link, unlink, anchor, separator, forecolor, backcolor",
+        plugins : "paste, autoresize",
+        theme_advanced_buttons3_add : "pastetext,pasteword,selectall",
+        paste_auto_cleanup_on_paste : true,
+    });
+})
+
+</script>
+
+{/block}

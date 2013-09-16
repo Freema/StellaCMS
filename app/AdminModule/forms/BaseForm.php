@@ -138,7 +138,7 @@ abstract class BaseForm extends Object {
      * @param array | null $new
      * @return array
      */
-    protected function FormItemsDif(array $old, $new)
+    static public function FormItemsDif(array $old, $new)
     {
         $diff = array();
         

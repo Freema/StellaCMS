@@ -71,6 +71,11 @@ class SlideShowPresenter extends BasePresenter {
         }
     }
     
+    protected function createComponentEditImageForm()
+    {
+        return $this->_SlideShowForm->createEditForm($this->_Page);        
+    }
+
     public function startup() {
         parent::startup();
         
@@ -83,7 +88,7 @@ class SlideShowPresenter extends BasePresenter {
     }
 
 
-    public function actionDefault($page, array $sort)
+    public function actionDefault($page, array $sort, $category)
     {
         $this->_SlideShow->setSort($sort);
         
@@ -153,9 +158,17 @@ class SlideShowPresenter extends BasePresenter {
         }        
     }
     
-    public function actionImage($name)
+    public function actionImage($id)
     {
+        if(!($this->_Page = $this->_SlideShow->getSlideShowRepository()->getOne($id)))
+        {
+            $this->flashMessage('SlideShow does not exist.', 'error');
+            $this->redirect('default');
+        }
         
+        $info = $this->_Image->findImages($this->_Page->getFileName() .'*');
+        $this->template->fileInfo = $info;        
+        $this->template->data = $this->_Page;        
     }
     
     protected function createComponentPagination() {
