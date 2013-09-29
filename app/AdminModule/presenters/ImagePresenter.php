@@ -37,6 +37,9 @@ class ImagePresenter extends BasePresenter {
     
     /** @persistent */
     public $filter = array('ext' => 'all');
+    
+    /** @persistent */
+    public $editor = NULL;
 
     final function injectFileUploadForm(Forms\FileUploadForm $form) {
         $this->_fileUploadForm = $form;
@@ -128,28 +131,44 @@ class ImagePresenter extends BasePresenter {
         $this->template->images = $imageRes->loadImageTab();
     }
     
-    public function actionSelectImage() {
+    /**
+     * @param string $editor ID editoru 
+     * @param string $resize Velikost
+     */
+    public function actionSelectImage($editor, $resize = NULL) {
+        
         if($this->isAjax())
         {
-            $size = $this->_Image->getSize();        
-
-            $this->template->registerHelper('smallThumb', function($name) use ($size) {
-               $helper = Image::smallThumb($name, $size); 
-               return $helper;
-            });        
-
-            $imageRes =  $this->_Image;
-            $imageRes->setSort(array('order' => 'ASC'));
-            $this->template->images = $imageRes->loadImageTab();            
-            
-            $this->setView('selectImage');
+            $this->setView('selectImage-ajax');
         }
         else
         {
-            throw new \Nette\Application\BadRequestException;
+            $this->setLayout('iframeLayout');
         }
-    }    
-    
+                
+        $size = $this->_Image->getSize();        
+
+        $this->template->registerHelper('largeThumb', function($name) use ($size) {
+           $helper = Image::largeThumb($name, $size); 
+           return $helper;
+        });
+        
+        $this->template->registerHelper('smallThumb', function($name) use ($size) {
+           $helper = Image::smallThumb($name, $size); 
+           return $helper;
+        });           
+
+        $imageRes =  $this->_Image;
+        $imageRes->setSort(array('order' => 'ASC'));
+        
+        /**
+         * template return
+         */
+        $this->template->resize = $resize;        
+        $this->template->editor = $editor;
+        $this->template->images = $imageRes->loadImageTab();    
+    }
+
     /**
      * Controller pro vymazani obrazku.
      * @param integer $id

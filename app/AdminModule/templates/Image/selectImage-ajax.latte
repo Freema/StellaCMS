@@ -1,0 +1,46 @@
+<div class="modal-header">
+    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+    <h3>Vybrat obrázek</h3>
+</div>
+<div class="modal-body">
+    <ul id="selectable" class="thumbnails">
+        {foreach $images as $data}
+        <li data-name="{$data['file']}">                
+            <div class="thumbnail">                    
+                <img src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
+            </div>
+        </li>
+        {/foreach}
+    </ul>
+    <input id="selected-data" type="hidden" value="">
+</div>
+<div class="modal-footer">
+    <button id="submit-selected" type="button" data-dismiss="modal" class="btn"><i class="icon-adjust"></i> Vybrat</button>
+    <button type="button" data-dismiss="modal" class="btn"><i class="icon-off"></i> Close</button>
+</div>
+
+<script type="text/javascript">
+$(function() {
+    $(".modal-body").on('mouseover', function(){
+        $( "#selectable" ).selectable({
+            filter: "li",
+            stop: function() {
+                var result = "";
+                $("#selected-data").val(result);            
+                $(".ui-selected", this).each(function() {
+                    var index = $("#selected-data").val();
+                    var result = $(this).data('name');
+                    if(index == '')
+                    {
+                        $("#selected-data").val(result)            
+                    }
+                    else
+                    {
+                        $("#selected-data").val(index + ";" + result)            
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

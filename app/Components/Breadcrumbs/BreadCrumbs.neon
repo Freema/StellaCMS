@@ -36,6 +36,9 @@ Admin:
 			label: Knihovna médií
 			link: Image:default
 			children:
+				galerie:
+					label: Galerie obrazků
+					link: Image:galerie
 				newImage:
 					label: Nahrát nový soubor
 					link: Image:newImage

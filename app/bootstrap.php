@@ -20,7 +20,7 @@ require LIBS_DIR . '/autoload.php';
 $configurator = new Configurator;
 
 // Enable Nette Debugger for error visualisation & logging
-//$configurator->setDebugMode($configurator::AUTO);
+//$configurator->setDebugMode(FALSE);
 $configurator->enableDebugger(__DIR__ . '/../log');
 
 // Enable RobotLoader - this will load all classes automatically

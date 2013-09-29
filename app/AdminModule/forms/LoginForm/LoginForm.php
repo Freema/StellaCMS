@@ -2,6 +2,7 @@
 namespace AdminModule\Forms;
 
 use Nette\Application\UI\Form;
+use Nette\Security\AuthenticationException;
 
 /**
  * Description of LoginForm
@@ -49,7 +50,7 @@ class LoginForm extends BaseForm {
                 $form->presenter->getUser()->login($values->username, $values->password);
                 $form->presenter->redirect('ControlPanel:default');
 
-        } catch (NS\AuthenticationException $e) {
+        } catch (AuthenticationException $e) {
                 $form->addError($e->getMessage());
         }
     }

@@ -1,7 +1,7 @@
 /*!
- * Bootstrap v2.3.1
+ * Bootstrap v2.3.2
  *
- * Copyright 2012 Twitter, Inc
+ * Copyright 2013 Twitter, Inc
  * Licensed under the Apache License v2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  *
@@ -4771,7 +4771,7 @@ a.thumbnail:focus {
 .modal-body {
   position: relative;
   overflow-y: auto;
-  max-height: 440px;
+  max-height: 400px;
   padding: 15px;
 }
 .modal-form {
@@ -4931,6 +4931,14 @@ a.thumbnail:focus {
 }
 .open > .dropdown-menu {
   display: block;
+}
+.dropdown-backdrop {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  z-index: 990;
 }
 .pull-right > .dropdown-menu {
   right: 0;

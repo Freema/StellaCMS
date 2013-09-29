@@ -1,45 +1,164 @@
-<div class="modal-header">
-    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-    <h3>Vybrat obrázek</h3>
-</div>
-<div class="modal-body">
-    <ul id="selectable" class="thumbnails">
-        {foreach $images as $data}
-        <li data-name="{$data['file']}">                
-            <div class="thumbnail">                    
-                <img src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
+{block title}
+    <title>Vybrat obrázek</title>
+{/block}
+
+{block head}
+    <style type="text/css">
+        .image-select {
+            cursor: pointer;
+        }
+    </style>
+{/block}
+    
+{block content}
+<div class="navbar navbar-fixed-top navbar-inverse" style="position: fixed;">
+    <div class="navbar-inner">
+        <div class="container-fluid">
+            <div class="filters">
+                <div class="row-fluid">
+                    <div class="span8">
+                        {ifset $resize}
+                        {ifCurrent this 'editor' => $editor , 'resize' => 'largeThumb'}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-inverse" rel="tooltip" title="velké náhledy"><i class="icon-th-large icon-white"></i></a>
+                        {else}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip" rel="tooltip" title="velké náhledy"><i class="icon-th-large"></i></a>
+                        {/ifCurrent}
+                        {else}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-inverse" rel="tooltip" title="velké náhledy"><i class="icon-th-large icon-white"></i></a>
+                        {/ifset}
+                        {ifCurrent this 'editor' => $editor , 'resize' => 'smallThumb'}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip btn-inverse" rel="tooltip" title="malé náhledy"><i class="icon-th icon-white"></i></a>
+                        {else}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip" rel="tooltip" title="malé náhledy"><i class="icon-th"></i></a>
+                        {/ifCurrent}
+                        {ifCurrent this 'editor' => $editor , 'resize' => 'listThumb'}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip  btn-inverse" rel="tooltip" title="seznam"><i class="icon-th-list icon-white"></i></a>
+                        {else}
+                        <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip" rel="tooltip" title="seznam"><i class="icon-th-list"></i></a>
+                        {/ifCurrent}
+                    </div>
+                    <div class="span4">
+                        <input type="text" class="search-query" placeholder="Search" style="margin-top: 5px">
+                    </div>                    
+                </div>
             </div>
-        </li>
+        </div>
+    </div>
+</div>    
+<div class="container-fluid" style="margin-top: 60px"> 
+    <div class="row-fluid">
+    {snippet thumbs}
+        {if $resize === 'smallThumb'}
+        <ul class="thumbnails">
+            {foreach $images as $data}
+            <li style="margin-bottom: 5px; margin-left: 5px; text-decoration: none;">
+                <a class="image-select thumbnail">                
+                    <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
+                    <div class="caption">
+                        <p>{$data['name']|truncate:17}</p>
+                    </div>
+                </a>
+            </li>
+            {/foreach}
+         </ul>
+        {elseif $resize === 'listThumb'}
+<table class="table table-hover">
+    <colgroup>
+        <col style="width: 65px">
+        <col style="width: 40%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+        <col style="width: 10%">
+    </colgroup>
+    <thead>
+        <tr>
+            <th>#</th>
+            <th>Název</th>
+            <th>Pořadí</th>
+            <th>Katagorie</th>
+            <th>Publikovano</th>
+            <th>Uplodnoto</th>
+            <th>Id</th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $images as $data}
+            <tr class="image-select">
+                <td>
+                    <a>                    
+                        <img data-name="{$data['file']}" class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$data['file']|smallThumb}" />
+                    </a>
+                </td>
+                <td>
+                    <strong>{$data['name']}</strong>
+                    <div>{$data['ext']}</div>
+                </td>
+                <td>{$data['imageOrder']}</td>
+                <td>
+                    {if $data['category']}
+                        {$data['category']}
+                    {else}
+                        Nezařazené
+                    {/if}
+                </td>
+                <td>
+                    {if $data['public'] == TRUE}
+                    <span class="label label-success">
+                        <i class="icon-ok icon-white"></i>
+                    </span>
+                    {else}
+                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    {/if}
+                </td>
+                <td><abbr title="{$data['uploadedAt']|date: 'Y-m-d H:i:s'}">{$data['uploadedAt']|date: 'Y-m-d'}</abbr></td>
+                <td>{$data['id']}</td>
+            </tr>    
         {/foreach}
-    </ul>
-    <input id="selected-data" type="hidden" value="">
-</div>
-<div class="modal-footer">
-    <button id="submit-selected" type="button" data-dismiss="modal" class="btn"><i class="icon-adjust"></i> Vybrat</button>
-    <button type="button" data-dismiss="modal" class="btn"><i class="icon-off"></i> Close</button>
-</div>
+    </tbody>
+</table>
+        {else}
+        <ul class="thumbnails">
+            {foreach $images as $data}
+            <li style="margin-bottom: 5px; margin-left: 5px; width: 30%">
+                <a class="image-select thumbnail" style="text-decoration: none">                
+                    <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|largeThumb}" alt="">
+                    <div class="caption">
+                        <p>{$data['name']|truncate:30}</p>
+                    </div>
+                </a>
+            </li>
+            {/foreach}
+         </ul>
+        {/if}
+    {/snippet}
+    </div>
+</div>    
+{/block}
+
+{block jscript}    
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+<script type="text/javascript">window.jQuery || document.write('<script src="{$basePath}/public/admin/js/jquery-1.9.1.min.js"><\/script>')</script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui.js"></script>    
 <script type="text/javascript">
-$(function() {
-    $(".modal-body").on('mouseover', function(){
-        $( "#selectable" ).selectable({
-            filter: "li",
-            stop: function() {
-                var result = "";
-                $("#selected-data").val(result);            
-                $(".ui-selected", this).each(function() {
-                    var index = $("#selected-data").val();
-                    var result = $(this).data('name');
-                    if(index == '')
-                    {
-                        $("#selected-data").val(result)            
-                    }
-                    else
-                    {
-                        $("#selected-data").val(index + ";" + result)            
-                    }
-                });
-            }
-        });
+$(document).ready(function(){
+    
+    $(".image-select").click( function(e){
+        var editor_id = {$editor}
+        var base_url = {$basePath};
+        var file_name = $(this).find('img').data('name');
+        var pDocument = parent.document;
+        var target = $(pDocument).find('#' + editor_id + '_ifr');
+        var fill = '';
+        
+        fill=$("<img />",{"src":base_url+ '/uploads/' +file_name});
+        
+        $(target).contents().find('#tinymce').append(fill);
     });
-});
+    
+    $("[rel=tooltip]").tooltip({ placement: 'bottom'});
+});   
 </script>
+{/block}

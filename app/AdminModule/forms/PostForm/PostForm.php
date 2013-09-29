@@ -60,7 +60,7 @@ class PostForm extends BaseForm
              ->setPrompt('- No category -');
         
         $form->addTextArea('text', 'Text: ')
-             ->setHtmlId('editor')->getControlPrototype();
+             ->setHtmlId('editor_add_post')->getControlPrototype();
         
         $form->addCheckboxList('tags', 'Štítky: ', $t)
              ->setAttribute('class', 'checkbox')
@@ -121,7 +121,7 @@ class PostForm extends BaseForm
         
         $form->addTextArea('text', 'Text: ')
              ->setDefaultValue($this->_defaults->getContent())   
-             ->setHtmlId('editor');
+             ->setHtmlId('editor_edit_post');
 
         $form->addCheckboxList('tags', 'Štítky: ', $t)
              ->setDefaultValue($default['tags'])

@@ -43,11 +43,11 @@ class Authenticator extends Object implements NS\IAuthenticator
             $user = $this->_users->findOneBy(array('username' => $username));
 
             if (!$user) {
-                    throw new NS\AuthenticationException("User '$username' not found.", self::IDENTITY_NOT_FOUND);
+                    throw new NS\AuthenticationException("Uživatelské jmeno: '$username' nebylo nalezeno.", self::IDENTITY_NOT_FOUND);
             }
 
             if ($user->getPassword() !== $this->calculateHash($password)) {
-                    throw new NS\AuthenticationException("Invalid password.", self::INVALID_CREDENTIAL);
+                    throw new NS\AuthenticationException("Špatné heslo.", self::INVALID_CREDENTIAL);
             }
 
             return new NS\Identity($user->getId(), $user->getRole(), array(
