@@ -25,6 +25,11 @@ class PostPresenter extends BasePresenter {
     private $_Category;
     
     /**
+     * @var \Models\Tag\Tag  
+     */
+    private $_Tag;
+    
+    /**
     * @var \Models\Entity\Category\Category 
     */
     private $_Page;
@@ -50,6 +55,11 @@ class PostPresenter extends BasePresenter {
     final function injectPost(\Models\Post\Post $service)
     {
         $this->_Post = $service;
+    }
+    
+    final function injectTag(\Models\Tag\Tag $service)
+    {
+        $this->_Tag = $service;
     }
     
     final function injectCategory(\Models\Category\Category $service)
@@ -134,9 +144,24 @@ class PostPresenter extends BasePresenter {
         if(!$this->isAjax()){
             $this->redirect('this');
         }
-        else{
+        else
+        {
             $this->invalidateControl('articleTable');
             $this->invalidateControl('flashMessages');
+        }
+    }
+    
+    public function handleAddTag($newTag)
+    {
+        if(!$this->isAjax())
+        {
+            $this->redirect('this');
+        }
+        else
+        {
+            $this->_Tag->addSigleTag($newTag);
+            $this->invalidateControl('tag_list');
+            $this->invalidateControl('tag_add');
         }
     }
     

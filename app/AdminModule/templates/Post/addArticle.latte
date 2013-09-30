@@ -53,21 +53,42 @@
             <div class="sidebar-post-box">
                 <h3><strong>Štítky</strong></h3>
                 <div class="inside">
-                    <ul class="nav nav-tabs">
+                    <ul id="tags-tab" class="nav nav-tabs">
                         <li class="active">
-                            <a href="#tags">Štítky</a>
+                            <a data-toggle="tab" href="#tags">Štítky</a>
                         </li>
-
+                        <li>
+                            <a data-toggle="tab" href="#add_tags">Vytvořit nový štítek</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content">
                         <div class="tab-pane active" id="tags">
-                            {foreach $form['tags']->items as $key => $value}
-                            <label class="checkbox">
-                                {!$form['tags']->getControl($key)}
-                                {$value}
-                            </label>
-                            {/foreach}
+                            {snippet tag_list}
+                            {var $form => $control['postForm']}
+                            <table class="table table-hover">
+                                <tbody>
+                                {foreach $form['tags']->items as $key => $value}
+                                    <tr>
+                                        <td>
+                                            <label class="checkbox">
+                                            {!$form['tags']->getControl($key)}
+                                            </label>
+                                        </td>
+                                        <td>{$value}</td>
+                                    </tr>
+                                {/foreach}
+                                </tbody>
+                            </table>
+                            {/snippet}
+                        </div>
+                        <div class="tab-pane" id="add_tags">
+                            {snippet tag_add}
+                                <div id="add_tag" class="input-append">
+                                    <input class="span2" name="newTag" type="text">
+                                    <button class="btn" type="button"><i class="icon-ok"></i></button>
+                                </div>
+                            {/snippet}
                         </div>
                     </div>
                 </div>
@@ -79,4 +100,36 @@
     
 {block jscript}
 {include '../Helpers/editorScript.latte' scriptType => 'post'}
+<script type="text/javascript">
+    $('#tags-tab a').click(function (e) {
+        e.preventDefault();
+        $(this).tab('show');
+    })
+    
+    $('#add_tag button').on('click', function (e){
+        e.preventDefault();
+        var input = $('#add_tag input');
+        
+        if(input)
+        {
+            $.ajax({
+               type: "GET",
+               url: {link addTag!},
+               data: input.serialize(),
+               success: function(payload) {
+                    if (payload.snippets) {
+                        for (var i in payload.snippets) {
+                            $('#' + i).html(payload.snippets[i]);
+                        }
+                    }           
+               }
+            });
+        }
+        else
+        {
+            console.log('empty');
+        }
+    });
+    
+</script>    
 {/block}    

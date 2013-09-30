@@ -15,7 +15,6 @@
         <a class="btn btn-success" href="{link Category:addCategory}"><i class="icon-plus-sign"></i> Vytvořit novou kategorii</a>
     </div>
 </div>
-{snippet categoryTable}
 <table class="table table-striped list-table">
     <colgroup>
         <col style="width: 5%">
@@ -113,7 +112,7 @@
                     <strong>{$item['title']}</strong>
                     <div class="tab-actions">
                         <span><a href="{link Category:editCategory $item['id']}">Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span> |
+                        <span><a href="{link delete! $item['id']}" class="delete">Smazat</a></span> |
                         <span><a href="{link Post:default category => $item['id']}">Nahled</a></span>
                     </div>
                 </td>
@@ -124,7 +123,6 @@
         {/foreach}
     </tbody>
 </table>
-{/snippet}
 
 <div class="row">
     {control pagination}

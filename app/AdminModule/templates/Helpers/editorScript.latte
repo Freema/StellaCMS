@@ -6,12 +6,12 @@
 {if $scriptType = 'post'}
 <script type="text/javascript">
 tinymce.galeryURL = {link Image:selectImage}
-    
+   
 tinymce.init({
         selector: "textarea",
         height : 450,
         plugins: [
-                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
+                "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
                 "table contextmenu directionality emoticons template textcolor paste fullpage textcolor filemanager"
         ],
@@ -38,5 +38,6 @@ tinymce.init({
                 { title: 'Test template 2', content: 'Test 2' }
         ]
 });
+
 </script>
 {/if}

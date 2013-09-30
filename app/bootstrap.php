@@ -2,6 +2,7 @@
 
 use AdminModule\Forms\CheckboxList;
 use AdminModule\Forms\MultyFileUpload;
+use Kdyby\Replicator\Container;
 use Models\PageRouter\PageRouter;
 use Nella\Console\Config\Extension as Extension2;
 use Nella\Doctrine\Config\Extension;
@@ -44,8 +45,12 @@ if (!is_writable($container->expand('%tempDir%'))) {
 $pageRouter = new PageRouter();
 $container->router[] = $pageRouter->createRouter();
 
+/**
+ * Form extensions register
+ */
 MultyFileUpload::register();
 CheckboxList::register();
+Container::register();
 
 // Configure and run the application!
 $container->application->run();

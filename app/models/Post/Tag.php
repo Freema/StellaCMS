@@ -81,8 +81,28 @@ class Tag extends Object {
         $query->from('Models\Entity\Tag\Tag', 't');
         
         return $query->getQuery()->getSingleScalarResult();
-    }      
+    }
+    
+    public function addSigleTag($name)
+    {
+        $name = (string) $name;
+        $checkName = $this->getTagRepository()->findOneBy(array('name' => $name));
+        
+        if(!$checkName)
+        {
+            $tag = new \Models\Entity\Tag\Tag($name);
+            $this->_em->persist($tag);
+            $this->_em->flush();
+        }
+        else
+        {
+            return false;
+        }
+    }
 
+    /**
+     * @return array
+     */
     public function loadTagTab()
     {
         $query = $this->_em->createQueryBuilder();
@@ -133,10 +153,22 @@ class Tag extends Object {
         return $query->getQuery()->getResult(); 
     }
     
+    /**
+     * @param integer $id
+     * @return bool
+     */
     public function deleteTag($id)
     {
         $tag = $this->getTagRepository()->getOne($id);
-        $this->_em->remove($tag);
-        return $this->_em->flush();
+        if($tag)
+        {
+            $this->_em->remove($tag);
+            $this->_em->flush();
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }

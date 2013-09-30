@@ -87,14 +87,17 @@ class TagPresenter extends BasePresenter {
     
     public function handleDelete($id)
     {
-        $this->_Tag->deleteTag($id);
-        if(!$this->isAjax()){
-            $this->redirect('this');
+        $delete = $this->_Tag->deleteTag($id);
+        if($delete)
+        {
+            $this->flashMessage('Štítek byl vymazán!', 'success');
         }
-        else{
-            $this->invalidateControl('tagTable');
-            $this->invalidateControl('flashMessages');
+        else
+        {
+            $this->flashMessage('Nastala chyba při mazání štítku!', 'error');
         }
+        
+        $this->redirect('this');
     }
     
     protected function createComponentPagination() {

@@ -12,6 +12,7 @@ use Models\Entity\Post\Post;
 
 /**
  * @ORM\Entity(repositoryClass="Models\Entity\Tag\TagRepository")
+ * @ORM\HasLifecycleCallbacks 
  * @ORM\Table(name="tag")
  */
 
@@ -65,10 +66,19 @@ class Tag
     public function __construct($name) {
         $this->name = $name;
         $this->slug = NULL;
-        $this->description = NULL;
+        $this->description = '';
         $this->quantifier = 0;
         $this->posts = new ArrayCollection();        
     }
+    
+    /** @ORM\prePersist */
+    public function doOtherStuffOnPrePersist()
+    {
+        if($this->slug == NULL)
+        {
+            $this->setSlug($this->name);
+        }
+    }    
     
     public function getId()
     {
@@ -116,7 +126,8 @@ class Tag
      */
     public function setSlug($slug)
     {
-        $this->slug = $slug;
+        $link = \Nette\Utils\Strings::webalize($slug);
+        $this->slug = $link;
         return $this;
     }
     

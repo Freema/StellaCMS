@@ -133,10 +133,22 @@ class Category extends Object {
         return $query->getQuery()->getResult();         
     }
     
+    /**
+     * @param integer $id
+     * @return boolean
+     */
     public function deleteCategory($id)
     {
         $category = $this->getCategoryRepository()->getOne($id);
-        $this->_em->remove($category);
-        return $this->_em->flush();
+        if($category)
+        {
+            $this->_em->remove($category);
+            $this->_em->flush();
+            return TRUE;
+        }
+        else
+        {
+            return FALSE;
+        }
     }
 }

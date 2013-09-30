@@ -15,7 +15,6 @@
         <a class="btn btn-success" href="{link Tag:addTag}"><i class="icon-plus-sign"></i> Vytvořit nový štítek</a>
     </div>
 </div>
-{snippet tagTable}
 <table class="table table-striped list-table">
     <colgroup>
         <col style="width: 5%">
@@ -113,7 +112,7 @@
                     <strong>{$item['name']}</strong>
                     <div class="tab-actions">
                         <span><a href="{link Tag:editTag $item['id']}">Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}" class="ajax">Smazat</a></span>
+                        <span><a href="{link delete! $item['id']}" class="delete">Smazat</a></span>
                     </div>
                 </td>
                 <td>{$item['slug']}</td>
@@ -123,7 +122,6 @@
         {/foreach}
     </tbody>
 </table>
-{/snippet}
 
 <div class="row">
     {control pagination}

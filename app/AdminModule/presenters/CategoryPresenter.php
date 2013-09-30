@@ -98,14 +98,17 @@ class CategoryPresenter extends BasePresenter {
     
     public function handleDelete($id)
     {
-        $this->_Category->deleteCategory($id);
-        if(!$this->isAjax()){
-            $this->redirect('this');
+        $delete = $this->_Category->deleteCategory($id);
+        if($delete)
+        {
+            $this->flashMessage('Kategorie byla vymazána!', 'success');
         }
-        else{
-            $this->invalidateControl('categoryTable');
-            $this->invalidateControl('flashMessages');
+        else
+        {
+            $this->flashMessage('Nastala chyba při mazání kategorie!', 'error');
         }
+        
+        $this->redirect('this');
     }
     
     protected function createComponentPagination() {
