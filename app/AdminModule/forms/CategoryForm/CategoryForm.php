@@ -59,7 +59,7 @@ class CategoryForm extends BaseForm {
              ->setPrompt('- No parent -');
         
         $form->addTextArea('text', 'Text: ')
-             ->setHtmlId('editor');
+             ->setHtmlId('editor_add_category');
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
@@ -105,7 +105,7 @@ class CategoryForm extends BaseForm {
         
         $form->addTextArea('text', 'Text: ')
              ->setDefaultValue($this->_defaults->getDescription())   
-             ->setHtmlId('editor');
+             ->setHtmlId('editor_edit_category');
         
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');

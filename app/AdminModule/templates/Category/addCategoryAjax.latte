@@ -9,26 +9,26 @@
         <div class="control-group">
             {label title class => 'control-label' /}
             <div class="controls">
-                {input title class => 'span5'}
+                {input title style => 'width: 97%;'}
             </div>
         </div>                
         <div class="control-group">
             {label tag_slug class => 'control-label' /}
             <div class="controls">
-                {input tag_slug class => 'span5'}
+                {input tag_slug style => 'width: 97%;'}
             </div>
         </div>                
 
         <div class="control-group">
             {label parent class => 'control-label' /}
             <div class="controls">
-                {input parent class => 'span5'}
+                {input parent style => 'width: 100%;'}
             </div>
         </div>                
 
         <div class="control-group">
             <div class="controls">
-                {input text class => 'span5', rows => '5'}
+                {input text rows => '5'}
             </div>
         </div>                
     </fieldset>  
@@ -38,40 +38,3 @@
     <button type="button" data-dismiss="modal" class="btn"><i class="icon-off"></i> Close</button>
 </div>
 {/form}
-
-<script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tinymce.min.js"></script>
-<script type="text/javascript">
-tinymce.galeryURL = {link Image:selectImage}
-    
-tinymce.init({
-        selector: "textarea",
-        height : 450,
-        plugins: [
-                "advlist autolink autosave link image lists charmap print preview hr anchor pagebreak spellchecker",
-                "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
-                "table contextmenu directionality emoticons template textcolor paste fullpage textcolor filemanager"
-        ],
-
-        toolbar1: "bold italic underline strikethrough | alignleft aligncenter alignright alignjustify | styleselect formatselect fontselect fontsizeselect",
-        toolbar2: "cut copy paste | searchreplace | bullist numlist | outdent indent blockquote | undo redo | link unlink anchor filemanager image media code | inserttime preview",
-        toolbar3: " forecolor backcolor | table | hr removeformat | subscript superscript | charmap emoticons | print fullscreen | ltr rtl",
-
-        menubar: false,
-        toolbar_items_size: 'small',
-
-        style_formats: [
-                { title: 'Bold text', inline: 'b' },
-                { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
-                { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
-                { title: 'Example 1', inline: 'span', classes: 'example1' },
-                { title: 'Example 2', inline: 'span', classes: 'example2' },
-                { title: 'Table styles' },
-                { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
-        ],
-
-        templates: [
-                { title: 'Test template 1', content: 'Test 1' },
-                { title: 'Test template 2', content: 'Test 2' }
-        ]
-});
-</script>

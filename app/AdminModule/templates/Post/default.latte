@@ -242,6 +242,7 @@ $('.btn-ajax').on('click', function(){
 
     $modal.load(url, '', function(){
     $modal.modal();
+    loadMCE();
     });
 
 return false});
@@ -270,4 +271,6 @@ $modal.on('submit', function(){
     });
 return false});
 </script>
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'category_ajax'}
 {/block}

@@ -60,7 +60,7 @@ class PostForm extends BaseForm
              ->setPrompt('- No category -');
         
         $form->addTextArea('text', 'Text: ')
-             ->setHtmlId('editor_add_post')->getControlPrototype();
+             ->setHtmlId('editor_add_post');
         
         $form->addCheckboxList('tags', 'Štítky: ', $t)
              ->setAttribute('class', 'checkbox')
