@@ -3,7 +3,7 @@ namespace AdminModule\Forms;
 /**
  * Description of PostForm
  * 
- * @author Tomáš Grasl
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 
 use Doctrine\ORM\EntityManager;
@@ -78,7 +78,7 @@ class PostForm extends BaseForm
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('i class="icon-ok-sign icon-white"');
         $vybratBtn->add(' Přidat članek');
         
         return $form;        
@@ -140,7 +140,7 @@ class PostForm extends BaseForm
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('i class="icon-ok-sign icon-white"');
         $vybratBtn->add(' Upravit članek');
         
         return $form;   

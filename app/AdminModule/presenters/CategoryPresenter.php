@@ -33,6 +33,7 @@ class CategoryPresenter extends BasePresenter {
         'title'         => 'NONE',
         'slug'          => 'NONE',
         'posts'         => 'NONE',
+        'public'        => 'NONE',
     );       
     
     final function injectCategoryForm(Forms\CategoryForm $factory)
@@ -93,6 +94,7 @@ class CategoryPresenter extends BasePresenter {
             $this->flashMessage('Category does not exist.', 'error');
             $this->redirect('default');
         }
+        
         $this->template->data = $this->_Page;
     }
     
@@ -108,7 +110,7 @@ class CategoryPresenter extends BasePresenter {
             $this->flashMessage('Nastala chyba při mazání kategorie!', 'error');
         }
         
-        $this->redirect('this');
+        $this->redirect('default');
     }
     
     protected function createComponentPagination() {

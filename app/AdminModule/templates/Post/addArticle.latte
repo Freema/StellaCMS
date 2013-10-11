@@ -35,11 +35,6 @@
                     </div>
                 </div>                
 
-
-                <div class="control-group">
-                    {input submit}
-                </div>
-
         </div>    
         <div class="span3">
             
@@ -94,6 +89,11 @@
                 </div>
             </div>
         </div>
+        <div class="span12">
+            <div class="form-actions">
+                {input submit}
+            </div>        
+        </div>
         {/form}    
     </div>    
 {/block}
@@ -110,7 +110,7 @@
         e.preventDefault();
         var input = $('#add_tag input');
         
-        if(input)
+        if(input.val())
         {
             $.ajax({
                type: "GET",
@@ -125,11 +125,6 @@
                }
             });
         }
-        else
-        {
-            console.log('empty');
-        }
     });
-    
 </script>    
 {/block}    

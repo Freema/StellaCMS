@@ -9,7 +9,7 @@ tinymce.galeryURL = {link Image:selectImage}
    
 tinymce.init({
         selector: "textarea",
-        height : 450,
+        height : 305,
         plugins: [
                 "advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker",
                 "searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking",
@@ -74,5 +74,42 @@ tinymce.init({
                 { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
         ],
 });
+</script>
+{elseif $scriptType == 'galerii'}
+<script type="text/javascript">
+tinymce.init({
+        selector: "textarea",
+
+        toolbar1: "bold italic underline strikethrough | cut copy paste | alignleft aligncenter alignright alignjustify | fontselect fontsizeselect",
+
+        toolbar_items_size: 'small',
+
+        style_formats: [
+                { title: 'Bold text', inline: 'b' },
+                { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+                { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+                { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+        ],
+});
+</script>
+{elseif $scriptType == 'slideshow'}
+<script type="text/javascript">
+function tinyStart()
+{
+    tinymce.init({
+            selector: "textarea",
+
+            toolbar1: "bold italic underline strikethrough | cut copy paste | alignleft aligncenter alignright alignjustify | fontselect fontsizeselect",
+
+            toolbar_items_size: 'small',
+
+            style_formats: [
+                    { title: 'Bold text', inline: 'b' },
+                    { title: 'Red text', inline: 'span', styles: { color: '#ff0000' } },
+                    { title: 'Red header', block: 'h1', styles: { color: '#ff0000' } },
+                    { title: 'Table row 1', selector: 'tr', classes: 'tablerow1' }
+            ],
+    });
+}    
 </script>
 {/if}

@@ -3,86 +3,70 @@
 {/block}
 
 {block content}
+    <div class="row">
     {form categoryForm}
-        <div class="alert alert-error" n:if="$form->hasErrors()"> 
-            <li n:foreach="$form->errors as $error">{$error}</li>
+        <div class="span9">
+            <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                <li n:foreach="$form->errors as $error">{$error}</li>
+            </div>
+
+            <div class="row-fluid">
+                <div class="span6">
+                    <div class="control-group">
+                        {label title class => 'control-label' /}
+                        <div class="controls">
+                            {input title}
+                        </div>
+                    </div>                
+                </div>
+                <div class="span6">
+                    <div class="control-group">
+                        {label tag_slug class => 'control-label' /}
+                        <div class="controls">
+                            {input tag_slug}
+                        </div>
+                    </div>                
+                </div>
+            </div>
+
+            <div class="control-group">
+                {label parent class => 'control-label' /}
+                <div class="controls">
+                    {input parent}
+                </div>
+            </div>                
+
+            <div class="control-group">
+                <div class="controls">
+                    {input text}
+                </div>
+            </div>                
         </div>
-
-        <div class="control-group">
-            {label title class => 'control-label' /}
-            <div class="controls">
-                {input title}
-            </div>
-        </div>                
-    
-        <div class="control-group">
-            {label tag_slug class => 'control-label' /}
-            <div class="controls">
-                {input tag_slug}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            {label parent class => 'control-label' /}
-            <div class="controls">
-                {input parent}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            <div class="controls">
-                {input text}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            {input submit}
+        <div class="span3">
+            <div class="sidebar-post-box">
+                <h3><strong>Publikovat</strong></h3>
+                <div class="inside">
+                    {input category_publish}
+                </div>
+            </div>            
+            <div class="sidebar-post-box">
+                <h3><strong>{label category_css_class /}</strong></h3>
+                <div class="inside">
+                    {input category_css_class}
+                </div>
+            </div>        
         </div>
-
+        <div class="span12">
+            <div class="form-actions">
+                {input submit}
+            </div>        
+        </div>
     {/form}
-{/block}
+    </div> 
+{/block}    
+    
     
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/admin/tiny_mce/tiny_mce.js"></script>
-<script type="text/javascript">
-
-$(function() {
-    
-    tinyMCE.init({
-        mode : "exact",
-        elements : "editor",
-        theme : "advanced",
-        skin : "o2k7",
-        skin_variant : "silver",
-        width : "700",
-        height: "500",
-        theme_advanced_fonts : "Andale Mono=andale mono,times;"+
-            "Arial=arial,helvetica,sans-serif;"+
-            "Arial Black=arial black,avant garde;"+
-            "Book Antiqua=book antiqua,palatino;"+
-            "Comic Sans MS=comic sans ms,sans-serif;"+
-            "Courier New=courier new,courier;"+
-            "Georgia=georgia,palatino;"+
-            "Helvetica=helvetica;"+
-            "Impact=impact,chicago;"+
-            "Palatino Linotype=Palladio L, serif;"+
-            "Symbol=symbol;"+
-            "Tahoma=tahoma,arial,helvetica,sans-serif;"+
-            "Terminal=terminal,monaco;"+
-            "Times New Roman=times new roman,times;"+
-            "Trebuchet MS=trebuchet ms,geneva;"+
-            "Verdana=verdana,geneva;"+
-            "Webdings=webdings;"+
-            "Wingdings=wingdings,zapf dingbats",
-        entity_encoding : "raw",
-        theme_advanced_buttons1 : "bold, italic, underline, strikethrough, separator, separator, justifyleft, justifycenter, justifyright, justifyfull, separator, undo, redo, separator, code, separator, bullist, numlist, | ,formatselect, fontsizeselect , fontselect",
-        theme_advanced_buttons2 : "link, unlink, anchor, separator, forecolor, backcolor, separator, image",
-        plugins : "paste",
-        theme_advanced_buttons3_add : "pastetext,pasteword,selectall",
-        paste_auto_cleanup_on_paste : true,
-        file_browser_callback : "myFileBrowser",
-    });
-})
-
-</script>
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'category'}
 {/block}

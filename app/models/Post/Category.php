@@ -86,7 +86,7 @@ class Category extends Object {
     public function loadCategoryTab()
     {
         $query = $this->_em->createQueryBuilder();
-        $query->select('c.id, c.title, c.slug, c.description, COUNT(p.category) AS posts');
+        $query->select('c.id, c.title, c.slug, c.description, c.publish, COUNT(p.category) AS posts');
         $query->from('Models\Entity\Category\Category', 'c');
         $query->leftJoin('c.posts', 'p');
         $query->groupBy('c.id');
@@ -123,6 +123,14 @@ class Category extends Object {
                 if(in_array($this->sort['posts'], $sort_typs))
                 {
                     $query->addOrderBy('posts', $this->sort['posts']);
+                }
+            }
+            
+            if(isset($this->sort['public']))
+            {
+                if(in_array($this->sort['public'], $sort_typs))
+                {
+                    $query->addOrderBy('c.publish', $this->sort['public']);
                 }
             }
         }        

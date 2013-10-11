@@ -5,7 +5,7 @@ use Components\Paginator\PagePaginator;
 /**
  * Description of ObsahStranekPresenter
  *
- * @author Tomáš Grasl
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 class PostPresenter extends BasePresenter {
 
@@ -47,21 +47,33 @@ class PostPresenter extends BasePresenter {
         'uploadet_at'   => 'NONE',
         );
     
+    /**
+     * @param \AdminModule\Forms\PostForm $factory
+     */
     final function injectPostForm(Forms\PostForm $factory)
     {
         $this->_PostForm = $factory;
     }
     
+    /**
+     * @param \Models\Post\Post $service
+     */
     final function injectPost(\Models\Post\Post $service)
     {
         $this->_Post = $service;
     }
     
+    /**
+     * @param \Models\Tag\Tag $service
+     */
     final function injectTag(\Models\Tag\Tag $service)
     {
         $this->_Tag = $service;
     }
     
+    /**
+     * @param \Models\Category\Category $service
+     */
     final function injectCategory(\Models\Category\Category $service)
     {
         $this->_Category = $service;
@@ -87,7 +99,6 @@ class PostPresenter extends BasePresenter {
         if(!is_null($category))
         {
             $cf_test = $this->_checkCategoryExist($category, $cFilter);
-            dump($cf_test);
             $this->_Post->setFilter($cf_test);
         }
         
@@ -141,8 +152,9 @@ class PostPresenter extends BasePresenter {
     public function handleDelete($id)
     {
         $this->_Post->deleteArticle($id);
+        $this->flashMessage('Příspěvek byl smazan.', 'success');
         if(!$this->isAjax()){
-            $this->redirect('this');
+            $this->redirect('Post:default');
         }
         else
         {

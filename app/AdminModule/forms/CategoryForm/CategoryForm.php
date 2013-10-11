@@ -61,6 +61,13 @@ class CategoryForm extends BaseForm {
         $form->addTextArea('text', 'Text: ')
              ->setHtmlId('editor_add_category');
         
+        $form->addSelect('category_publish', 'Publikovat: ', array('Koncept', 'Publikovat'))
+             ->addRule(Form::FILLED, NULL)
+             ->setDefaultValue(1);      
+        
+        $form->addText('category_css_class', 'CSS trida odkazu: ')
+             ->addRule(Form::MAX_LENGTH, NULL, 50);             
+        
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
         
@@ -69,7 +76,7 @@ class CategoryForm extends BaseForm {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('i class="icon-ok-sign icon-white"');
         $vybratBtn->add(' Vytvořit categorii');
         
         return $form;        
@@ -107,6 +114,14 @@ class CategoryForm extends BaseForm {
              ->setDefaultValue($this->_defaults->getDescription())   
              ->setHtmlId('editor_edit_category');
         
+        $form->addSelect('category_publish', 'Publikovat: ', array('Koncept', 'Publikovat'))
+             ->addRule(Form::FILLED, NULL)
+             ->setDefaultValue($this->_defaults->getPublish());        
+        
+        $form->addText('category_css_class', 'CSS trida odkazu: ')
+             ->addRule(Form::MAX_LENGTH, NULL, 50)
+             ->setDefaultValue($this->_defaults->getCssClass());        
+        
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');
         
@@ -115,7 +130,7 @@ class CategoryForm extends BaseForm {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('i class="icon-ok-sign icon-white"');
         $vybratBtn->add(' Upravit categorii');
         
         return $form;               
@@ -146,6 +161,8 @@ class CategoryForm extends BaseForm {
                 $category->setTitle($value->title);
                 $category->setSlug($slug);
                 $category->setDescription($value->text);
+                $category->setPublish($value->category_publish);
+                $category->setCssClass($value->category_css_class);
 
                 if(!empty($parent)){
                     $category->setParent($parent);
@@ -171,6 +188,9 @@ class CategoryForm extends BaseForm {
                 if(!empty($parent)){
                     $category->setParent($parent);
                 }  
+                
+                $category->setPublish($value->category_publish);
+                $category->setCssClass($value->category_css_class);                
 
                 $this->_em->persist($category);
                 $this->_em->flush($category);

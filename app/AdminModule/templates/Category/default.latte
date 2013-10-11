@@ -20,7 +20,8 @@
         <col style="width: 5%">
         <col style="width: 20%">
         <col style="width: 15%">
-        <col style="width: 50%">
+        <col style="width: 40%">
+        <col style="width: 10%">
         <col style="width: 10%">
     </colgroup>
     <thead>
@@ -85,6 +86,25 @@
             <th>Popis</th>
             <th>
                 {var $page = $presenter->page}
+                {var $sort_public = $presenter->sort}
+                {ifset $sort_public['public']}
+                    {if $sort_public['public'] == 'ASC'}
+                        {var $sort_public['public'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_public['public'] == 'DESC'}
+                        {var $sort_public['public'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_public['public'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Category:default $page, $sort_public}">
+                    Publikovano
+                </a>                 
+            </th>            
+            <th>
+                {var $page = $presenter->page}
                 {var $sort_posts = $presenter->sort}
                 {ifset $sort_posts['posts']}
                     {if $sort_posts['posts'] == 'ASC'}
@@ -111,13 +131,22 @@
                 <td>
                     <strong>{$item['title']}</strong>
                     <div class="tab-actions">
-                        <span><a href="{link Category:editCategory $item['id']}">Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}" class="delete">Smazat</a></span> |
-                        <span><a href="{link Post:default category => $item['id']}">Nahled</a></span>
+                        <span><a href="{link Category:editCategory $item['id']}"><i class="icon-edit"></i>Upravit</a></span> |
+                        <span><a href="{link delete! $item['id']}" class="delete"><i class="icon-trash"></i>Smazat</a></span> |
+                        <span><a href="{link Post:default category => $item['id']}"><i class="icon-search"></i>Nahled</a></span>
                     </div>
                 </td>
                 <td>{$item['slug']}</td>
                 <td>{$item['description']|truncate: 60| striptags}</td>
+                <td>
+                    {if $item['publish'] == TRUE}
+                    <span class="label label-success">
+                        <i class="icon-ok icon-white"></i>
+                    </span>
+                    {else}
+                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    {/if}
+                </td>                
                 <td>{$item['posts']}</td>
             </tr>
         {/foreach}
