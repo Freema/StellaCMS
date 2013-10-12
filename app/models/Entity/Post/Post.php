@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Models\Entity\Category\Category;
+use Models\Entity\Comment\Comment;
 use Models\Entity\Tag\Tag;
 use Models\Entity\User\User;
 
@@ -66,6 +67,10 @@ class Post
      */
     protected $createdAt;
     
+    /**
+     * @ORM\OneToMany(targetEntity="Models\Entity\Comment\Comment", mappedBy="post", cascade={"persist","remove"})
+     */
+    protected $comment;    
 
     public function __construct(User $users, $content, $title)
     {

@@ -72,6 +72,9 @@ class FileUploadForm extends BaseForm  {
              ->setAttribute('class', 'btn btn-success');        
         
         $form->onSuccess[] = callback($this, 'addImage');
+        
+        $form['image_category']->addConditionOn($form['add_category'], $form::FILLED)
+                               ->addRule($form::FILLED, 'Žádná kategorie nebyla vybrana.');        
 
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
@@ -141,6 +144,9 @@ class FileUploadForm extends BaseForm  {
              ->setAttribute('class', 'btn btn-success');
         
         $form->onSuccess[] = callback($this, 'editImage');
+        
+        $form['image_category']->addConditionOn($form['add_category'], $form::FILLED)
+                               ->addRule($form::FILLED, 'Žádná kategorie nebyla vybrana.');
 
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");

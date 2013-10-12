@@ -49,6 +49,8 @@ common:
                     class: Models\Category\Category
                 model.post:
                     class: Models\Post\Post
+                model.comment:
+                    class: Models\Comment\Comment
                 model.link:
                     class: Models\Link\Link
                 model.tag:

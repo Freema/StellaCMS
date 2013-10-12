@@ -21,6 +21,13 @@
         <legend n:block=title>{$data->getName()}</legend>    
     </div>
 </div>
+<div class="row">
+    <div class="span12">
+        <div class="alert alert-error" n:if="$form->hasErrors()"> 
+            <li n:foreach="$form->errors as $error">{$error}</li>
+        </div>
+    </div>
+</div>
 <div class="row-fluid">
     <div class="span6">
         <fieldset>

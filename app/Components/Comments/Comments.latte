@@ -1,0 +1,30 @@
+<div class="comment">
+    <div class="span4 well">
+        {form addForm}
+            <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                <li n:foreach="$form->errors as $error">{$error}</li>
+            </div>        
+            <div class="control-group">
+                {label comment_title /}
+                <div class="controls">
+                    {input comment_title}
+                </div>
+            </div>
+            <div class="control-group">
+                {label comment_user /}
+                <div class="controls">
+                    {input comment_user}            
+                </div>
+            </div>
+            <div class="control-group">
+                {label comment_email /}
+                <div class="controls">
+                    {input comment_email}            
+                </div>
+            </div>
+            {input comment_message class => 'span4', placeholder => 'Type in your message'}
+            <h6 class="pull-right">320 characters remaining</h6>
+            {input comment_submit}
+        {/form}
+    </div>
+</div>

@@ -3,7 +3,7 @@ namespace Models\Entity\User;
 /**
  * Description of User
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 
 use Doctrine\ORM\Mapping as ORM;
