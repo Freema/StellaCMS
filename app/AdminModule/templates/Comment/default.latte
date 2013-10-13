@@ -6,7 +6,143 @@
 {/block}
 
 {block content}
+<table class="table list-table">
+    <colgroup>
 
-    {control comments}
-    
+    </colgroup>
+    <thead>
+        <tr>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_id = $presenter->sort}
+                {ifset $sort_id['id']}
+                    {if $sort_id['id'] == 'ASC'}
+                        {var $sort_id['id'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_id['id'] == 'DESC'}
+                        {var $sort_id['id'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_id['id'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Comment:default $page, $sort_id, NULL}">
+                    Author
+                </a>            
+            </th>
+            <th>
+                    Komentář
+            </th>
+            <th>
+                {var $page = $presenter->page}
+                {var $sort_author = $presenter->sort}
+                {ifset $sort_author['author']}
+                    {if $sort_author['author'] == 'ASC'}
+                        {var $sort_author['author'] => 'DESC'}
+                        <i class="icon-chevron-down"></i>                
+                    {elseif $sort_author['author'] == 'DESC'}
+                        {var $sort_author['author'] => 'NONE'}
+                        <i class="icon-chevron-up"></i>
+                    {else}
+                        {var $sort_author['author'] => 'ASC'}
+                        <i class="icon-minus"></i>
+                    {/if}  
+                {/ifset}
+                <a href="{link Comment:default $page, $sort_author, NULL}">
+                    Reakce na
+                </a>                   
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {foreach $tab as $item}
+            <tr>
+                <td>
+                    <div class="row-fluid">
+                        <div><strong>{$item->getUser()}</strong></div>
+                        <div>
+                            <a href="mailto:{$item->getEmailAddress()}">{$item->getEmailAddress()}</a>
+                        </div>
+                        <div>
+                            <a href="{link Comment:default fillter => array(ip => $item->getIpAdress())}">{$item->getIpAdress()}</a>
+                        </div>
+                    </div> 
+                </td>
+                <td>
+                    <div>
+                        <span class="label">Vloženo:</span>
+                        <span>{$item->getCreatedAt()|date:'%d.%m.%Y (%H.%m)'}</span>
+                    </div>
+                    {$item->getContent()}
+                    <div class="tab-actions">
+                        {if $item->getApprove()}
+                        <span>
+                            <a href="{link Post:editArticle $item->getId()}" style="color: #D98500">
+                                <i class="icon-remove-sign"></i>
+                                Odmítnout
+                            </a>
+                        </span>
+                        {else}
+                        <span>
+                            <a href="{link Post:editArticle $item->getId()}" style="color: #006505;">
+                                <i class="icon-ok-sign"></i>
+                                Schválit
+                            </a>
+                        </span>
+                        {/if}
+                        <span>
+                            <a class="reply-link" href="#" data-id="{$item->getId()}">
+                                <i class="icon-retweet"></i>
+                                Odpovědět
+                            </a>
+                        </span>
+                        <span>
+                            <a href="{link Post:editArticle $item->getId()}">
+                                <i class="icon-edit"></i>
+                                Upravit
+                            </a>
+                        </span>
+                        <span>
+                            <a href="{link delete! $item->getId()}" class="ajax delete">
+                                <i class="icon-trash"></i>
+                                 Smazat
+                            </a>
+                        </span>
+                    </div>
+                </td>
+                <td>
+
+                </td>
+            </tr>
+            <tr class="reply-form">
+                <td colspan="4">
+                    <div class="well">
+                   {var $id = $item->getId()}
+                    {form replyForm-$id style => "margin-bottom: 0px;"}
+                        {input comment_reply_approve_id}
+                        <div>
+                        {input comment_reply_text}
+                        </div>
+                        <div>
+                            {input comment_reply_submit style => "margin-top: 10px;"}
+                        </div>
+                    {/form}
+                    </div>    
+                </td>    
+            </tr>
+        {/foreach}
+    </tbody>
+</table>
 {/block}
+    
+{block jscript}
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'comments'}    
+<script type="text/javascript">
+    $(".reply-link").on("click", function(){
+        $id = $(this).data("id");
+        formInit($id);
+    });
+</script>
+{/block}    

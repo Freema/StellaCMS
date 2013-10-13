@@ -112,4 +112,18 @@ function tinyStart()
     });
 }    
 </script>
+{elseif $scriptType == 'comments'}
+<script type="text/javascript">
+function formInit($id)
+{
+    tinymce.init({
+            selector: "#comment_reply_text" + $id,
+            plugins: ["emoticons textcolor"],
+            menubar: false,
+            height : 10,        
+            toolbar1: "bold italic underline strikethrough | bullist numlist | forecolor emoticons ",
+    });
+}
+  
+</script>
 {/if}

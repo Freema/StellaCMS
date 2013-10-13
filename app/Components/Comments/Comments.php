@@ -37,7 +37,6 @@ class Comments extends Control{
         $template->setFile(__DIR__ . DIRECTORY_SEPARATOR . 'Comments.latte');
         $query = $this->_service->setFirstResult($this->_post->getId());
         $template->tab = $query->loadCommetTab();
-        dump($template->tab);
         $template->render();
     }
     

@@ -11,35 +11,51 @@ class CommentPresenter extends BasePresenter {
     /**
      * @var \Models\Comment\Comment  
      */
-    private $_Commet;
+    private $_Comment;
     
     /**
-     * @var \Models\Post\Post 
+     * @var Forms\CommentForm 
      */
-    private $_Post;
+    public $CommentFrom;
+    
+    /**
+    * @var \Models\Entity\Comment\Comment 
+    */
+    private $_Page;
+    
+    /** @persistent */
+    public $page;
+    
+    /** @persistent */
+    public $sort = array(
+        'author'        => 'NONE',
+        'reaktions'     => 'NONE',
+    );    
 
     final function injectCommentService(\Models\Comment\Comment $service)
     {
-        $this->_Commet = $service;
+        $this->_Comment = $service;
     }
     
-    final function injectPostService(\Models\Post\Post $service)
+    final function injectCommentForm(Forms\CommentForm $form)
     {
-        $this->_Post = $service;
+        $this->CommentFrom = $form;
     }
     
-    public function actionDefault() {
-        
+    public function actionDefault($page, array $sort, $filter) {
+        $this->template->tab = $this->_Comment->loadCommetTab();
     }
 
     public function actionEdit() {
         
     }
     
-    protected function createComponentComments()
+    protected function createComponentReplyForm()
     {
-        $post = $this->_Post->getPostRepository()->getOne(34);
-        return new \Components\Comments\Comments($this->_Commet, $post);
+        /** @var $presenter self */
+        $presenter = $this;
+        return new \Nette\Application\UI\Multiplier(function ($id) use ($presenter) {
+            return $presenter->CommentFrom->replyForm($id);
+        }); 
     }
-
 }
