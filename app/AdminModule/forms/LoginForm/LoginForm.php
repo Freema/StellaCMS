@@ -19,12 +19,14 @@ class LoginForm extends BaseForm {
     {
             $form = new Form;
             $form->addText('username', 'Username:')
-                    ->setRequired('Please provide a username.');
+                 ->setRequired('Please provide a username.')
+                 ->setAttribute("placeholder", "Uživatelské jméno");
 
             $form->addPassword('password', 'Password:')
-                    ->setRequired('Please provide a password.');
+                 ->setRequired('Please provide a password.')
+                 ->setAttribute("placeholder", "Heslo");
 
-            $form->addCheckbox('persistent', 'Remember me on this computer');
+            $form->addCheckbox('persistent', 'Pamatovat si mě');
 
             $form->addSubmit('send', 'Sign in');
 
@@ -33,9 +35,7 @@ class LoginForm extends BaseForm {
             $Btn = $form['send']->getControlPrototype();
             $Btn->setName("button");
             $Btn->type = 'submit'; 
-            $Btn->create('i class="icon-ok-sign"');
             $Btn->add(' Přihlásit se');
-            
             
             return $form;
     }

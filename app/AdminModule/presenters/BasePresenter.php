@@ -1,11 +1,15 @@
 <?php
 namespace AdminModule;
 
+use AdminModule\Forms\BaseForm;
+use Components\Breadcrumbs\Breadcrumbs;
+use Doctrine\ORM\EntityManager;
+use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
 use Nette\Forms\Controls\BaseControl;
-
 use Nette\InvalidStateException;
-use Doctrine\ORM\EntityManager;
+use Nette\Application\UI\Form;
+
 
 BaseControl::$idMask = '%2$s';
 
@@ -54,7 +58,22 @@ abstract class BasePresenter extends Presenter
     
     public function createComponentBreadCrumbs()
     {
-        return new \Components\Breadcrumbs\Breadcrumbs($this);
+        return new Breadcrumbs($this);
     }
+    
+   /**
+    * Message box pro chybné odpovědi ze serveru.
+    * @callback
+    * @param BaseForm $form
+    */
+   public function formMessageErrorResponse(Form $form)
+   {
+        $snippet = BaseForm::getInfoBox($form->getErrors(), "danger");
+        $this->sendResponse(new JsonResponse(array(
+                'status'    => 'error',
+                'errors'    => $form->getErrors(),
+                'snippet'   => $snippet,
+         )));         
+   }    
         
 }

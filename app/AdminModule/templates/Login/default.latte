@@ -3,51 +3,28 @@
 {/block}
 
 {block content}
-<div class="login-area">
-{form signInForm class => 'login-form well'}
-
-<fieldset>
-    <legend>Přihlášení</legend>
+{form signInForm class => 'form-signin'}
+    <h1 class="form-signin-heading text-muted">Přihlášení</h1>
     {if $form->hasErrors()}
-    <div class="alert alert-error"> 
+    <div class="alert alert-danger"> 
+        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>
         <li n:foreach="$form->errors as $error">{$error}</li>
     </div> 
     {/if}
+    {input username class => "form-control"}
+    {input password class => "form-control"}
 
-    <div class="control-group">
-        {label username /}
-        <div class="controls">
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-user"></i></span>{input username}
+    <div class="form-group">
+        <div class="col-sm-offset-2">
+            <div class="checkbox">
+                <label for="frmsignInForm-persistent">
+                {input persistent}Pamatovat si mě
+                </label>
             </div>
-        </div>    
+        </div>
     </div>
-
-    <div class="control-group">
-        {label password /}
-        <div class="controls">
-            <div class="input-prepend">
-                <span class="add-on"><i class="icon-lock"></i></span>{input password}
-            </div>
-        </div>   
-    </div>
-
-    <div class="control-group">
-        {label persistent /}
-        <div class="controls">
-            <div class="input-prepend">
-                {input persistent}
-            </div>
-        </div>   
-    </div>
-
-
-    <div class="control-group">
-        <div class="input">{input send class => 'btn'}</div>
-    </div>    
-</fieldset>    
-
-
+    {input send class => "btn btn-lg btn-primary btn-block"}
+  
 {/form}
-</div> 
+
 {/block}

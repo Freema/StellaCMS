@@ -10,7 +10,7 @@ use Nette\Utils\Strings;
 /**
  * Description of CategoryForm
  *
- * @author Tomáš Grasl
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 class CategoryForm extends BaseForm {
     
@@ -144,17 +144,16 @@ class CategoryForm extends BaseForm {
 
             $value->tag_slug ? $slug = $value->tag_slug : $slug = $value->title;
 
+            /* @var $slug string */
             $slug = Strings::webalize($slug);        
             $parent = $this->_category->getOne($value->parent);        
 
             if($this->_defaults)
             {
-                if(!($value->title == $this->_defaults->getTitle()))
+                if(!($value->title == $this->_defaults->getTitle()) && 
+                     $this->_category->findOneBy(array('title' => $value->title)))
                 {
-                    if($this->_category->findOneBy(array('title' => $value->title)))
-                    {
-                        throw new FormException('Category with name "' . $value->title . '" exist.');  
-                    }
+                    throw new FormException('Kategorie s jmenem: "' . $value->title . '" už existuje.');  
                 }
 
                 $category = $this->_defaults;
@@ -180,7 +179,7 @@ class CategoryForm extends BaseForm {
             {
                 if($this->_category->findOneBy(array('title' => $value->title)))
                 {
-                    throw new FormException('Category with name "' . $value->title . '" exist.');  
+                    throw new FormException('Kategorie s jmenem: "' . $value->title . '" už existuje.');  
                 }
 
                 $category = new Category($value->title, $slug, $value->text);
@@ -209,11 +208,9 @@ class CategoryForm extends BaseForm {
         catch(FormException $e)
         {
             $form->addError($e->getMessage());
-            if($form->presenter->isAjax())
+            if($form->getPresenter()->isAjax())
             {
-                $form->presenter->payload->status = 'error';                
-                $form->presenter->payload->error = $form->errors;
-                $form->presenter->terminate();
+                $form->getPresenter()->formMessageErrorResponse($form);
             }
         }
     }  

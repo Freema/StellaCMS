@@ -52,7 +52,12 @@ class CategoryPresenter extends BasePresenter {
 
     protected function createComponentCategoryForm()
     {
-        return $this->_CategoryForm->createForm();
+        $factory = $this->_CategoryForm->createForm();
+        if($this->isAjax())
+        {
+            $factory->onError = callback($this, "formMessageErrorResponse");
+        }
+        return $factory;
     }    
     
     protected function createComponentEditCategoryForm()

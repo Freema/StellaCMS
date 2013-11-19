@@ -11,37 +11,42 @@
 
 {block content}
 <h2 class="page-header">Příspěvky</h2>    
-<div class="control-panel row">
-    <div class="span2">
-        <a class="btn btn-success" href="{link Post:addArticle}"><i class="icon-plus-sign"></i> Vytvořit příspěvek</a>
+<div class="panel panel-default">
+    <div class="panel-body row">
+        <div class="col-md-6">
+            <a type="button" class="btn btn-default" href="{link Post:addArticle}">
+                <span class="glyphicon glyphicon-plus-sign"></span> Vytvořit příspěvek
+            </a>
+            <a type="button" class="btn btn-default btn-ajax" href="{link Category:addCategory}">
+                <span class="glyphicon glyphicon-pencil"></span> Přidat kategorii
+            </a>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline pull-right">
+                <select id="cFdropdown" class="b-select">
+                    <option {ifCurrent Post:default}selected=""{/ifCurrent} value="0">Zobrazit všechny kategorie</option>
+                    {foreach $cFilter as $key => $option}
+                    <option {ifCurrent Post:default category => $key}selected=""{/ifCurrent} value="{$key}">{$option}</option>
+                    {/foreach}            
+                </select>
+                <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
+            </form>
+        </div>
     </div>
-    <div class="span2">
-        <a class="btn btn-ajax" data-toggle="modal" href="{link Category:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
-    </div>
-    <hr />    
 </div>
 
-<div class="form-inline">
-    <select id="cFdropdown">
-        <option {ifCurrent Post:default}selected=""{/ifCurrent} value="0">Zobrazit všechny kategorie</option>
-        {foreach $cFilter as $key => $option}
-        <option {ifCurrent Post:default category => $key}selected=""{/ifCurrent} value="{$key}">{$option}</option>
-        {/foreach}            
-    </select>
-    <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
-</div>
 
 {snippet articleTable}
 <table class="table table-striped list-table">
     <colgroup>
         <col style="width: 5%">
-        <col style="width: 20%">
-        <col style="width: 15%">
+        <col>
         <col style="width: 15%">
         <col style="width: 15%">
         <col style="width: 10%">
         <col style="width: 10%">
-        <col style="width: 10%">        
+        <col>
+        <col style="width: 10%">    
     </colgroup>
     <thead>
         <tr>
@@ -51,13 +56,13 @@
                 {ifset $sort_id['id']}
                     {if $sort_id['id'] == 'ASC'}
                         {var $sort_id['id'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_id['id'] == 'DESC'}
                         {var $sort_id['id'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_id['id'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_id, NULL}">
@@ -70,13 +75,13 @@
                 {ifset $sort_title['title']}
                     {if $sort_title['title'] == 'ASC'}
                         {var $sort_title['title'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_title['title'] == 'DESC'}
                         {var $sort_title['title'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_title['title'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_title, NULL}">
@@ -89,13 +94,13 @@
                 {ifset $sort_author['author']}
                     {if $sort_author['author'] == 'ASC'}
                         {var $sort_author['author'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_author['author'] == 'DESC'}
                         {var $sort_author['author'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_author['author'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_author, NULL}">
@@ -108,13 +113,13 @@
                 {ifset $sort_categorii['categorii']}
                     {if $sort_categorii['categorii'] == 'ASC'}
                         {var $sort_categorii['categorii'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_categorii['categorii'] == 'DESC'}
                         {var $sort_categorii['categorii'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_categorii['categorii'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_categorii, NULL}">
@@ -123,19 +128,19 @@
             </th>
             <th>Štítky</th>
             <th>Komentaře</th>
-            <th>
+            <th style="text-align: center;">
                 {var $page = $presenter->page}
                 {var $sort_public = $presenter->sort}
                 {ifset $sort_public['public']}
                     {if $sort_public['public'] == 'ASC'}
                         {var $sort_public['public'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_public['public'] == 'DESC'}
                         {var $sort_public['public'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_public['public'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_public, NULL}">
@@ -148,13 +153,13 @@
                 {ifset $sort_date['uploadet_at']}
                     {if $sort_date['uploadet_at'] == 'ASC'}
                         {var $sort_date['uploadet_at'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_date['uploadet_at'] == 'DESC'}
                         {var $sort_date['uploadet_at'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_date['uploadet_at'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Post:default $page, $sort_date, NULL}">
@@ -172,13 +177,13 @@
                     <div class="tab-actions">
                         <span>
                             <a href="{link Post:editArticle $item->getId()}">
-                                <i class="icon-edit"></i>
+                                <span class="glyphicon glyphicon-edit"></span>
                                 Upravit
                             </a>
                         </span>
                         <span>
                             <a href="{link delete! $item->getId()}" class="ajax delete">
-                                <i class="icon-trash"></i>
+                                <span class="glyphicon glyphicon-trash"></span>
                                  Smazat
                             </a>
                         </span>
@@ -200,13 +205,15 @@
                     {/if}
                 </td>
                 <td></td>
-                <td>
+                <td style="text-align: center">
                     {if $item->getPublish() == TRUE}
                     <span class="label label-success">
-                        <i class="icon-ok icon-white"></i>
+                        <span class="glyphicon glyphicon-ok"></span>
                     </span>
                     {else}
-                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                        <span class="label label-important">
+                            <span class="glyphicon glyphicon-off"></span>
+                        </span>
                     {/if}
                 </td>
                 <td>
@@ -222,61 +229,58 @@
     {control pagination}
 </div>
 
-<div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
+<div id="ajax-modal" class="modal fade" tabindex="-1"></div>
 {/block}
 
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
 $('#cFbutton').click(function() {
     var selected = $('#cFdropdown option:selected').val();
+    console.log(selected);        
     if(selected == 0)
     {
+            
         window.location = {link Post:default};
     }
     else
     {
         window.location = {link Post:default}+"?category="+selected;
     }
-})
+    return false;
+});
 
 var $modal = $('#ajax-modal');
 
 $('.btn-ajax').on('click', function(){
-    $('body').modalmanager('loading');
-    var url = $(this).attr('href')
+        var url = $(this).attr('href');
 
-    $modal.load(url, '', function(){
-    $modal.modal();
-    loadMCE();
+        $modal.load(url, '', function(){
+        $modal.modal();
+        $('.b-select').selectpicker();
+        loadMCE();
     });
-
-return false});
+return false;
+});
 
 $modal.on('submit', function(){
-    $modal.modal('loading');
-    form = $('form.ajax');
+    $form = $('form.ajax');
     $.ajax({
        type: "POST",
-       url: form.attr('action'),
-       data: form.serialize(),
-       success: function(data) {
-           if(data.status == 'error')
+       url: $form.attr('action'),
+       data: $form.serialize(),
+       success: function($data) {
+           if($data.status == 'error')
            {
-                $modal.modal('loading')
-                      .find('.modal-body')
-                      .prepend( '<div class="alert alert-error">' +
-                                data.error + '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                                '</div>');
+               alertBox($form, $data.snippet);
            }
            else
            {
-               $modal.modal('hide');
+               window.location.reload();
            }
        }
     });
-return false});
+    return false;
+});
 </script>
 <!-- MCE load class -->
 {include '../Helpers/editorScript.latte' scriptType => 'category_ajax'}

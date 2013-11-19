@@ -1,4 +1,4 @@
-<ul class="breadcrumb" style="border-radius: 0">
+<ol  class="breadcrumb" style="border-radius: 0">
     {foreach $items as $item}
         <li {ifset $item['active']}class="active"{/ifset}>
             {ifset $item['parameter']}
@@ -9,9 +9,6 @@
                 {var $label = $item['label']}
             {/ifset}
             <a href="{plink $link}">{$label}</a>
-            {if !isset($item['active']) }
-                <span class="divider">/</span>
-            {/if}
         </li>
     {/foreach}
-</ul>
+</ol >

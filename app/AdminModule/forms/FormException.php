@@ -7,6 +7,6 @@ use Exception;
  *
  * @author Tomáš
  */
-class FormException extends Exception{
+class FormException extends Exception {
 }
 

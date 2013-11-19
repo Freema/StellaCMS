@@ -19,7 +19,7 @@
 </div>
 
 <div class="form-inline">
-    <select id="cFdropdown">
+    <select id="cFdropdown" class="b-select">
         <option {ifCurrent Image:default}selected=""{/ifCurrent} value="0">Zobrazit všechny sobory</option>
         <option {if $presenter->filter['ext'] == 'jpg'}selected=""{/if} value="jpg">.JPG</option>
     </select>
@@ -156,9 +156,9 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <a class="modal-ajax-lightbox" href="{link Image:imageView $item['file']}" >                    
+                    <li class="modal-ajax-lightbox" data-href="{link Image:imageView $item['file']}" >                    
                         <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
-                    </a>
+                    </li>
                 </td>
                 <td>
                     <strong>{$item['name']}</strong>
@@ -207,18 +207,26 @@
     {control pagination}
 </div>
 
-<div id="ajax-modal" class="modal hide fade" tabindex="-1"></div>
-<div id="lightbox" class="lightbox hide fade" tabindex="-1" data-replace="true"></div>
+<div id="ajax-modal" class="modal fade" role="dialog" tabindex="-1"></div>
+<div id="lightbox" class="modal lightbox fade" role="dialog" tabindex="-1"></div>
 {/block}
 
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
+var $image_modal = $('#lightbox');    
+$('#myModal').modal();    
+$('.modal-ajax-lightbox').on('click', function(){
+    var url = $(this).data('href');
 
+    $image_modal.load(url, '', function(){
+    $image_modal.modal();
+    });
+    return false;
+});    
+/*
 $('#cFbutton').click(function() {
     var selected = $('#cFdropdown option:selected').val();
-    if(selected == 0)
+    if(selected === 0);
     {
         window.location = {link Image:default};
     }
@@ -226,31 +234,29 @@ $('#cFbutton').click(function() {
     {
         window.location = {link Image:default $presenter->sort}+"?filter[ext]="+selected;
     }
-})
+});
 
 var $image_modal = $('#lightbox');
 
 $('.modal-ajax-lightbox').on('click', function(){
-    $('body').modalmanager('loading');
-    var url = $(this).attr('href')
+    var url = $(this).attr('href');
 
     $image_modal.load(url, '', function(){
     $image_modal.modal();
     });
-
-return false});
+    return false;
+});
 
 var $modal = $('#ajax-modal');
 
 $('.btn-ajax').on('click', function(){
-    $('body').modalmanager('loading');
-    var url = $(this).attr('href')
+    var url = $(this).attr('href');
 
     $modal.load(url, '', function(){
     $modal.modal();
     });
-
-return false});
+    return false;
+});
 
 $modal.on('submit', function(){
     $modal.modal('loading');
@@ -275,5 +281,6 @@ $modal.on('submit', function(){
        }
     });
 return false});
+*/
 </script>
 {/block}

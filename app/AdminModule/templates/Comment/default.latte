@@ -116,20 +116,14 @@
                 </td>
             </tr>
             <tr class="reply-form">
-                <td colspan="4">
-                    <div class="well">
-                   {var $id = $item->getId()}
-                    {form replyForm-$id style => "margin-bottom: 0px;"}
-                        {input comment_reply_approve_id}
-                        <div>
-                        {input comment_reply_text}
-                        </div>
-                        <div>
-                            {input comment_reply_submit style => "margin-top: 10px;"}
-                        </div>
-                    {/form}
-                    </div>    
-                </td>    
+                <td colspan="3">
+                {var $id = $item->getId()}
+                {form replyForm-$id style => "margin-bottom: 0px;"}
+                    {input comment_reply_approve_id}
+                    {input comment_reply_text style => 'risaze: none;'}
+                    {input comment_reply_submit style => "margin-top: 10px;"}
+                {/form}
+                </td>
             </tr>
         {/foreach}
     </tbody>

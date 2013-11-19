@@ -182,4 +182,29 @@ abstract class BaseForm extends Object {
         
         return $updates;
     }
+    
+    /**
+     * @param string $message
+     * @param string $type
+     * @return string
+     */
+    static function getInfoBox($message, $type = "error")
+    {
+       $snippet = '<div class="alert alert-'.$type.' fade in">';
+       $snippet .= '<a class="close" data-dismiss="alert" href="#" aria-hidden="true">&times;</a>';
+       if(is_array($message))
+       {
+           foreach ($message as $value)
+           {
+               $snippet .= '<li>'.$value.'</li>';
+           }
+       }
+       else
+       {
+       $snippet .= $message; 
+       }
+       $snippet .= '</div>';
+       
+       return $snippet;
+    }    
 }

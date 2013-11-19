@@ -1,7 +1,7 @@
 <hr />
-<div class="pagination">
+<div class="row">
     {if $pages > 1}
-    <ul class="pull-left">
+    <ul class="pull-left pagination">
         {if $page == $firstPage}
         <li class="disabled"><span>Prev</span></li>
         {else}
@@ -23,7 +23,7 @@
         {/if}
     {/if}        
     </ul>
-    <ul class="pull-right">
+    <ul class="pull-right pagination">
         <li><a href="{link PageNumbers! 15}">15</a></li>
         <li><a href="{link PageNumbers! 30}">30</a></li>
         <li><a href="{link PageNumbers! 50}">50</a></li>
