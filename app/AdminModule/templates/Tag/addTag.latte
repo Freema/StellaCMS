@@ -3,35 +3,46 @@
 {/block}
 
 {block content}
-    {form tagForm}
-        <div class="alert alert-error" n:if="$form->hasErrors()"> 
-            <li n:foreach="$form->errors as $error">{$error}</li>
+    {form tagForm class => "form-horizontal"}
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                    <li n:foreach="$form->errors as $error">{$error}</li>
+                </div>
+            </div>
+
+            <div class="form-group">
+                {label tag_name class => 'col-sm-2 control-label' /}
+                <div class="col-sm-10">
+                    {input tag_name class => 'form-control'}
+                </div>
+            </div>                
+
+            <div class="form-group">
+                {label tag_slug class => 'col-sm-2 control-label' /}
+                <div class="col-sm-10">
+                    {input tag_slug  class => 'form-control'}
+                </div>
+            </div>                
+
+            <div class="form-group">
+                {label tag_description class => 'col-sm-2 control-label' /}
+                <div class="col-sm-10">
+                    {input tag_description  class => 'form-control'}
+                </div>
+            </div>                
+
+            <div class="form-group">
+                <div class="col-sm-10 col-sm-offset-2">
+                    {input submit}
+                    <a class="btn  btn-default" href="{link Tag:default}"><span class="glyphicon glyphicon-backward"></span> Zpátky</a>                    
+                </div>
+            </div>
         </div>
-
-        <div class="control-group">
-            {label tag_name class => 'control-label' /}
-            <div class="controls">
-                {input tag_name}
-            </div>
-        </div>                
-    
-        <div class="control-group">
-            {label tag_slug class => 'control-label' /}
-            <div class="controls">
-                {input tag_slug}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            {label tag_description class => 'control-label' /}
-            <div class="controls">
-                {input tag_description}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            {input submit}
-        </div>
-
     {/form}
+{/block}
+
+{block jscript}
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'tags'}
 {/block}

@@ -4,67 +4,65 @@
 
 {block content}
     
-    <div class="row-fluid">
-        <div class="span4">
-            <a href="{link Image:multiFileUpload}" class="btn btn-info">Multi file upload</a>
+    
+{form fileUpload}
+    
+    <h2 class="page-header">Nahrát nový soubor</h2>  
+
+    <div class="panel panel-default">
+        <div class="panel-body row">
+            <div class="col-md-6">
+                <a href="{link Image:multiFileUpload}" class="btn btn-default">Multi file upload</a>
+            </div>
         </div>
     </div>    
-    
-    {form fileUpload}
-    
-    <legend>Nahrát nový soubor</legend>
-
+            
     <div class="alert alert-error" n:if="$form->hasErrors()"> 
         <li n:foreach="$form->errors as $error">{$error}</li>
     </div>
 
-    <div class="control-group">
+    <div class="form-group">
         {label fileselect class => 'control-label' /}
-        <div class="controls">
-            {input fileselect}
-        </div>
+        {input fileselect}
     </div>        
     
-    <div class="control-group">
-        <div class="controls">
-            <label class="checkbox">
-                Přidat soubory do galerie {$presenter['fileUpload']['add_category']->getControl()}
-            </label>
-        </div>
+    <div class="form-group">
+        <label class="checkbox">
+            {$presenter['fileUpload']['add_category']->getControl()}
+            Přidat soubory do galerie 
+        </label>
     </div>        
     
-    <div class="control-group">
+    <div class="form-group">
         {label image_category class => 'control-label' /}
-        <div class="controls">
-            {input image_category}
-        </div>
+        {input image_category class => 'form-control'}
     </div>      
 
-    <div class="control-group">
+    <div class="form-group">
         {input submit}
     </div>
 
-    {/form}
+{/form}
 {/block}
     
 {block jscript}
-    <script type="text/javascript">
-        $('#image_category').attr('disabled', 'disabled');
-        if($('#add_category').is(':checked'))
-        {
-            $('#add_category').removeAttr('checked') 
+<script type="text/javascript">
+$('#image_category').attr('disabled', 'disabled');
+if($('#add_category').is(':checked'))
+{
+    $('#add_category').removeAttr('checked') 
+}
+
+$(function(){
+    $('#add_category:checkbox').on('change', function(){
+        var value = $(this).is(':checked');
+        if (value) {
+            $('#image_category').removeAttr('disabled');
+
+        } else {
+            $('#image_category').attr('disabled', 'disabled');
         }
-
-        $(function(){
-            $('#add_category:checkbox').on('change', function(){
-                var value = $(this).is(':checked');
-                if (value) {
-                    $('#image_category').removeAttr('disabled');
-
-                } else {
-                    $('#image_category').attr('disabled', 'disabled');
-                }
-            });
-        });            
-    </script>
+    });
+});            
+</script>
 {/block}    

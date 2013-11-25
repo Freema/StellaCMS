@@ -11,57 +11,66 @@
 {/block}
     
 {block content}
-<div class="navbar navbar-fixed-top navbar-inverse" style="position: fixed;">
-    <div class="navbar-inner">
-        <div class="container-fluid">
-            <div class="filters">
-                <div class="row-fluid">
-                    <div class="span8">
-                        {ifset $resize}
-                        {ifCurrent this 'editor' => $editor , 'resize' => 'largeThumb'}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-inverse" rel="tooltip" title="velké náhledy"><i class="icon-th-large icon-white"></i></a>
-                        {else}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip" rel="tooltip" title="velké náhledy"><i class="icon-th-large"></i></a>
-                        {/ifCurrent}
-                        {else}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-inverse" rel="tooltip" title="velké náhledy"><i class="icon-th-large icon-white"></i></a>
-                        {/ifset}
-                        {ifCurrent this 'editor' => $editor , 'resize' => 'smallThumb'}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip btn-inverse" rel="tooltip" title="malé náhledy"><i class="icon-th icon-white"></i></a>
-                        {else}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip" rel="tooltip" title="malé náhledy"><i class="icon-th"></i></a>
-                        {/ifCurrent}
-                        {ifCurrent this 'editor' => $editor , 'resize' => 'listThumb'}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip  btn-inverse" rel="tooltip" title="seznam"><i class="icon-th-list icon-white"></i></a>
-                        {else}
-                        <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip" rel="tooltip" title="seznam"><i class="icon-th-list"></i></a>
-                        {/ifCurrent}
-                    </div>
-                    <div class="span4">
-                        <input type="text" class="search-query" placeholder="Search" style="margin-top: 5px">
-                    </div>                    
-                </div>
-            </div>
+<div class="navbar navbar-default navbar-fixed-top" style="position: fixed;">
+    <div class="navbar-form navbar-left">
+        <div class="form-group">
+            {ifset $resize}
+            {ifCurrent this 'editor' => $editor , 'resize' => 'largeThumb'}
+            <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn btn-default" rel="tooltip" title="velké náhledy">
+                <span class="glyphicon glyphicon-th-large"></span>
+            </a>
+            {else}
+            <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-default" rel="tooltip" title="velké náhledy">
+                <span class="glyphicon glyphicon-th-large"></span>
+            </a>
+            {/ifCurrent}
+            {else}
+            <a href="{link this 'editor' => $editor , 'resize' => 'largeThumb'}" class="btn tip btn-default" rel="tooltip" title="velké náhledy">
+                <span class="glyphicon glyphicon-th-large"></span>
+            </a>
+            {/ifset}
+            {ifCurrent this 'editor' => $editor , 'resize' => 'smallThumb'}
+            <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip btn-default" rel="tooltip" title="malé náhledy">
+                <span class="glyphicon glyphicon-th"></span>
+            </a>
+            {else}
+            <a href="{link this 'editor' => $editor , 'resize' => 'smallThumb'}" class="btn tip btn-default" rel="tooltip" title="malé náhledy">
+                <span class="glyphicon glyphicon-th"></span>
+            </a>
+            {/ifCurrent}
+            {ifCurrent this 'editor' => $editor , 'resize' => 'listThumb'}
+            <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip btn-default" rel="tooltip" title="seznam">
+                <span class="glyphicon glyphicon-th-list"></span>
+            </a>
+            {else}
+            <a href="{link this 'editor' => $editor , 'resize' => 'listThumb'}" class="btn tip btn-default" rel="tooltip" title="seznam">
+                <span class="glyphicon glyphicon-th-list"></span>
+            </a>
+            {/ifCurrent}
         </div>
     </div>
-</div>    
-<div class="container-fluid" style="margin-top: 60px"> 
-    <div class="row-fluid">
-    {snippet thumbs}
-        {if $resize === 'smallThumb'}
-        <ul class="thumbnails">
+    <div class="navbar-form  navbar-right">
+        <div class="form-group">
+            <input type="text" class="search-query" placeholder="Search">           
+        </div>
+    </div>                    
+</div>
+   
+<div class="container" style="margin-top: 60px"> 
+    {if $resize === 'smallThumb'}
+        <div class="row">
             {foreach $images as $data}
-            <li style="margin-bottom: 5px; margin-left: 5px; text-decoration: none;">
-                <a class="image-select thumbnail">                
-                    <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
-                    <div class="caption">
-                        <p>{$data['name']|truncate:17}</p>
-                    </div>
-                </a>
-            </li>
+                <div class="col-sm-3">
+                    <a class="image-select thumbnail">                
+                        <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|smallThumb}" alt="">
+                        <div class="caption">
+                            <p>{$data['name']|truncate:17}</p>
+                        </div>
+                    </a>
+                </div>
             {/foreach}
-         </ul>
-        {elseif $resize === 'listThumb'}
+        </div>        
+    {elseif $resize === 'listThumb'}
 <table class="table table-hover">
     <colgroup>
         <col style="width: 65px">
@@ -103,13 +112,15 @@
                         Nezařazené
                     {/if}
                 </td>
-                <td>
+                <td style="text-align: center">
                     {if $data['public'] == TRUE}
                     <span class="label label-success">
-                        <i class="icon-ok icon-white"></i>
+                        <span class="glyphicon glyphicon-ok"></span>
                     </span>
                     {else}
-                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    <span class="label label-danger">
+                        <span class="glyphicon glyphicon-off"></span>
+                    </span>
                     {/if}
                 </td>
                 <td><abbr title="{$data['uploadedAt']|date: 'Y-m-d H:i:s'}">{$data['uploadedAt']|date: 'Y-m-d'}</abbr></td>
@@ -119,22 +130,20 @@
     </tbody>
 </table>
         {else}
-        <ul class="thumbnails">
+        <div class="row">
             {foreach $images as $data}
-            <li style="margin-bottom: 5px; margin-left: 5px; width: 30%">
-                <a class="image-select thumbnail" style="text-decoration: none">                
-                    <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|largeThumb}" alt="">
-                    <div class="caption">
-                        <p>{$data['name']|truncate:30}</p>
-                    </div>
-                </a>
-            </li>
+                <div class="col-sm-4">
+                    <a class="image-select thumbnail">                
+                        <img data-name="{$data['file']}" src="{$basePath}/uploads/{$data['file']|largeThumb}" alt="">
+                        <div class="caption">
+                            <p>{$data['name']|truncate:30}</p>
+                        </div>
+                    </a>
+                </div>
             {/foreach}
-         </ul>
+        </div>             
         {/if}
-    {/snippet}
-    </div>
-</div>    
+</div>
 {/block}
 
 {block jscript}    
@@ -142,18 +151,25 @@
 <script type="text/javascript">window.jQuery || document.write('<script src="{$basePath}/public/admin/js/jquery-1.9.1.min.js"><\/script>')</script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap.min.js"></script>
 <script type="text/javascript" src="{$basePath}/public/admin/js/jquery-ui.js"></script>    
+<script type="text/javascript" src="{$basePath}/public/admin/js/typeahead.min.js"></script>    
 <script type="text/javascript">
 $(document).ready(function(){
     
-    $(".image-select").click( function(e){
-        var editor_id = {$editor}
+    $("input.search-query").typeahead({
+      name: 'name',
+      remote: {link Image:autocomplete},
+      limit: 5
+    });
+    
+    $(".image-select").click( function(){
+        var editor_id = {$editor};
         var base_url = {$basePath};
         var file_name = $(this).find('img').data('name');
         var pDocument = parent.document;
         var target = $(pDocument).find('#' + editor_id + '_ifr');
         var fill = '';
         
-        fill=$("<img />",{"src":base_url+ '/uploads/' +file_name});
+        fill=$("<img />",{ "src":base_url+ '/uploads/' +file_name });
         
         $(target).contents().find('#tinymce').append(fill);
     });

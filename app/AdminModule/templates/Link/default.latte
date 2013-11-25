@@ -10,9 +10,13 @@
 
 {block content}
 <h2 class="page-header">Odkazy</h2>
-<div class="control-panel row">
-    <div class="span4">
-        <a class="btn btn-success" href="{link Link:addLink}"><i class="icon-plus-sign"></i> Vytvořit odkaz</a>
+<div class="panel panel-default">
+    <div class="panel-body row">
+        <div class="col-md-6">
+            <a class="btn btn-success" href="{link Link:addLink}">
+                <span class="glyphicon glyphicon-plus-sign"></span> Vytvořit odkaz
+            </a>
+        </div>        
     </div>
 </div>
 {snippet linkTable}
@@ -32,13 +36,13 @@
                 {ifset $sort_id['id']}
                     {if $sort_id['id'] == 'ASC'}
                         {var $sort_id['id'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_id['id'] == 'DESC'}
                         {var $sort_id['id'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_id['id'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Link:default $page, $sort_id}">
@@ -51,13 +55,13 @@
                 {ifset $sort_title['title']}
                     {if $sort_title['title'] == 'ASC'}
                         {var $sort_title['title'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_title['title'] == 'DESC'}
                         {var $sort_title['title'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_title['title'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Link:default $page, $sort_title}">
@@ -70,13 +74,13 @@
                 {ifset $sort_slug['slug']}
                     {if $sort_slug['slug'] == 'ASC'}
                         {var $sort_slug['slug'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_slug['slug'] == 'DESC'}
                         {var $sort_slug['slug'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_slug['slug'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Link:default $page, $sort_slug}">
@@ -90,13 +94,13 @@
                 {ifset $sort_date['date']}
                     {if $sort_date['date'] == 'ASC'}
                         {var $sort_date['date'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_date['date'] == 'DESC'}
                         {var $sort_date['date'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_date['date'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Link:default $page, $sort_date}">
@@ -112,9 +116,13 @@
                 <td>
                     <strong>{$item['title']}</strong>
                     <div class="tab-actions">
-                        <span><a href="{link Link:editLink $item['id']}"><i class="icon-edit"></i>Upravit</a></span> |
-                        <span><a href="{link delete! $item['id']}" class="ajax"><i class="icon-trash"></i>Smazat</a></span>
-                    </div>
+                        <span><a href="{link Link:editLink $item['id']}">
+                                <span class="glyphicon glyphicon-edit"></span>Upravit</a>
+                        </span> |
+                        <span><a href="{link delete! $item['id']}" class="delete">
+                                <span class="glyphicon glyphicon-trash"></span>Smazat</a>
+                        </span>
+                    </div>                     
                 </td>
                 <td>{$item['url']}</td>
                 <td>{$item['description']}</td>
@@ -126,7 +134,9 @@
 {/snippet}
 
 <div class="row">
-    {control pagination}
+    <div class="col-lg-12">
+        {control pagination}
+    </div>
 </div>
 
 {/block}

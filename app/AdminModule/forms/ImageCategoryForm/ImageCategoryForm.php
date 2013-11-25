@@ -64,7 +64,7 @@ class ImageCategoryForm extends BaseForm {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('span class="glyphicon glyphicon-ok"');
         $vybratBtn->add(' Vytvořit categorii');
         
         return $form;        
@@ -95,7 +95,7 @@ class ImageCategoryForm extends BaseForm {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('span class="glyphicon glyphicon-ok"');
         $vybratBtn->add(' Upravit categorii');
         
         return $form;               

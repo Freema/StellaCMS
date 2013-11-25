@@ -5,7 +5,7 @@
 {block content}
 {form linkForm class => 'form-horizontal' }
 <div class="row">
-    <div class="span7">    
+    <div class="col-md-8">    
  
         <div class="alert alert-error" n:if="$form->hasErrors()"> 
             <li n:foreach="$form->errors as $error">{$error}</li>
@@ -13,48 +13,41 @@
 
         <div class="control-group">
             {label link_title class => 'control-label' /}
-            <div class="controls">
-                {input link_title}
-            </div>
+            {input link_title class => "form-control"}
         </div>                
     
         <div class="control-group">
             {label link_url class => 'control-label' /}
-            <div class="controls">
-                {input link_url}
-            </div>
+            {input link_url class => "form-control"}
         </div>                
 
         <div class="control-group">
             {label link_description class => 'control-label' /}
-            <div class="controls">
-                {input link_description}
-            </div>
+            {input link_description class => "form-control"}
         </div>
         <div class="control-group">
             {label link_target class => 'control-label' /} 
-            <div class="controls">
-                {foreach $presenter['linkForm']['link_target']->getItems() AS $key => $val}
-                <label class="radio">
-                    {!$presenter['linkForm']['link_target']->getControl($key)}
-                </label>
-                {/foreach}
-            </div>
+            {foreach $presenter['linkForm']['link_target']->getItems() AS $key => $val}
+            <label class="radio">
+                {!$presenter['linkForm']['link_target']->getControl($key)}
+            </label>
+            {/foreach}
         </div>        
     </div>    
-    <div class="span3 offset2">            
+    <div class="col-md-4">            
         <div class="sidebar-post-box">
             <h3><strong>{label link_css_class /}</strong></h3>
             <div class="inside">
-                {input link_css_class}
+                {input link_css_class  class => "form-control"}
             </div>
         </div>
     </div>    
 </div>
-<div class="row">
-    <div class="span12">
+<div class="row" style="margin-top: 15px">
+    <div class="col-md-12">
         <div class="control-group">
             {input submit}
+            <a class="btn  btn-default" href="{link Link:default}"><span class="glyphicon glyphicon-backward"></span> Zpátky</a>            
         </div>
     </div>
 </div>    

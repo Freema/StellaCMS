@@ -79,7 +79,7 @@ class FileUploadForm extends BaseForm  {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-download-alt"');
+        $vybratBtn->create('span class="glyphicon glyphicon-download-alt"');
         $vybratBtn->add(' Nahrát soubor');
         
         return $form;        
@@ -151,7 +151,7 @@ class FileUploadForm extends BaseForm  {
         $vybratBtn = $form['submit']->getControlPrototype();
         $vybratBtn->setName("button");
         $vybratBtn->type = 'submit'; 
-        $vybratBtn->create('i class="icon-ok-sign"');
+        $vybratBtn->create('span class="glyphicon glyphicon-ok"');
         $vybratBtn->add(' Upravit obrazek');
         
         return $form;        

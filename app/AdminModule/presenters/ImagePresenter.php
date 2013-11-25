@@ -1,8 +1,12 @@
 <?php
 namespace AdminModule;
 
+use AdminModule\Forms\FileUploadForm;
 use Components\Paginator\PagePaginator;
+use Models\Entity\Image\Image as Image2;
 use Models\Image\Image;
+use Nette\Application\Responses\JsonResponse;
+use Nette\Application\UI\Form;
 use Stella\ModelException;
 /**
  * Description of ImagePresenter
@@ -12,14 +16,14 @@ use Stella\ModelException;
 class ImagePresenter extends BasePresenter {
     
     /**
-     * @var Forms\FileUploadForm 
+     * @var FileUploadForm 
      */
     private $_fileUploadForm;
     
     /** @var Image */
     private $_Image;
     
-    /** @var \Models\Entity\Image\Image */
+    /** @var Image2 */
     private $_Page;
     
     /** @persistent */
@@ -41,7 +45,7 @@ class ImagePresenter extends BasePresenter {
     /** @persistent */
     public $editor = NULL;
 
-    final function injectFileUploadForm(Forms\FileUploadForm $form) {
+    final function injectFileUploadForm(FileUploadForm $form) {
         $this->_fileUploadForm = $form;
     }
     
@@ -107,7 +111,12 @@ class ImagePresenter extends BasePresenter {
         if($this->isAjax())
         {
             $this->template->imageUrl = $name;
+            $this->setView('imageView-ajax');
+        }
+        else
+        {
             $this->setView('imageView');
+            $this->template->imageUrl = $name;
         }
     }
     
@@ -167,6 +176,17 @@ class ImagePresenter extends BasePresenter {
         $this->template->resize = $resize;        
         $this->template->editor = $editor;
         $this->template->images = $imageRes->loadImageTab();    
+    }
+    
+    public function actionAutocomplete()
+    {
+        $data = $this->_Image->getImageRepository()->findAllImageName();
+        $json = array();
+        foreach ($data as $name)
+        {
+            $json[] = $name['name'];
+        }
+        $this->sendResponse(new JsonResponse($json));
     }
 
     /**
@@ -240,6 +260,26 @@ class ImagePresenter extends BasePresenter {
     protected function createComponentPagination() {
         $paginator = new PagePaginator();
         return $paginator;
-    }    
+    }
+    
+    protected function createComponentSearchForm()
+    {
+        $form = new Form();
+        
+        $form->addSelect("search_box", "hledat: ")
+             ->setParent("class", "search-query");
+        
+        $form->addSubmit('submit', NULL)
+             ->setAttribute('class', 'btn btn-success');
+        
+        $form->onSuccess[] = callback($this, 'findImageName');
 
+        $vybratBtn = $form['submit']->getControlPrototype();
+        $vybratBtn->setName("button");
+        $vybratBtn->type = 'submit'; 
+        $vybratBtn->create('span class="glyphicon glyphicon-ok"');
+        $vybratBtn->add(' Vytvořit categorii');
+        
+        return $form;
+    }
 }

@@ -8,51 +8,56 @@
 {/block}
 
 {block content}
-<h2 class="page-header">Knihovna médií</h2> 
-<div class="control-panel row">
-    <div class="span2">
-        <a class="btn btn-success" href="{link Image:newImage}"><i class="icon-plus-sign"></i> Nahrát soubor</a>
-    </div>
-    <div class="span2">
-        <a class="btn btn-ajax" data-toggle="modal" href="{link ImageCategory:addCategory}"><i class="icon-pencil"></i> Přidat categorii</a>
+<h2 class="page-header">Knihovna médií</h2>    
+<div class="panel panel-default">
+    <div class="panel-body row">
+        <div class="col-md-6">
+            <a type="button" class="btn btn-default" href="{link Image:newImage}">
+                <span class="glyphicon glyphicon-plus-sign"></span> Nahrát obrazek
+            </a>
+            <a type="button" class="btn btn-default btn-ajax" href="{link ImageCategory:addCategory}">
+                <span class="glyphicon glyphicon-pencil"></span> Přidat kategorii
+            </a>
+        </div>
+        <div class="col-md-6">
+            <form class="form-inline pull-right">
+                <select id="cFdropdown" class="b-select">
+                    <option {ifCurrent Image:default}selected=""{/ifCurrent} value="0">Zobrazit všechny sobory</option>
+                    <option {if $presenter->filter['ext'] == 'jpg'}selected=""{/if} value="jpg">.JPG</option>
+                </select>
+                <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
+            </form>
+        </div>
     </div>
 </div>
-
-<div class="form-inline">
-    <select id="cFdropdown" class="b-select">
-        <option {ifCurrent Image:default}selected=""{/ifCurrent} value="0">Zobrazit všechny sobory</option>
-        <option {if $presenter->filter['ext'] == 'jpg'}selected=""{/if} value="jpg">.JPG</option>
-    </select>
-    <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
-</div>
-
+        
 {snippet mediaTable}
 <table class="table table-striped list-table">
     <colgroup>
         <col style="width: 65px">
-        <col style="width: 40%">
-        <col style="width: 10%">
-        <col style="width: 10%">
-        <col style="width: 10%">
-        <col style="width: 10%">
-        <col style="width: 10%">
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
+        <col>
     </colgroup>
     <thead>
         <tr>
-            <th></th>
+            <th style="text-align: center;">#</th>
             <th>
                 {var $page = $presenter->page}
                 {var $sort_name = $presenter->sort}
                 {ifset $sort_name['name']}
                     {if $sort_name['name'] == 'ASC'}
                         {var $sort_name['name'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_name['name'] == 'DESC'}
                         {var $sort_name['name'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_name['name'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link Image:default $page, $sort_name, $presenter->filter}">
@@ -64,13 +69,13 @@
                 {ifset $sort_name['order']}
                     {if $sort_order['order'] == 'ASC'}
                         {var $sort_order['order'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     {elseif $sort_order['order'] == 'DESC'}
                         {var $sort_order['order'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_order['order'] => 'ASC'}
-                        <i class="icon-minus"></i>                   
+                        <span class="glyphicon glyphicon-minus"></span>                   
                     {/if}
                 {/ifset}
                 
@@ -83,13 +88,13 @@
                 {ifset $sort_categorii['categorii']}
                     {if $sort_categorii['categorii'] == 'ASC'}
                         {var $sort_categorii['categorii'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     {elseif $sort_categorii['categorii'] == 'DESC'}
                         {var $sort_categorii['categorii'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_categorii['categorii'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}
                 {/ifset}
                 <a href="{link Image:default $page, $sort_categorii, $presenter->filter}">
@@ -101,13 +106,13 @@
                 {ifset $sort_public['public']}
                     {if $sort_public['public'] == 'ASC'}
                         {var $sort_public['public'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     {elseif $sort_public['public'] == 'DESC'}
                         {var $sort_public['public'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_public['public'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}
                 {/ifset}
                 <a href="{link Image:default $page, $sort_public, $presenter->filter}">
@@ -119,13 +124,13 @@
                 {ifset $sort_upload['uploadet_at']}
                     {if $sort_upload['uploadet_at'] == 'ASC'}
                         {var $sort_upload['uploadet_at'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     {elseif $sort_upload['uploadet_at'] == 'DESC'}
                         {var $sort_upload['uploadet_at'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_upload['uploadet_at'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}
                 {/ifset}
                 <a href="{link Image:default $page, $sort_upload, $presenter->filter}">
@@ -137,13 +142,13 @@
                 {ifset $sort_id['id']}
                     {if $sort_id['id'] == 'ASC'}
                         {var $sort_id['id'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>
+                        <span class="glyphicon glyphicon-chevron-down"></span>
                     {elseif $sort_id['id'] == 'DESC'}
                         {var $sort_id['id'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_id['id'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}
                 {/ifset}
                 <a href="{link Image:default $page, $sort_id, $presenter->filter}">
@@ -156,9 +161,9 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <li class="modal-ajax-lightbox" data-href="{link Image:imageView $item['file']}" >                    
-                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
-                    </li>
+                    <a style="margin-bottom: 0px; cursor: pointer;" class="modal-ajax-lightbox thumbnail" data-href="{link Image:imageView $item['file']}" >                    
+                        <img width="85" height="85" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
+                    </a>
                 </td>
                 <td>
                     <strong>{$item['name']}</strong>
@@ -166,13 +171,13 @@
                     <div class="tab-actions">
                         <span>
                             <a href="{link Image:editImage $item['id']}">
-                                <i class="icon-edit"></i>
+                                <span class="glyphicon glyphicon-edit"></span>
                                 Upravit
                             </a>
                         </span>
                         <span>
                             <a href="{link deleteMedia! $item['id']}" class="delete">
-                                <i class="icon-trash"></i>
+                                <span class="glyphicon glyphicon-trash"></span>
                                  Smazat
                             </a>
                         </span>
@@ -186,13 +191,15 @@
                         Nezařazené
                     {/if}
                 </td>
-                <td>
+                <td style="text-align: center">
                     {if $item['public'] == TRUE}
                     <span class="label label-success">
-                        <i class="icon-ok icon-white"></i>
+                        <span class="glyphicon glyphicon-ok"></span>
                     </span>
                     {else}
-                        <span class="label label-important"><i class="icon-off icon-white"></i></span>
+                    <span class="label label-danger">
+                        <span class="glyphicon glyphicon-off"></span>
+                    </span>
                     {/if}
                 </td>
                 <td><abbr title="{$item['uploadedAt']|date: 'Y-m-d H:i:s'}">{$item['uploadedAt']|date: 'Y-m-d'}</abbr></td>
@@ -204,7 +211,9 @@
 
 {/snippet}
 <div class="row">
-    {control pagination}
+    <div class="col-lg-12">
+        {control pagination}
+    </div>
 </div>
 
 <div id="ajax-modal" class="modal fade" role="dialog" tabindex="-1"></div>
@@ -213,34 +222,25 @@
 
 {block jscript}
 <script type="text/javascript">
-var $image_modal = $('#lightbox');    
-$('#myModal').modal();    
-$('.modal-ajax-lightbox').on('click', function(){
-    var url = $(this).data('href');
-
-    $image_modal.load(url, '', function(){
-    $image_modal.modal();
-    });
-    return false;
-});    
-/*
 $('#cFbutton').click(function() {
     var selected = $('#cFdropdown option:selected').val();
-    if(selected === 0);
+    console.log(selected);        
+    if(selected == 0)
     {
+            
         window.location = {link Image:default};
     }
     else
     {
-        window.location = {link Image:default $presenter->sort}+"?filter[ext]="+selected;
+        window.location = {link Image:default}+"?filter[ext]="+selected;
     }
+    return false;
 });
 
 var $image_modal = $('#lightbox');
 
 $('.modal-ajax-lightbox').on('click', function(){
-    var url = $(this).attr('href');
-
+    var url = $(this).data('href');
     $image_modal.load(url, '', function(){
     $image_modal.modal();
     });
@@ -250,37 +250,35 @@ $('.modal-ajax-lightbox').on('click', function(){
 var $modal = $('#ajax-modal');
 
 $('.btn-ajax').on('click', function(){
-    var url = $(this).attr('href');
-
-    $modal.load(url, '', function(){
-    $modal.modal();
+        var url = $(this).attr('href');
+        $modal.load(url, '', function(){
+        $modal.modal();
+        $('.b-select').selectpicker();
+        loadMCE();
     });
-    return false;
+return false;
 });
 
 $modal.on('submit', function(){
-    $modal.modal('loading');
-    form = $('form.ajax');
+    $form = $('form.ajax');
     $.ajax({
        type: "POST",
-       url: form.attr('action'),
-       data: form.serialize(),
-       success: function(data) {
-           if(data.status == 'error')
+       url: $form.attr('action'),
+       data: $form.serialize(),
+       success: function($data) {
+           if($data.status == 'error')
            {
-                $modal.modal('loading')
-                      .find('.modal-body')
-                      .prepend( '<div class="alert alert-error">' +
-                                data.error + '<button type="button" class="close" data-dismiss="alert">&times;</button>' +
-                                '</div>');
+               alertBox($form, $data.snippet);
            }
            else
            {
-               $modal.modal('hide');
+               window.location.reload();
            }
        }
     });
-return false});
-*/
+    return false;
+});
 </script>
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'category_ajax'}
 {/block}

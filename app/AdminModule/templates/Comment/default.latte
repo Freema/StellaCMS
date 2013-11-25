@@ -71,42 +71,36 @@
                 </td>
                 <td>
                     <div>
-                        <span class="label">Vloženo:</span>
-                        <span>{$item->getCreatedAt()|date:'%d.%m.%Y (%H.%m)'}</span>
+                        <span>Vloženo: {$item->getCreatedAt()|date:'%d.%m.%Y (%H.%m)'}</span>
                     </div>
                     {$item->getContent()}
                     <div class="tab-actions">
                         {if $item->getApprove()}
                         <span>
                             <a href="{link Post:editArticle $item->getId()}" style="color: #D98500">
-                                <i class="icon-remove-sign"></i>
-                                Odmítnout
+                                <span class="glyphicon glyphicon-off"></span>Odmítnout
                             </a>
                         </span>
                         {else}
                         <span>
                             <a href="{link Post:editArticle $item->getId()}" style="color: #006505;">
-                                <i class="icon-ok-sign"></i>
-                                Schválit
+                                <span class="glyphicon glyphicon-ok"></span>Schválit
                             </a>
                         </span>
                         {/if}
                         <span>
                             <a class="reply-link" href="#" data-id="{$item->getId()}">
-                                <i class="icon-retweet"></i>
-                                Odpovědět
+                                <span class="glyphicon glyphicon-retweet"></span>Odpovědět
                             </a>
                         </span>
                         <span>
                             <a href="{link Post:editArticle $item->getId()}">
-                                <i class="icon-edit"></i>
-                                Upravit
+                                <span class="glyphicon glyphicon-edit"></span>Upravit
                             </a>
                         </span>
                         <span>
                             <a href="{link delete! $item->getId()}" class="ajax delete">
-                                <i class="icon-trash"></i>
-                                 Smazat
+                                <span class="glyphicon glyphicon-trash"></span>Smazat
                             </a>
                         </span>
                     </div>
@@ -115,13 +109,18 @@
 
                 </td>
             </tr>
-            <tr class="reply-form">
+            <tr class="reply-form" data-reply-form="{$item->getId()}">
                 <td colspan="3">
                 {var $id = $item->getId()}
-                {form replyForm-$id style => "margin-bottom: 0px;"}
+                {form replyForm-$id style => "margin-bottom: 0px;", class => "form-horizontal"}
+                    <div class="form-group">
                     {input comment_reply_approve_id}
                     {input comment_reply_text style => 'risaze: none;'}
-                    {input comment_reply_submit style => "margin-top: 10px;"}
+                    </div>
+                    <div class="form-group">
+                    {input comment_reply_submit}
+                    <a hr
+                    </div>                    
                 {/form}
                 </td>
             </tr>
@@ -134,8 +133,11 @@
 <!-- MCE load class -->
 {include '../Helpers/editorScript.latte' scriptType => 'comments'}    
 <script type="text/javascript">
+    $(".reply-form").hide();
+    
     $(".reply-link").on("click", function(){
         $id = $(this).data("id");
+        $(this).parent().parent().parent().parent().parent().find("[data-reply-form='" + $id + "']").show();
         formInit($id);
     });
 </script>

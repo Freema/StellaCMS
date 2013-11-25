@@ -2,6 +2,7 @@
 namespace Models\Entity\Image;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Query;
 use Models\Entity\ImageCategory\ImageCategory;
 /**
  * Description of ImageRepository
@@ -48,6 +49,16 @@ class ImageRepository extends EntityRepository  {
         }
         
         return $query->getQuery()->getResult();
+    }
+    
+    public function findAllImageName()
+    {
+        $query = $this  ->getEntityManager()
+                        ->createQueryBuilder()
+                        ->select('i.name')
+                        ->from('Models\Entity\Image\Image', 'i');
+        
+        return $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
     }
     
 }

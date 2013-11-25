@@ -9,33 +9,56 @@
 {/block}
 
 {block content}
-    {form editImageCategoryForm}
-        <div class="alert alert-error" n:if="$form->hasErrors()"> 
-            <li n:foreach="$form->errors as $error">{$error}</li>
-        </div>
-
-        <div class="control-group">
-            {label category_title class => 'control-label' /}
-            <div class="controls">
-                {input category_title}
-            </div>
-        </div>                
-    
-        <div class="control-group">
-            {label category_slug class => 'control-label' /}
-            <div class="controls">
-                {input category_slug}
-            </div>
-        </div>                
-
-        <div class="control-group">
-            <div class="controls">
-                {input category_text}
-            </div>
-        </div>                
-
-        <div class="control-group">
+{form editImageCategoryForm class => "form-horizontal"}
+    <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-12">
+                        {if $form->hasErrors()}
+                            <div class="alert alert-error" n:if="$form->hasErrors()"> 
+                                <li n:foreach="$form->errors as $error">{$error}</li>
+                            </div>
+                        {/if}
+                    </div>
+                </div>    
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            {label category_title class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                {input category_title class => "form-control"}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            {label category_slug class => "col-sm-2 control-label" /}
+                            <div class="col-sm-10">
+                                {input category_slug class => "form-control"}
+                            </div>
+                        </div>      
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-10 col-md-offset-2">
+                        <div class="form-group" style="margin-left: 0; width: 100%">
+                            <div class="controls">
+                                {input category_text}
+                            </div>
+                        </div>                
+                    </div>    
+                </div>        
+            </div><!-- end of row -->
+    </div><!-- end row container -->    
+    <div class="row" style="margin-top: 15px">
+        <div class="col-md-10 col-md-offset-2">
             {input submit}
+            <a class="btn  btn-default" href="{link ImageCategory:default}"><span class="glyphicon glyphicon-backward"></span> Zpátky</a>
         </div>
-    {/form}
+    </div>       
+{/form}
+    
+{/block}
+
+{block jscript}
+<!-- MCE load class -->
+{include '../Helpers/editorScript.latte' scriptType => 'category'}
 {/block}

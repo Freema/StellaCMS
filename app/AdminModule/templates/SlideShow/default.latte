@@ -17,21 +17,20 @@
     </colgroup>
     <thead>
         <tr>
-            <th>
-            </th>
+            <th style="text-align: center;">#</th>
             <th>
                 {var $page = $presenter->page}
                 {var $sort_slideshow = $presenter->sort}
                 {ifset $sort_slideshow['script']}
                     {if $sort_slideshow['script'] == 'ASC'}
                         {var $sort_slideshow['script'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_slideshow['script'] == 'DESC'}
                         {var $sort_slideshow['script'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_slideshow['script'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_slideshow, NULL}">
@@ -44,13 +43,13 @@
                 {ifset $sort_file['file']}
                     {if $sort_file['file'] == 'ASC'}
                         {var $sort_file['file'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_file['file'] == 'DESC'}
                         {var $sort_file['file'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_file['file'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_file, NULL}">
@@ -63,13 +62,13 @@
                 {ifset $sort_order['order']}
                     {if $sort_order['order'] == 'ASC'}
                         {var $sort_order['order'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_order['order'] == 'DESC'}
                         {var $sort_order['order'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_order['order'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_order, NULL}">
@@ -82,13 +81,13 @@
                 {ifset $sort_categorii['categorii']}
                     {if $sort_categorii['categorii'] == 'ASC'}
                         {var $sort_categorii['categorii'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_categorii['categorii'] == 'DESC'}
                         {var $sort_categorii['categorii'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_categorii['categorii'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_categorii, NULL}">
@@ -101,13 +100,13 @@
                 {ifset $sort_date['uploadet_at']}
                     {if $sort_date['uploadet_at'] == 'ASC'}
                         {var $sort_date['uploadet_at'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_date['uploadet_at'] == 'DESC'}
                         {var $sort_date['uploadet_at'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_date['uploadet_at'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_date, NULL}">
@@ -120,13 +119,13 @@
                 {ifset $sort_id['id']}
                     {if $sort_id['id'] == 'ASC'}
                         {var $sort_id['id'] => 'DESC'}
-                        <i class="icon-chevron-down"></i>                
+                        <span class="glyphicon glyphicon-chevron-down"></span>                
                     {elseif $sort_id['id'] == 'DESC'}
                         {var $sort_id['id'] => 'NONE'}
-                        <i class="icon-chevron-up"></i>
+                        <span class="glyphicon glyphicon-chevron-up"></span>
                     {else}
                         {var $sort_id['id'] => 'ASC'}
-                        <i class="icon-minus"></i>
+                        <span class="glyphicon glyphicon-minus"></span>
                     {/if}  
                 {/ifset}
                 <a href="{link SlideShow:default $page, $sort_id, NULL}">
@@ -139,8 +138,8 @@
         {foreach $tab as $item}
             <tr>
                 <td>
-                    <a class="modal-ajax" href="{link Image:imageView $item['file']}" >
-                        <img class="thumbnail" width="60" height="60" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
+                    <a style="margin-bottom: 0px; cursor: pointer;" class="modal-ajax-lightbox thumbnail" data-href="{link Image:imageView $item['file']}" >                    
+                        <img width="85" height="85" src="{$basePath}/uploads/{$item['file']|smallThumb}" />
                     </a>
                 </td>
                 <td>
@@ -148,13 +147,13 @@
                     <div class="tab-actions">
                         <span>
                             <a href="{link SlideShow:updateSlideShow $item['scriptId']}">
-                                <i class="icon-edit"></i>
+                                <span class="glyphicon glyphicon-edit"></span>
                                 Upravit
                             </a>
                         </span>
                         <span>
                             <a href="{link deleteSlideshow! $item['scriptId']}" class="delete">
-                                <i class="icon-trash"></i>
+                                <span class="glyphicon glyphicon-trash"></span>
                                  Smazat
                             </a>
                         </span>
@@ -165,7 +164,7 @@
                     <div class="tab-actions">
                         <span>
                             <a href="{link SlideShow:image $item['id']}">
-                                <i class="icon-edit"></i>
+                                <span class="glyphicon glyphicon-edit"></span>
                                 Upravit
                             </a>
                         </span>
@@ -188,27 +187,25 @@
 {/snippet}
 
 <div class="row">
-    {control pagination}
+    <div class="col-lg-12">
+        {control pagination}
+    </div>
 </div>
 
-<div id="lightbox" class="lightbox hide fade" tabindex="-1" data-replace="true"></div>
+<div id="lightbox" class="modal lightbox fade" role="dialog" tabindex="-1"></div>
 {/block}
 
 {block jscript}
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modal.js"></script>
-<script type="text/javascript" src="{$basePath}/public/admin/js/bootstrap-modalmanager.js"></script>
 <script type="text/javascript">
 
-var $modal = $('#lightbox');
+var $image_modal = $('#lightbox');
 
-$('.modal-ajax').on('click', function(){
-    $('body').modalmanager('loading');
-    var url = $(this).attr('href')
-
-    $modal.load(url, '', function(){
-    $modal.modal();
+$('.modal-ajax-lightbox').on('click', function(){
+    var url = $(this).data('href');
+    $image_modal.load(url, '', function(){
+    $image_modal.modal();
     });
-
-return false});
+    return false;
+});
 </script>
 {/block}
