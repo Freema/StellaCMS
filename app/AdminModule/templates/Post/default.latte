@@ -25,9 +25,11 @@
             <form class="form-inline pull-right">
                 <select id="cFdropdown" class="b-select">
                     <option {ifCurrent Post:default}selected=""{/ifCurrent} value="0">Zobrazit všechny kategorie</option>
-                    {foreach $cFilter as $key => $option}
-                    <option {ifCurrent Post:default category => $key}selected=""{/ifCurrent} value="{$key}">{$option}</option>
-                    {/foreach}            
+                    {ifset $cFilter}
+                        {foreach $cFilter as $key => $option}
+                        <option {ifCurrent Post:default category => $key}selected=""{/ifCurrent} value="{$key}">{$option}</option>
+                        {/foreach}            
+                    {/ifset}
                 </select>
                 <button id="cFbutton" type="submit" class="btn">Filtrovat</button>
             </form>

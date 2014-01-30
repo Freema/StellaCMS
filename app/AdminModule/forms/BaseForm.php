@@ -30,7 +30,7 @@ abstract class BaseForm extends Object {
         {
             $filter = ucfirst($filter);
             $function = 'get'.$filter;        
-
+            $pre_tree = array();
             foreach ($items as $item)
             {
                 if($item->getParent() == NULL)

@@ -2,6 +2,7 @@
 
 namespace Models\Entity\Category;
 use Doctrine\ORM\Mapping as ORM;
+use Models\Entity\Image\Image;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryRepository")
@@ -57,6 +58,12 @@ class Category
      * @ORM\OneToMany(targetEntity="Models\Entity\Post\Post", mappedBy="category")
      */
     protected $posts;
+    
+    /**
+     * @ORM\ManyToOne(targetEntity="Models\Entity\Image\Image")
+     * @ORM\JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
+     */
+    protected $images;
 
     public function __construct($title, $slug, $description)
     {
@@ -67,6 +74,7 @@ class Category
         $this->cssClass = "";
         $this->children = new \Doctrine\Common\Collections\ArrayCollection;
         $this->posts = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->image = new \Doctrine\Common\Collections\ArrayCollection;
     }
     
     /**
@@ -220,4 +228,38 @@ class Category
         
         return $this;
     }    
+    
+    /**
+     * Get Image
+     * 
+     * @return Image
+     */
+    public function getCategory()
+    {
+        return $this->images;
+    }
+
+    /**
+     * Set Image
+     * 
+     * @param Image $category
+     * @return Category
+     */
+    public function setImage(Image $category)
+    {
+        $this->images = $category;
+        return $this;
+    }
+    
+    /**
+     * Set Image to NULL
+     * 
+     * @return Category
+     */
+    public function removeImage()
+    {
+        $this->images = NULL;
+        return $this;
+    }    
+    
 }

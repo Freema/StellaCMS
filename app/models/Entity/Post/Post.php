@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Models\Entity\Category\Category;
 use Models\Entity\Comment\Comment;
+use Models\Entity\PagePosition\PagePosition;
 use Models\Entity\Tag\Tag;
 use Models\Entity\User\User;
 
@@ -16,7 +17,6 @@ use Models\Entity\User\User;
  */
 class Post
 {
-
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")
@@ -28,6 +28,11 @@ class Post
      * @ORM\Column(type="string", length=100, unique=true)
      */
     protected $title;
+    
+    /**
+     * @ORM\Column(type="string", length=32)
+     */
+    protected $slug;        
     
     /**
      * @ORM\ManyToOne(targetEntity="Models\Entity\User\User")
@@ -68,9 +73,14 @@ class Post
     protected $createdAt;
     
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Comment\Comment", mappedBy="post", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Models\Entity\Comment\Comment", mappedBy="posts", cascade={"persist","remove"})
      */
-    protected $comment;    
+    protected $comment;  
+    
+    /**
+     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition\PagePosition", inversedBy="id")
+     **/    
+    protected $pagePostion;    
 
     public function __construct(User $users, $content, $title)
     {
@@ -80,7 +90,10 @@ class Post
         $this->publish = TRUE;
         $this->clicks = 0;
         $this->createdAt = new DateTime;
-        $this->tags = new ArrayCollection;        
+        $this->tags = new ArrayCollection;  
+        $this->comment = new ArrayCollection;    
+        $this->post = new ArrayCollection;
+        $this->pagePostion = new ArrayCollection;
     }
     
     /**
@@ -114,6 +127,24 @@ class Post
         $this->title = (string) $title;
         return $this;
     }
+    
+    /**
+     * @return string
+     */
+    public function getSlug()
+    {
+        return $this->slug;
+    }
+    
+    /**
+     * @param string $slug
+     * @return Post
+     */
+    public function setSlug($slug)
+    {
+        $this->slug = $slug;
+        return $this;
+    }    
 
     /**
      * Get User
@@ -292,4 +323,40 @@ class Post
         $this->createdAt = $created;
         return $this;
     }    
+    
+    /**
+     * @return Comment
+     */
+    public function getComment()
+    {
+        return $this->comment;
+    }
+
+    /**
+     * @param Comment $comment
+     * @return Post
+     */
+    public function setComment(Comment $comment)
+    {
+        $this->comment = $comment;
+        return $this;
+    }
+    
+    /**
+     * @return PagePosition
+     */
+    public function getPagePosition()
+    {
+        return $this->pagePostion;
+    }
+    
+    /**
+     * @param PagePosition $position
+     * @return Post
+     */
+    public function setPagePosition(PagePosition $position)
+    {
+        $this->pagePostion = $position;
+        return $this;
+    }
 }

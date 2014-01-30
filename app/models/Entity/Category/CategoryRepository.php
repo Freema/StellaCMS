@@ -1,6 +1,8 @@
 <?php
-namespace Models\Entity\Category; 
+namespace Models\Entity\Category;
+
 use Doctrine\ORM\EntityRepository;
+
 /**
  * Description of CategoryRepository
  *
@@ -26,4 +28,20 @@ class CategoryRepository extends EntityRepository  {
         return $this->findBy(array(), array('id' => 'DESC'));
     }
     
+    public function getRoutList()
+    {
+        $query = $this  ->createQueryBuilder("Category")
+                        ->select("Category.id, Category.slug")
+                        ->getQuery()
+                        ->getResult();
+        
+        $return = array();
+        
+        foreach ($query as $value)
+        {
+            $return[$value['id']] = $value['slug'];
+        }
+            
+        return $return;
+    }
 }

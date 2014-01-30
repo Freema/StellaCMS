@@ -10,6 +10,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use Models\Entity\Post\Post;
 use Nette\Application\UI\Form;
+use Nette\Utils\Strings;
 
 class PostForm extends BaseForm
 {
@@ -58,6 +59,10 @@ class PostForm extends BaseForm
         
         $form->addSelect('category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');
+        
+        $form->addText('slug', 'URL: ')
+             ->setDefaultValue($this->_defaults->getSlug())   
+             ->addRule(Form::MAX_LENGTH, null, 32);        
         
         $form->addTextArea('text', 'Text: ')
              ->setHtmlId('editor_add_post');
@@ -119,6 +124,10 @@ class PostForm extends BaseForm
              ->setDefaultValue($default['category'])   
              ->setPrompt('- No category -');
         
+        $form->addText('slug', 'URL: ')
+             ->setDefaultValue($this->_defaults->getSlug())   
+             ->addRule(Form::MAX_LENGTH, null, 32);        
+        
         $form->addTextArea('text', 'Text: ')
              ->setDefaultValue($this->_defaults->getContent())   
              ->setHtmlId('editor_edit_post');
@@ -154,6 +163,11 @@ class PostForm extends BaseForm
             $user = $this->_em->getRepository('Models\Entity\User\User');
             $category = $this->_category->getOne($value->category);
             
+            $value->slug ? $slug = $value->slug : $slug = $value->title;
+
+            /* @var $slug string */
+            $slug = Strings::webalize($slug);    
+            
             if($this->_defaults)
             {
                 
@@ -169,6 +183,7 @@ class PostForm extends BaseForm
                 $post->setUser($user->find($form->presenter->getUser()->getId()));
                 $post->setContent($value->text);
                 $post->setTitle($value->title);
+                $post->setSlug($slug);
                 $post->setPublish($value->publish); 
                 $post->setCreatedAt(new \DateTime('NOW'));
 
@@ -217,6 +232,7 @@ class PostForm extends BaseForm
                 
                 $post = new Post($user->find($form->presenter->getUser()->getId()), $value->text, $value->title);
                 $post->setPublish($value->publish);
+                $post->setSlug($slug);
 
                 if(!empty($category)){
                     $post->setCategory($category);
