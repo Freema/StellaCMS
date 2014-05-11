@@ -1,20 +1,19 @@
 <?php
-namespace Models\PageRouter;
+namespace Models;
 
-use Nette\Application\Routers\RouteList;
+use Nette\Application\IRouter;
 use Nette\Application\Routers\Route;
+use Nette\Application\Routers\RouteList;
 
 /**
  * Router factory.
  */
-class PageRouter
-{
+class PageRouter {
     
     /**
-     * @return Nette\Application\IRouter
+     * @return IRouter
      */
-    public function createRouter()
-    {
+    public function createRouter() {
         $router = new RouteList();
         
         $router[] = new Route('admin/<presenter>/<action>', array(

@@ -5,94 +5,79 @@
 # http://nette.org/security-warning
 #
 common:
-        parameters:
-                gallery:
-                        imagesDir: %wwwDir%/uploads/
-                        thumbnail: 
-                            small: 150x150
-                            big: 300x200
-                database:
-                        driver: pdo_mysql
-                        host: localhost
-                        dbname: stella
-                        user: root
-                        password:
-                        charset: utf8
-                        collation: utf8_czech_ci
-                 security:
-                        salt: StellaSuperstar
+    parameters:
+        gallery:
+            imagesDir: %wwwDir%/uploads/
+            thumbnail: 
+                small: 150x150
+                big: 300x200
+        security:
+            salt: StellaSuperstar
 
+    php:
+        date.timezone: Europe/Prague
+        session.save_path: "%tempDir%/sessions"
 
-        php:
-                date.timezone: Europe/Prague
-                session.save_path: "%tempDir%/sessions"
+    nette:
+        session:
+            autoStart: smart
+            expiration: 14 days
 
-        nette:
-                session:
-                        autoStart: smart
-                        expiration: 14 days
+    extensions:
+        # add theese four lines
+        console: Kdyby\Console\DI\ConsoleExtension
+        events: Kdyby\Events\DI\EventsExtension
+        annotations: Kdyby\Annotations\DI\AnnotationsExtension
+        doctrine: Kdyby\Doctrine\DI\OrmExtension
 
-        doctrine:
-                connection: %database%
-                console: true
+    doctrine:
+        host: localhost
+        user: root
+        password: 
+        dbname: stella
+        metadata:
+            App: %appDir%
+        options:
+            collate: utf8_czech_ci
+            charset: utf8
 
-        migrations:
-                connection: @doctrine.connection
+    services:
+        - Models\PageRouter
+        router: @Models\PageRouter::createRouter
 
-        services:
-                database: @doctrine.entityManager
+        authenticator: 
+            class: Models\Authenticator\Authenticator(@doctrine.dao('Models\Entity\User\User'), %security.salt%)
 
-                authenticator: 
-                    class: Models\Authenticator\Authenticator(@database::getRepository('Models\Entity\User\User'), %security.salt%)
+        # Modeli
+        - Models\Category\Category
+        - Models\Post\Post
+        - Models\Comment\Comment
+        - Models\Link\Link
+        - Models\Tag\Tag
+        - 
+            class: Models\Image\Image(%gallery.imagesDir%)
+            setup:
+                - setResize(%gallery.thumbnail%)
+        - Models\Image\ImageCategory
+        - Models\Omptions\Page
+        - Models\Omptions\Facebook
 
-                model.category:
-                    class: Models\Category\Category
-                model.post:
-                    class: Models\Post\Post
-                model.comment:
-                    class: Models\Comment\Comment
-                model.link:
-                    class: Models\Link\Link
-                model.tag:
-                    class: Models\Tag\Tag
-                model.image:
-                    class: Models\Image\Image(@database, %gallery.imagesDir%)
-                    setup:
-                        - setResize(%gallery.thumbnail%)
-                model.imageCategory:
-                    class: Models\Image\ImageCategory
-                model.options.page:
-                    class: Models\Omptions\Page
-                model.options.facebook:
-                    class: Models\Omptions\Facebook
+        # Componenty
+        - Components\SlideShow\SlideshowService
 
-                components.slideShow:
-                    class: Components\SlideShow\SlideshowService
-
-                Form.login:
-                    class: AdminModule\Forms\LoginForm
-                Form.post:
-                    class: AdminModule\Forms\PostForm(@database)
-                Form.category:
-                    class: AdminModule\Forms\CategoryForm(@database)
-                Form.menu:
-                    class: AdminModule\Forms\MenuForm(@database)
-                Form.link:
-                    class: AdminModule\Forms\LinkForm(@database)
-                Form.tag:
-                    class: AdminModule\Forms\TagForm(@database)
-                Form.fileUpload:
-                    class: AdminModule\Forms\FileUploadForm(@database, @model.image)
-                Form.imageCategory:
-                    class: AdminModule\Forms\ImageCategoryForm(@database)
-                Form.PageForm:
-                    class: AdminModule\Forms\PageForm(@database, @model.options.page)
-                Form.OpenGraphForm:
-                    class: AdminModule\Forms\OpenGraphForm(@database, @model.options.facebook)
-                Form.SlideShowForm:
-                    class: AdminModule\Forms\SlideShowForm(@database, @components.slideShow)
-                Form.CommentForm:
-                    class: AdminModule\Forms\CommentForm(@database)
+        # Admin forms service
+        - AdminModule\Forms\LoginForm
+        - AdminModule\Forms\PostForm
+        - AdminModule\Forms\CategoryForm
+        - AdminModule\Forms\MenuForm
+        - AdminModule\Forms\LinkForm
+        - AdminModule\Forms\TagForm
+        - AdminModule\Forms\FileUploadForm
+        - AdminModule\Forms\ImageCategoryForm
+        - AdminModule\Forms\PageForm
+        - AdminModule\Forms\OpenGraphForm
+        - AdminModule\Forms\SlideShowForm
+        - AdminModule\Forms\CommentForm
  
 production < common:
 

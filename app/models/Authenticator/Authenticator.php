@@ -1,7 +1,7 @@
 <?php
 namespace Models\Authenticator;
 
-use Doctrine\ORM\EntityRepository;
+use Kdyby\Doctrine\EntityRepository;
 use Nette\Object;
 use Nette\Security as NS;
 use Nette\Security\AuthenticationException;

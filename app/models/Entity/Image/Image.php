@@ -4,6 +4,7 @@ namespace Models\Entity\Image;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Models\Entity\ImageCategory\ImageCategory;
 
 /**
@@ -11,8 +12,7 @@ use Models\Entity\ImageCategory\ImageCategory;
  * @ORM\Table(name="image")
  * @ORM\HasLifecycleCallbacks() 
  */
-class Image
-{
+class Image extends BaseEntity {
     /**
      * @ORM\Id
      * @ORM\Column(type="integer")

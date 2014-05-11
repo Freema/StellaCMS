@@ -11,8 +11,7 @@ use Models\Entity\Post\Post;
  * @ORM\Table(name="comment")
  * @ORM\HasLifecycleCallbacks 
  */
-class Comment
-{
+class Comment {
     /**
      * @var integer
      * 

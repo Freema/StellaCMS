@@ -44,7 +44,7 @@ footer {
 
 .footer-wrapper {
     position: relative;
-    height: 30px;
+    height: 31px;
 }
 
 .text-center {
@@ -197,7 +197,11 @@ footer {
 /* Logi area 
 ================================================== */
 .loginPage {
-    background: url('../img/blackwall.png');
+    background: url('../img/blackwall.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;    
 }
 
 .form-signin {
@@ -294,15 +298,14 @@ footer {
 }
 
 .sidebar-post-box .tab-content {
+    background-color: #FFFFFF;
+    border-color: #DDDDDD;
     border-style: solid;
     border-width: 1px;
-    border-color: #DDDDDD;
-    max-height: 275px;
-    min-height: 275px;
+    max-height: 160px;
+    min-height: 160px;
     overflow-y: scroll;
-    padding: 0.7em 0.6em;  
-    background-color: #ffffff;
-}
+    padding: 0.7em 0.6em;}
 
 .sidebar-post-box select {
     width: 100%;

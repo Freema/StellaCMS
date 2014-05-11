@@ -6,14 +6,16 @@ namespace AdminModule\Forms;
  * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 
-use Doctrine\ORM\EntityManager;
+use DateTime;
 use Doctrine\ORM\EntityRepository;
+use Kdyby\Doctrine\EntityManager;
+use Models\Entity\Category\Category;
 use Models\Entity\Post\Post;
+use Models\Entity\Tag\Tag;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
-class PostForm extends BaseForm
-{
+class PostForm extends BaseForm {
     /** @var EntityManager */
     protected $_em;
     
@@ -28,20 +30,15 @@ class PostForm extends BaseForm
     
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_category = $em->getRepository('Models\Entity\Category\Category');
-        $this->_tag = $em->getRepository('Models\Entity\Tag\Tag');
+        $this->_category = $em->getDao(Category::getClassName());
+        $this->_tag = $em->getDao(Tag::getClassName());
     }
     
-    public function createForm(Post $defaults = NULL)
-    {
-        if(!$defaults)
-        {
+    public function createForm(Post $defaults = NULL) {
+        if(!$defaults) {
             return $this->_addForm();
-        }
-        else
-        {
+        } else {
             $this->_defaults = $defaults;
-            
             return $this->_editForm(); 
         }
     }
@@ -185,7 +182,7 @@ class PostForm extends BaseForm
                 $post->setTitle($value->title);
                 $post->setSlug($slug);
                 $post->setPublish($value->publish); 
-                $post->setCreatedAt(new \DateTime('NOW'));
+                $post->setCreatedAt(new DateTime('NOW'));
 
                 $default = array();
                 foreach ($this->_defaults->getTags() as $tagl)

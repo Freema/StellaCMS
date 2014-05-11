@@ -1,8 +1,8 @@
 <?php
 namespace Models\Image;
 
-use Doctrine\ORM\EntityManager;
-use Models\Entity\Image\Image as ImageEntity;
+use Kdyby\Doctrine\EntityManager;
+use Models\Entity\Image\Image as ImgEntity;
 use Nette\Image as Thumbnails;
 use Nette\Utils\Finder;
 /**
@@ -10,7 +10,7 @@ use Nette\Utils\Finder;
  *
  * @author Tomáš Grasl
  */
-class Image extends ImageOrder implements IImageOrder {
+class Image extends ImageOrder {
     
     /**
      * @var string
@@ -22,9 +22,6 @@ class Image extends ImageOrder implements IImageOrder {
     
     /** @var array */
     protected $_thumbnailsSize;
-    
-    /** @var string */
-    protected $_entity;
     
     /** @var array */
     protected $filter;
@@ -42,21 +39,12 @@ class Image extends ImageOrder implements IImageOrder {
     protected $firstResult;
 
     /**
+     * @param EntityManager $em
      * @param string $dir
      */
-    public function __construct(EntityManager $em , $dir) 
-    {
+    final function __construct(EntityManager $em , $dir)  {
         $this->_em = $em;        
         $this->_dir = $dir;
-        $this->setEntity('Models\Entity\Image\Image');        
-    }
-    
-    /**
-     * @param object $name
-     * @return object
-     */
-    public function setEntity($name) {
-        return $this->_entity = $name;
     }
 
     /**
@@ -126,9 +114,8 @@ class Image extends ImageOrder implements IImageOrder {
     /**
      * @return ImageEntity
      */
-    public function getImageRepository()
-    {
-        return $this->_em->getRepository('Models\Entity\Image\Image');                
+    public function getImageRepository() {
+        return $this->_em->getDao(ImgEntity::getClassName());                
     }
     
     /**
@@ -382,7 +369,7 @@ class Image extends ImageOrder implements IImageOrder {
     /**
      * Upraví pořadí po změně kategorie
      * 
-     * @param \Models\Entity\Image\Image $image
+     * @param Image $image
      */
     public function updateImageOrderAfterCategoryChange(ImageEntity $image)
     {
@@ -394,7 +381,7 @@ class Image extends ImageOrder implements IImageOrder {
     /**
      * Upraví pořádí konkrétního elementu
      * 
-     * @param \Models\Entity\Image\Image $defaults
+     * @param Image $defaults
      * @param type $newOrder
      */
     public function updateImageOrder(ImageEntity $defaults, $newOrder)

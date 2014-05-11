@@ -1,9 +1,9 @@
 <?php
 namespace AdminModule\Forms;
 
-use Doctrine\ORM\EntityManager;
-use Nette\Application\UI\Form;
+use Kdyby\Doctrine\EntityManager;
 use Models\Entity\Comment\Comment;
+use Nette\Application\UI\Form;
 
 /**
  * Description of CategoryForm
@@ -41,17 +41,13 @@ class CommentForm extends BaseForm {
         return $form;        
     }
 
-    public function replySuccess(Form $form)
-    {
-        try 
-        {
+    public function replySuccess(Form $form) {
+        try {
             $value = $form->values;
             
             dump($value);
 
-        }
-        catch(FormException $e)
-        {
+        } catch(FormException $e) {
             $form->addError($e->getMessage());
             if($form->presenter->isAjax())
             {

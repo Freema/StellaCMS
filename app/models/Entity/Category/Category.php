@@ -1,15 +1,16 @@
 <?php
 
 namespace Models\Entity\Category;
+
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Models\Entity\Image\Image;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryRepository")
  * @ORM\Table(name="category")
  */
-class Category
-{
+class Category extends BaseEntity {
     
     /**
      * @ORM\Id
@@ -55,26 +56,26 @@ class Category
     protected $parent;
 
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Post\Post", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Post", mappedBy="category")
      */
     protected $posts;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\Image\Image")
+     * @ORM\ManyToOne(targetEntity="Image")
      * @ORM\JoinColumn(name="image_id", referencedColumnName="id", onDelete="SET NULL")
      */
     protected $images;
 
-    public function __construct($title, $slug, $description)
-    {
+    final function __construct($title, $slug, $description) {
+        parent::__construct();
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
         $this->publish = TRUE;
         $this->cssClass = "";
-        $this->children = new \Doctrine\Common\Collections\ArrayCollection;
-        $this->posts = new \Doctrine\Common\Collections\ArrayCollection;
-        $this->image = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->children = new ArrayCollection;
+        $this->posts = new ArrayCollection;
+        $this->image = new ArrayCollection;
     }
     
     /**

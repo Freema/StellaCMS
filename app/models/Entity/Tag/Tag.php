@@ -7,17 +7,18 @@ namespace Models\Entity\Tag;
  */
 
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Models\Entity\Post\Post;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\Tag\TagRepository")
+ * @ORM\Entity(repositoryClass="TagRepository")
  * @ORM\HasLifecycleCallbacks 
  * @ORM\Table(name="tag")
  */
 
-class Tag
-{
+class Tag extends BaseEntity {
     
     /**
      * @var integer
@@ -63,7 +64,8 @@ class Tag
     */
     private $posts;    
     
-    public function __construct($name) {
+    final function __construct($name) {
+        parent::__construct();
         $this->name = $name;
         $this->slug = NULL;
         $this->description = '';
@@ -99,7 +101,7 @@ class Tag
      * Set name
      *
      * @param string $name
-     * @return \Models\Entity\Tag\Tag
+     * @return Tag
      */
     public function setName($name)
     {
@@ -122,7 +124,7 @@ class Tag
      * Set slug
      * 
      * @param type $slug
-     * @return \Models\Entity\Tag\Tag
+     * @return Tag
      */
     public function setSlug($slug)
     {
@@ -145,7 +147,7 @@ class Tag
      * Set description
      * 
      * @param type $description
-     * @return \Models\Entity\Tag\Tag
+     * @return Tag
      */
     public function setDescription($description)
     {
@@ -168,7 +170,7 @@ class Tag
      * Set quantifier
      *
      * @param integer $quantifier
-     * @return \Models\Entity\Tag\Tag
+     * @return Tag
      */
     public function setQuantifier($quantifier)
     {
@@ -181,7 +183,7 @@ class Tag
      * Add posts
      *
      * @param Post $posts
-     * @return \Models\Entity\Tag\Tag
+     * @return Tag
      */
     public function addPost(Post $posts)
     {
@@ -203,7 +205,7 @@ class Tag
     /**
      * Get posts
      *
-     * @return \Doctrine\Common\Collections\Collection 
+     * @return Collection 
      */
     public function getPosts()
     {

@@ -1,21 +1,16 @@
 <?php
 
-use AdminModule\Forms\CheckboxList;
-use AdminModule\Forms\MultyFileUpload;
-use Kdyby\Replicator\Container;
-use Models\PageRouter\PageRouter;
-use Nella\Console\Config\Extension as Extension2;
-use Nella\Doctrine\Config\Extension;
-use Nella\Doctrine\Config\MigrationsExtension;
-use Nette\Config\Configurator;
-
+use Nette\Configurator;
 /**
  * My Application bootstrap file.
  */
 
-// Load Nette Framework
-require LIBS_DIR . '/autoload.php';
+// BASE definice
+define('APP_DIR', WWW_DIR . '/app');
+define('VENDOR_DIR', WWW_DIR . '/vendor');
 
+// Load Nette Framework
+require __DIR__ . '/../vendor/autoload.php';
 
 // Configure application
 $configurator = new Configurator;
@@ -27,12 +22,8 @@ $configurator->enableDebugger(__DIR__ . '/../log');
 // Enable RobotLoader - this will load all classes automatically
 $configurator->setTempDirectory(__DIR__ . '/../temp');
 $configurator->createRobotLoader()
-	->addDirectory(APP_DIR)
-	->register();
-
-Extension2::register($configurator);
-Extension::register($configurator);
-MigrationsExtension::register($configurator);
+             ->addDirectory(APP_DIR)
+             ->register();
 
 // Create Dependency Injection container from config.neon file
 $configurator->addConfig(__DIR__ . '/config/config.neon');
@@ -42,15 +33,4 @@ if (!is_writable($container->expand('%tempDir%'))) {
     throw new Exception("Make directory '" . $container->parameters['tempDir'] . "' writable!");
 }
 
-$pageRouter = new PageRouter();
-$container->router[] = $pageRouter->createRouter();
-
-/**
- * Form extensions register
- */
-MultyFileUpload::register();
-CheckboxList::register();
-Container::register();
-
-// Configure and run the application!
-$container->application->run();
+return $container;
