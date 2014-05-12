@@ -1,14 +1,18 @@
 <?php
-
-namespace Models\Entity\SlideShow;
+namespace Models\Entity;
+/**
+ * Description of TagRepository
+ *
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ */
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Nette\Utils\Json;
-use Models\Entity\ImageCategory\ImageCategory;
+use Models\Entity\ImageCategory;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
+ * @ORM\Entity(repositoryClass="SlideShowRepository")
  * @ORM\Table(name="slide_show_script")
  */
 class SlideShowScript
@@ -42,13 +46,13 @@ class SlideShowScript
     protected $options;
     
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\SlideShow\SlideShow", mappedBy="script")
+     * @ORM\OneToMany(targetEntity="Models\Entity\SlideShow", mappedBy="script")
      * @ORM\OrderBy({"imageOrder" = "ASC"})
      */
     protected $slideshow; 
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory",  inversedBy="image")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory",  inversedBy="image")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;    

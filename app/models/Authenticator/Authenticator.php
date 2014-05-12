@@ -1,7 +1,9 @@
 <?php
 namespace Models\Authenticator;
 
+use Kdyby\Doctrine\EntityManager;
 use Kdyby\Doctrine\EntityRepository;
+use Models\Entity\User;
 use Nette\Object;
 use Nette\Security as NS;
 use Nette\Security\AuthenticationException;
@@ -22,10 +24,12 @@ class Authenticator extends Object implements NS\IAuthenticator
     /** @var stirng */
     private $_salt;
 
-
-    public function __construct(EntityRepository $users, $salt)
-    {
-            $this->_users = $users;
+    /**
+     * @param EntityManager $em
+     * @param string $salt
+     */
+    public function __construct(EntityManager $em, $salt) {
+            $this->_users = $em->getDao(User::getClassName());
             $this->_salt = $salt;
     }
 

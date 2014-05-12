@@ -1,11 +1,15 @@
 <?php
-
-namespace Models\Entity\Image;
+namespace Models\Entity;
+/**
+ * Description of TagRepository
+ *
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ */
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
-use Models\Entity\ImageCategory\ImageCategory;
+use Models\Entity\ImageCategory;
 
 /**
  * @ORM\Entity(repositoryClass="ImageRepository")
@@ -51,7 +55,7 @@ class Image extends BaseEntity {
     protected $public;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory\ImageCategory",  inversedBy="image")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\ImageCategory",  inversedBy="image")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;

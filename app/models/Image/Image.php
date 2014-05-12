@@ -42,9 +42,17 @@ class Image extends ImageOrder {
      * @param EntityManager $em
      * @param string $dir
      */
-    final function __construct(EntityManager $em , $dir)  {
+    final function __construct(EntityManager $em)  {
         $this->_em = $em;        
+    }
+
+    /**
+     * @param strign $dir
+     * @return Image
+     */
+    public function setImageDir($dir) {
         $this->_dir = $dir;
+        return $this;
     }
 
     /**

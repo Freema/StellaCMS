@@ -1,10 +1,10 @@
 <?php
 
-namespace Models\Entity\PagePosition;
+namespace Models\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Entity\Post\Post;
+use Models\Entity\Post;
 
 /**
  * @ORM\Table(name="page_position")
@@ -30,7 +30,7 @@ class PagePosition
     protected $createdAt;    
     
     /**
-     * @ORM\OneToOne(targetEntity="Models\Entity\Post\Post", mappedBy="pagePostion")
+     * @ORM\OneToOne(targetEntity="Models\Entity\Post", mappedBy="pagePostion")
      **/
     private $post;    
 

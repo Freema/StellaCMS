@@ -1,10 +1,14 @@
 <?php
-
-namespace Models\Entity\Category;
+namespace Models\Entity;
+/**
+ * Description of TagRepository
+ *
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ */
 
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
-use Models\Entity\Image\Image;
+use Models\Entity\Image;
 
 /**
  * @ORM\Entity(repositoryClass="CategoryRepository")
@@ -45,12 +49,12 @@ class Category extends BaseEntity {
     protected $cssClass;    
 
     /**
-     * @ORM\OneToMany(targetEntity="Category", mappedBy="parent")
+     * @ORM\OneToMany(targetEntity="Models\Entity\Category", mappedBy="parent")
      **/
     protected $children;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="children")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\Category", inversedBy="children")
      * @ORM\JoinColumn(name="parent_id", referencedColumnName="id", onDelete="SET NULL")
      **/
     protected $parent;

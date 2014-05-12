@@ -1,23 +1,22 @@
 <?php
-namespace Models\Entity\Tag; 
+namespace Models\Entity; 
 /**
  * Description of TagRepository
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Kdyby\Doctrine\Entities\BaseEntity;
-use Models\Entity\Post\Post;
+use Models\Entity\Post;
 
 /**
  * @ORM\Entity(repositoryClass="TagRepository")
  * @ORM\HasLifecycleCallbacks 
  * @ORM\Table(name="tag")
  */
-
 class Tag extends BaseEntity {
     
     /**
@@ -60,7 +59,7 @@ class Tag extends BaseEntity {
     protected $quantifier;
 
     /**
-    * @ORM\ManyToMany(targetEntity="Models\Entity\Post\Post", mappedBy="tags")
+    * @ORM\ManyToMany(targetEntity="Models\Entity\Post", mappedBy="tags")
     */
     private $posts;    
     

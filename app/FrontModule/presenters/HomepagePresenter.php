@@ -32,7 +32,7 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
-        $this->template->pageOptions = $this->_pageService->getPageControl();
+        //$this->template->pageOptions = $this->_pageService->getPageControl();
     }
     
     public function handleCreateDefaultUser()

@@ -8,6 +8,21 @@ use Nette\Configurator;
 // BASE definice
 define('APP_DIR', WWW_DIR . '/app');
 define('VENDOR_DIR', WWW_DIR . '/vendor');
+define('LOG_DIR', WWW_DIR . '/log');
+define('TEMP_DIR', WWW_DIR . '/temp');
+define('UPLOAD_DIR', WWW_DIR . '/upload');
+
+
+if(!file_exists(LOG_DIR)) {
+    mkdir(LOG_DIR);
+}
+if(!file_exists(TEMP_DIR)) {
+    mkdir(TEMP_DIR);
+    mkdir(TEMP_DIR."/sessions/");
+}
+if(!file_exists(UPLOAD_DIR)) {
+    mkdir(UPLOAD_DIR);
+}
 
 // Load Nette Framework
 require __DIR__ . '/../vendor/autoload.php';
@@ -17,10 +32,10 @@ $configurator = new Configurator;
 
 // Enable Nette Debugger for error visualisation & logging
 //$configurator->setDebugMode(FALSE);
-$configurator->enableDebugger(__DIR__ . '/../log');
+$configurator->enableDebugger(LOG_DIR);
 
 // Enable RobotLoader - this will load all classes automatically
-$configurator->setTempDirectory(__DIR__ . '/../temp');
+$configurator->setTempDirectory(TEMP_DIR);
 $configurator->createRobotLoader()
              ->addDirectory(APP_DIR)
              ->register();

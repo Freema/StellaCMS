@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Link; 
+namespace Models\Entity; 
 use Doctrine\ORM\EntityRepository;
 /**
  * Description of TagRepository

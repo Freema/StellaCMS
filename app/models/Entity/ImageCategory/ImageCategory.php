@@ -1,6 +1,12 @@
 <?php
+namespace Models\Entity;
+/**
+ * Description of TagRepository
+ *
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ */
 
-namespace Models\Entity\ImageCategory;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -34,7 +40,7 @@ class ImageCategory
     protected $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Image\Image", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="Image", mappedBy="category")
      */
     protected $image;
 
@@ -43,7 +49,7 @@ class ImageCategory
         $this->title = $title;
         $this->slug = $slug;
         $this->description = $description;
-        $this->image = new \Doctrine\Common\Collections\ArrayCollection;
+        $this->image = new ArrayCollection;
     }
     
     public function getId()

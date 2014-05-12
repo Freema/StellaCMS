@@ -1,10 +1,10 @@
 <?php
-namespace Models\Entity\Comment; 
+namespace Models\Entity; 
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Entity\Post\Post;
+use Models\Entity\Post;
 
 /**
  * @ORM\Entity
@@ -89,7 +89,7 @@ class Comment {
     protected $parent;    
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\Post\Post", inversedBy="comment")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\Post", inversedBy="comment")
      * @ORM\JoinColumn(name="post_id", referencedColumnName="id",nullable=false)
      */
     private $posts;  

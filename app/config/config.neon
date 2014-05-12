@@ -36,7 +36,7 @@ common:
         password: 
         dbname: stella
         metadata:
-            App: %appDir%
+            'Models\Entity\': %appDir%
         options:
             collate: utf8_czech_ci
             charset: utf8
@@ -46,7 +46,7 @@ common:
         router: @Models\PageRouter::createRouter
 
         authenticator: 
-            class: Models\Authenticator\Authenticator(@doctrine.dao('Models\Entity\User\User'), %security.salt%)
+            class: Models\Authenticator\Authenticator(@doctrine.default.entityManager, %security.salt%)
 
         # Modeli
         - Models\Category\Category
@@ -55,12 +55,13 @@ common:
         - Models\Link\Link
         - Models\Tag\Tag
         - 
-            class: Models\Image\Image(%gallery.imagesDir%)
+            class: Models\Image\Image
             setup:
                 - setResize(%gallery.thumbnail%)
+                - setImageDir(%gallery.imagesDir%)
         - Models\Image\ImageCategory
-        - Models\Omptions\Page
-        - Models\Omptions\Facebook
+        #- Models\Omptions\Page
+        #- Models\Omptions\Facebook
 
         # Componenty
         - Components\SlideShow\SlideshowService
@@ -74,8 +75,8 @@ common:
         - AdminModule\Forms\TagForm
         - AdminModule\Forms\FileUploadForm
         - AdminModule\Forms\ImageCategoryForm
-        - AdminModule\Forms\PageForm
-        - AdminModule\Forms\OpenGraphForm
+        #- AdminModule\Forms\PageForm
+        #- AdminModule\Forms\OpenGraphForm
         - AdminModule\Forms\SlideShowForm
         - AdminModule\Forms\CommentForm
  

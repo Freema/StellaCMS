@@ -1,12 +1,17 @@
 <?php
-namespace Models\Entity\SlideShow;
+namespace Models\Entity;
+/**
+ * Description of TagRepository
+ *
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
+ */
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\SlideShow\SlideShowRepository")
+ * @ORM\Entity(repositoryClass="SlideShowRepository")
  * @ORM\Table(name="slide_show")
  * @ORM\HasLifecycleCallbacks
  */
@@ -35,7 +40,7 @@ class SlideShow
     protected $title;
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\SlideShow\SlideShowScript", inversedBy="slideshow")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\SlideShowScript", inversedBy="slideshow")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $script;

@@ -1,21 +1,21 @@
 <?php
-namespace Models\Entity\User; 
+namespace Models\Entity; 
 /**
  * Description of User
  *
  * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\User\UserRepository")
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="user")
  * @ORM\HasLifecycleCallbacks()
  */
-
-class User
-{
+class User extends BaseEntity {
     /**
      * @var integer
      *
@@ -46,7 +46,7 @@ class User
     protected $role;
     
     /**
-     * @var \DateTime
+     * @var DateTime
      * @ORM\Column(name="update_at", type="datetime")
      */
     protected $lastLogin;

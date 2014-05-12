@@ -1,18 +1,18 @@
 <?php
-namespace Models\Entity\Post;
+namespace Models\Entity;
 
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Models\Entity\Category\Category;
-use Models\Entity\Comment\Comment;
-use Models\Entity\PagePosition\PagePosition;
-use Models\Entity\Tag\Tag;
-use Models\Entity\User\User;
+use Models\Entity\Category;
+use Models\Entity\Comment;
+use Models\Entity\PagePosition;
+use Models\Entity\Tag;
+use Models\Entity\User;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\Post\PostRepository")
+ * @ORM\Entity(repositoryClass="PostRepository")
  * @ORM\Table(name="post")
  */
 class Post
@@ -35,13 +35,13 @@ class Post
     protected $slug;        
     
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\User\User")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\User")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\Category\Category", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Models\Entity\Category", inversedBy="posts")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;
@@ -62,7 +62,7 @@ class Post
     protected $clicks;
     
     /**
-    * @ORM\ManyToMany(targetEntity="Models\Entity\Tag\Tag", inversedBy="posts")
+    * @ORM\ManyToMany(targetEntity="Models\Entity\Tag", inversedBy="posts")
     * @ORM\JoinTable(name="post_tags")
     */
     protected $tags;    
@@ -73,12 +73,12 @@ class Post
     protected $createdAt;
     
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Comment\Comment", mappedBy="posts", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Models\Entity\Comment", mappedBy="posts", cascade={"persist","remove"})
      */
     protected $comment;  
     
     /**
-     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition\PagePosition", inversedBy="id")
+     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition", inversedBy="id")
      **/    
     protected $pagePostion;    
 

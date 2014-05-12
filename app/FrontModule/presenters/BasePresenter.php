@@ -1,8 +1,7 @@
 <?php
 namespace FrontModule;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManager as EntityManager2;
+use Kdyby\Doctrine\EntityManager;
 use Models\Omptions\Facebook;
 use Models\Omptions\Page;
 use Nette\Application\UI\Presenter;
@@ -13,8 +12,8 @@ use Nette\InvalidStateException;
  * @author     John Doe
  * @package    MyApplication
  */
-abstract class BasePresenter extends Presenter
-{
+abstract class BasePresenter extends Presenter {
+    
     /** @var EntityManager */
     protected $em;
 
@@ -24,28 +23,27 @@ abstract class BasePresenter extends Presenter
     /** @var Facebook */
     private $_og;
 
-    public function injectEntityManager(EntityManager2 $em)
-    {
-            if ($this->em) {
-                    throw new InvalidStateException('Entity manager has already been set');
-            }
-            $this->em = $em;
+    public function injectEntityManager(EntityManager $em) {
+        if ($this->em) {
+                throw new InvalidStateException('Entity manager has already been set');
+        }
+        $this->em = $em;
 
-            return $this;
+        return $this;
     }
 
-    final function injectOg(Facebook $og)
-    {
+    /*
+    final function injectOg(Facebook $og) {
         $this->_og = $og;
     }
 
-    final function injectPageOptionsService(Page $service)
-    {
+    final function injectPageOptionsService(Page $service) {
         $this->_pageService = $service;
     }
 
-    public function createComponentFacebookOg()
-    {
+    public function createComponentFacebookOg() {
         return $this->_og->getOpenGraphTagsControl();
     }
+     * 
+     */
 }

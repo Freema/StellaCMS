@@ -1,6 +1,6 @@
 <?php
 
-namespace Models\Entity\Link;
+namespace Models\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;

@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Category;
+namespace Models\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

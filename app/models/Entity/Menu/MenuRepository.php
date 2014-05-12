@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Menu;
+namespace Models\Entity;
 
 use Doctrine\ORM\EntityRepository;
 

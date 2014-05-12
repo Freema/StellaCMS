@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Menu; 
+namespace Models\Entity; 
 /**
  * Description of TagRepository
  *

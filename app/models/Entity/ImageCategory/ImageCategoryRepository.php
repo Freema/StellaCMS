@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\ImageCategory; 
+namespace Models\Entity; 
 use Doctrine\ORM\EntityRepository;
 /**
  * Description of ImageCategoryRepository

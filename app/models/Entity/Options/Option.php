@@ -1,5 +1,5 @@
 <?php
-namespace Models\Entity\Options; 
+namespace Models\Entity; 
 /**
  * Description of Options reposiotory
  *
