@@ -1,0 +1,47 @@
+{*
+    Front main laytou
+*}
+{var $robot = 'NOINDEX, NOFOLLOW'}
+{*var $robots = 'index, follow'*}
+{var $description = ''}
+{var $keywords = ''}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:fb="http://ogp.me/ns/fb#">
+<head>
+    <!-- Meta Information starts -->    
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="description" content="{$description}" n:ifset="$description" />
+    <meta name="robots" content="{$robots}" n:ifset="$robots" />
+    <meta name="keywords" content="{$keywords}" n:ifset="$keywords">
+    <meta name="viewport" content="width=device-width" /> 
+    <!-- GoogleMeta -->
+    {*}<meta name="google-site-verification" content="0D65_itfuROcIqp23UDRurqJYRnBpnputZEYdhUvn8w" />{*}
+    <!-- OG -->    
+    {*}<meta property="og:image" content="{$baseUri}/public/img/site_image.jpg">{*}
+    <meta property="og:image:type" content="image/jpeg">
+    <meta property="og:image:width" content="377">
+    <meta property="og:image:height" content="197">    
+    
+    <title>StellaCMS homepage</title>
+    
+    <!-- CSS -->    
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>    
+    {*control css*}
+    <link type="text/css" rel="stylesheet" href="{$basePath}/public/css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="{$basePath}/public/css/bootstrap-theme.css">
+    <link type="text/css" rel="stylesheet" href="{$basePath}/public/css/main.css">
+
+{block head}{/block}
+</head>
+
+<body>
+            
+    {include #content}
+    
+{block scripts}
+    <script type="text/javascript" src="{$basePath}/public/js/jquery-1.10.2.js"></script>
+    <script type="text/javascript" src="{$basePath}/public/js/bootstrap.min.js"></script>
+{/block}
+</body>
+</html>
