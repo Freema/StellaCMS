@@ -48,7 +48,7 @@ class LoginForm extends BaseForm {
                     $form->presenter->getUser()->setExpiration('+30 days', FALSE);
                 }
                 $form->presenter->getUser()->login($values->username, $values->password);
-                $form->presenter->redirect('ControlPanel:default');
+                $form->presenter->redirect('Post:default');
 
         } catch (AuthenticationException $e) {
                 $form->addError($e->getMessage());

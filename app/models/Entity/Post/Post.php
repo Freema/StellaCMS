@@ -5,6 +5,7 @@ use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Models\Entity\Category;
 use Models\Entity\Comment;
 use Models\Entity\PagePosition;
@@ -15,7 +16,7 @@ use Models\Entity\User;
  * @ORM\Entity(repositoryClass="PostRepository")
  * @ORM\Table(name="post")
  */
-class Post
+class Post extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -41,7 +42,7 @@ class Post
     protected $users;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Models\Entity\Category", inversedBy="posts")
+     * @ORM\ManyToOne(targetEntity="Category", inversedBy="posts")
      * @ORM\JoinColumn(onDelete="SET NULL")
      */
     protected $category;
@@ -62,7 +63,7 @@ class Post
     protected $clicks;
     
     /**
-    * @ORM\ManyToMany(targetEntity="Models\Entity\Tag", inversedBy="posts")
+    * @ORM\ManyToMany(targetEntity="Tag", inversedBy="posts")
     * @ORM\JoinTable(name="post_tags")
     */
     protected $tags;    
@@ -73,17 +74,17 @@ class Post
     protected $createdAt;
     
     /**
-     * @ORM\OneToMany(targetEntity="Models\Entity\Comment", mappedBy="posts", cascade={"persist","remove"})
+     * @ORM\OneToMany(targetEntity="Comment", mappedBy="posts", cascade={"persist","remove"})
      */
     protected $comment;  
     
     /**
-     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition", inversedBy="id")
+     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition", inversedBy="post")
+     * @ORM\JoinColumn(name="pagePostion", referencedColumnName="id")
      **/    
     protected $pagePostion;    
 
-    public function __construct(User $users, $content, $title)
-    {
+    public function __construct(User $users, $content, $title) {
         $this->users = $users;
         $this->content = $content;
         $this->title = $title;

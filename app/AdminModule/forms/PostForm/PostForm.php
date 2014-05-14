@@ -9,9 +9,9 @@ namespace AdminModule\Forms;
 use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
-use Models\Entity\Category\Category;
-use Models\Entity\Post\Post;
-use Models\Entity\Tag\Tag;
+use Models\Entity\Category;
+use Models\Entity\Post;
+use Models\Entity\Tag;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
@@ -170,7 +170,7 @@ class PostForm extends BaseForm {
                 
                 if(!($value->title == $this->_defaults->getTitle()))
                 {
-                    if($this->_em->getRepository('Models\Entity\Post\Post')->findOneBy(array('title' => $value->title)))
+                    if($this->_em->getRepository('Models\Entity\Post')->findOneBy(array('title' => $value->title)))
                     {
                         throw new FormException('Post with name "' . $value->title . '" exist.');  
                     }
@@ -222,7 +222,7 @@ class PostForm extends BaseForm {
             }
             else
             {
-                if($this->_em->getRepository('Models\Entity\Post\Post')->findOneBy(array('title' => $value->title)))
+                if($this->_em->getRepository('Models\Entity\Post')->findOneBy(array('title' => $value->title)))
                 {
                     throw new FormException('Post with name "' . $value->title . '" exist.');  
                 }                

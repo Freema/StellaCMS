@@ -197,7 +197,8 @@ footer {
 /* Logi area 
 ================================================== */
 .loginPage {
-    background: url('../img/blackwall.jpg') no-repeat center center fixed;
+    background-color: #000;
+    // background: url('../img/blackwall.jpg') no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;

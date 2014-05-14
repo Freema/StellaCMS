@@ -2,7 +2,7 @@
 namespace Components\Breadcrumbs;
 
 use Nette\Application\UI\Control;
-use Nette\Config\Adapters\NeonAdapter;
+use Nette\DI\Config\Adapters\NeonAdapter;
 
 /**
  * Description of Breadcrumbs

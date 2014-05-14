@@ -4,13 +4,14 @@ namespace Models\Entity;
 
 use DateTime;
 use Doctrine\ORM\Mapping as ORM;
+use Kdyby\Doctrine\Entities\BaseEntity;
 use Models\Entity\Post;
 
 /**
  * @ORM\Table(name="page_position")
  * @ORM\Entity()
  */
-class PagePosition
+class PagePosition extends BaseEntity
 {
     /**
      * @ORM\Id
@@ -32,10 +33,9 @@ class PagePosition
     /**
      * @ORM\OneToOne(targetEntity="Models\Entity\Post", mappedBy="pagePostion")
      **/
-    private $post;    
+   protected $post;    
 
-    public function __construct($name)
-    {
+    public function __construct($name) {
         $this->name = $name;
         $this->createdAt = new DateTime("now");
     }

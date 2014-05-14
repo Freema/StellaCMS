@@ -3,7 +3,7 @@ namespace Components\Comments;
 
 use AdminModule\Forms\FormException;
 use Models\Comment\Comment;
-use Models\Entity\Post\Post;
+use Models\Entity\Post;
 use Nette\Application\UI\Control;
 use Nette\Application\UI\Form;
 

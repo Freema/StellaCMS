@@ -4,7 +4,7 @@ namespace Models\Comment;
 use Doctrine\ORM\EntityManager;
 use Nette\Application\UI\Form;
 use Nette\Object;
-use Models\Entity\Post\Post;
+use Models\Entity\Post;
 /**
  * Description of Comment
  *
@@ -104,7 +104,7 @@ class Comment extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(p.id)');
-        $query->from('Models\Entity\Post\Post', 'p');
+        $query->from('Models\Entity\Post', 'p');
         
         return $query->getQuery()->getSingleScalarResult();
     }

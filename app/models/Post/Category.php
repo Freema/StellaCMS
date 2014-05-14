@@ -2,6 +2,7 @@
 namespace Models\Category;
 
 use Doctrine\ORM\EntityManager;
+use Models\Entity\Category as CategoryEntyti;
 use Nette\Object;
 
 /** 
@@ -68,7 +69,7 @@ class Category extends Object {
      */
     public function getCategoryRepository()
     {
-        return $this->_em->getRepository('Models\Entity\Category\Category');
+        return $this->_em->getRepository(CategoryEntyti::getClassName());
     }
     
     /**

@@ -1,7 +1,8 @@
 <?php
 namespace Models\Post;
 
-use Doctrine\ORM\EntityManager;
+use Kdyby\Doctrine\EntityManager;
+use Models\Entity\Post as PostEntity;
 use Nette\Object;
 /**
  * Description of Article
@@ -74,11 +75,11 @@ class Post extends Object {
     }
     
     /**
-     * @return Models\Entity\Post\Post
+     * @return Post
      */
     public function getPostRepository()
     {
-        return $this->_em->getRepository('Models\Entity\Post\Post');
+        return $this->_em->getDao(PostEntity::getClassName());
     }
     
     /**
@@ -88,7 +89,7 @@ class Post extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(p.id)');
-        $query->from('Models\Entity\Post\Post', 'p');
+        $query->from(PostEntity::getClassName(), 'p');
         
         return $query->getQuery()->getSingleScalarResult();
     }    
@@ -97,7 +98,7 @@ class Post extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('p');
-        $query->from('Models\Entity\Post\Post', 'p');
+        $query->from(PostEntity::getClassName(), 'p');
         $query->leftJoin('p.users', 'u');
         $query->leftJoin('p.category', 'c');
         

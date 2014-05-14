@@ -22,7 +22,7 @@ class LoginPresenter extends Presenter
         
         if($this->getUser()->isLoggedIn())
         {
-            $this->redirect('ControlPanel:default');
+            $this->redirect('Post:default');
         }
         
     }
@@ -32,7 +32,7 @@ class LoginPresenter extends Presenter
      */
     protected function createComponentSignInForm()
     {
-        return $this->_loginForm->creatForm();;
+        return $this->_loginForm->creatForm();
     }
     
     public function renderDefault()
