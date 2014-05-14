@@ -2,3 +2,7 @@
 /vendor/
 /log/
 /temp/
+/libs/
+/uploads/
+/nbproject
+/public/admin/tiny_mce/
