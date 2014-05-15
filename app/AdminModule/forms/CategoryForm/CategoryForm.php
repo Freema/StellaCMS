@@ -1,9 +1,9 @@
 <?php
 namespace AdminModule\Forms;
 
-use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Models\Entity\Category\Category;
+use Kdyby\Doctrine\EntityManager;
+use Models\Entity\Category;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
@@ -23,9 +23,12 @@ class CategoryForm extends BaseForm {
     /** @var Category */
     protected $_defaults;
 
+    /**
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_category = $em->getRepository('Models\Entity\Category\Category');
+        $this->_category = $em->getDao(Category::getClassName());
     }
     
     public function createForm(Category $defaults = NULL)

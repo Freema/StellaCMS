@@ -70,7 +70,7 @@ class Category extends BaseEntity {
      */
     protected $images;
 
-    final function __construct($title, $slug, $description) {
+    public function __construct($title, $slug, $description) {
         parent::__construct();
         $this->title = $title;
         $this->slug = $slug;

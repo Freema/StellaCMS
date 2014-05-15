@@ -10,8 +10,10 @@ use DateTime;
 use Doctrine\ORM\EntityRepository;
 use Kdyby\Doctrine\EntityManager;
 use Models\Entity\Category;
+use Models\Entity\PagePosition;
 use Models\Entity\Post;
 use Models\Entity\Tag;
+use Models\Entity\User;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
@@ -24,14 +26,21 @@ class PostForm extends BaseForm {
 
     /** @var EntityRepository */
     protected $_tag;
+    
+    /** @var EntityRepository */
+    protected $_pagePosition;    
 
     /** @var Post */
     protected $_defaults;
     
+    /**
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em) {
         $this->_em = $em;
         $this->_category = $em->getDao(Category::getClassName());
         $this->_tag = $em->getDao(Tag::getClassName());
+        $this->_pagePosition = $em->getDao(PagePosition::getClassName());
     }
     
     public function createForm(Post $defaults = NULL) {
@@ -49,6 +58,7 @@ class PostForm extends BaseForm {
         
         $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
+        $p = $this->prepareForFormItem($this->_pagePosition->findBy(array(), array('id' => 'DESC')), 'name');
         
         $form->addText('title', 'Title: ')
              ->addRule(Form::FILLED, NULL)
@@ -57,8 +67,10 @@ class PostForm extends BaseForm {
         $form->addSelect('category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');
         
+        $form->addSelect('position', 'Umistění na strance: ', $p)
+             ->setPrompt('- Bez umistění -');        
+        
         $form->addText('slug', 'URL: ')
-             ->setDefaultValue($this->_defaults->getSlug())   
              ->addRule(Form::MAX_LENGTH, null, 32);        
         
         $form->addTextArea('text', 'Text: ')
@@ -92,6 +104,7 @@ class PostForm extends BaseForm {
         
         $t = $this->prepareForFormItem($this->_tag->getTags(), 'name');        
         $c = $this->prepareForFormItem($this->_category->getCategories(), 'title', TRUE);
+        $p = $this->prepareForFormItem($this->_pagePosition->findBy(array(), array('id' => 'ASC')), 'name');
         
         $default = array();
         if($this->_defaults->getCategory())
@@ -111,6 +124,11 @@ class PostForm extends BaseForm {
                 $default['tags'][] = $value->getId();
             }
         }
+        if($this->_defaults->getPagePosition()) {
+            $default['position'] = $this->_defaults->getPagePosition()->getId();            
+        } else {
+            $default['position'] = NULL;
+        }        
         
         $form->addText('title', 'Title: ')
              ->setDefaultValue($this->_defaults->getTitle())
@@ -120,6 +138,10 @@ class PostForm extends BaseForm {
         $form->addSelect('category', 'Kategorie: ', $c)
              ->setDefaultValue($default['category'])   
              ->setPrompt('- No category -');
+        
+        $form->addSelect('position', 'Umistění na strance: ', $p)
+             ->setDefaultValue($default['position'])   
+             ->setPrompt('- Bez umistění -');        
         
         $form->addText('slug', 'URL: ')
              ->setDefaultValue($this->_defaults->getSlug())   
@@ -157,8 +179,9 @@ class PostForm extends BaseForm {
         try 
         {
             $value = $form->values;
-            $user = $this->_em->getRepository('Models\Entity\User\User');
+            $user = $this->_em->getDao(User::getClassName());
             $category = $this->_category->getOne($value->category);
+            $position = $this->_pagePosition->findOneBy(array('id' => $value->position));
             
             $value->slug ? $slug = $value->slug : $slug = $value->title;
 
@@ -167,10 +190,9 @@ class PostForm extends BaseForm {
             
             if($this->_defaults)
             {
-                
                 if(!($value->title == $this->_defaults->getTitle()))
                 {
-                    if($this->_em->getRepository('Models\Entity\Post')->findOneBy(array('title' => $value->title)))
+                    if($this->_em->getDao(Post::getClassName())->findOneBy(array('title' => $value->title)))
                     {
                         throw new FormException('Post with name "' . $value->title . '" exist.');  
                     }
@@ -197,7 +219,7 @@ class PostForm extends BaseForm {
                 {
                     foreach($row['remove'] as $remove)
                     {
-                        $post->removeTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($remove));
+                        $post->removeTag($this->_em->getDao(Tag::getClassName())->findOneById($remove));
                     }
                 }
 
@@ -205,7 +227,7 @@ class PostForm extends BaseForm {
                 {
                     foreach($row['added'] as $added)
                     {
-                        $post->addTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($added));
+                        $post->addTag($this->_em->getRepository(Tag::getClassName())->findOneById($added));
                     }
                 }
                 
@@ -216,13 +238,21 @@ class PostForm extends BaseForm {
                 {
                     $post->removeCategory();
                 }
+                
+                if(!empty($position)){
+                    $post->setPagePosition($position);
+                }
+                else
+                {
+                    $post->removePagePosition();
+                }                
 
                 $this->_em->flush($post);
                 $form->presenter->redirect('Post:editArticle', $this->_defaults->getId());
             }
             else
             {
-                if($this->_em->getRepository('Models\Entity\Post')->findOneBy(array('title' => $value->title)))
+                if($this->_em->getRepository(Post::getClassName())->findOneBy(array('title' => $value->title)))
                 {
                     throw new FormException('Post with name "' . $value->title . '" exist.');  
                 }                
@@ -234,12 +264,16 @@ class PostForm extends BaseForm {
                 if(!empty($category)){
                     $post->setCategory($category);
                 }
+                
+                if(!empty($position)){
+                    $post->setPagePosition($position);
+                }                
 
                 if($value->tags)
                 {
                     foreach ($value->tags as $tag)
                     {
-                        $post->addTag($this->_em->getRepository('Models\Entity\Tag\Tag')->findOneById($tag));
+                        $post->addTag($this->_em->getRepository(Tag::getClassName())->findOneById($tag));
                     }
                 }
 

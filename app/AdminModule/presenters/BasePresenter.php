@@ -6,12 +6,8 @@ use Components\Breadcrumbs\Breadcrumbs;
 use Doctrine\ORM\EntityManager;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Presenter;
-use Nette\Forms\Controls\BaseControl;
 use Nette\InvalidStateException;
 use Nette\Application\UI\Form;
-
-
-BaseControl::$idMask = '%2$s';
 
 abstract class BasePresenter extends Presenter
 {

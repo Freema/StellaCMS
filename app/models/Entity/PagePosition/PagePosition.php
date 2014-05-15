@@ -29,11 +29,6 @@ class PagePosition extends BaseEntity
      * @ORM\Column(name="created_at", type="datetime")
      */
     protected $createdAt;    
-    
-    /**
-     * @ORM\OneToOne(targetEntity="Models\Entity\Post", mappedBy="pagePostion")
-     **/
-   protected $post;    
 
     public function __construct($name) {
         $this->name = $name;

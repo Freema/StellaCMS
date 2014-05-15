@@ -1,7 +1,7 @@
 <?php
 namespace Models\Category;
 
-use Doctrine\ORM\EntityManager;
+use Kdyby\Doctrine\EntityManager;
 use Models\Entity\Category as CategoryEntyti;
 use Nette\Object;
 
@@ -27,6 +27,9 @@ class Category extends Object {
     /** @var integer */
     protected $firstResult;      
     
+    /**
+     * @param EntityManager $em
+     */
     public function __construct(EntityManager $em)
     {
         $this->_em = $em;        
@@ -69,7 +72,7 @@ class Category extends Object {
      */
     public function getCategoryRepository()
     {
-        return $this->_em->getRepository(CategoryEntyti::getClassName());
+        return $this->_em->getDao(CategoryEntyti::getClassName());
     }
     
     /**
@@ -79,7 +82,7 @@ class Category extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(c.id)');
-        $query->from('Models\Entity\Category\Category', 'c');
+        $query->from(CategoryEntyti::getClassName(), 'c');
         
         return $query->getQuery()->getSingleScalarResult();
     }       
@@ -88,7 +91,7 @@ class Category extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('c.id, c.title, c.slug, c.description, c.publish, COUNT(p.category) AS posts');
-        $query->from('Models\Entity\Category\Category', 'c');
+        $query->from(CategoryEntyti::getClassName(), 'c');
         $query->leftJoin('c.posts', 'p');
         $query->groupBy('c.id');
         

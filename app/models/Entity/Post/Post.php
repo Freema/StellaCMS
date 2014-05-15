@@ -79,9 +79,9 @@ class Post extends BaseEntity
     protected $comment;  
     
     /**
-     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition", inversedBy="post")
-     * @ORM\JoinColumn(name="pagePostion", referencedColumnName="id")
-     **/    
+     * @ORM\OneToOne(targetEntity="Models\Entity\PagePosition")
+     * @ORM\JoinColumn(name="pagePosition_id", referencedColumnName="id")
+     */    
     protected $pagePostion;    
 
     public function __construct(User $users, $content, $title) {
@@ -93,8 +93,6 @@ class Post extends BaseEntity
         $this->createdAt = new DateTime;
         $this->tags = new ArrayCollection;  
         $this->comment = new ArrayCollection;    
-        $this->post = new ArrayCollection;
-        $this->pagePostion = new ArrayCollection;
     }
     
     /**
@@ -360,4 +358,13 @@ class Post extends BaseEntity
         $this->pagePostion = $position;
         return $this;
     }
+    
+    /**
+     * @return Post
+     */
+    public function removePagePosition()
+    {
+        $this->pagePostion = NULL;
+        return $this;        
+    }    
 }
