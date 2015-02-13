@@ -50,7 +50,7 @@ class User extends BaseEntity {
      * @ORM\Column(name="update_at", type="datetime")
      */
     protected $lastLogin;
-
+    
     /**
      * @param string
      * @return User
@@ -58,6 +58,7 @@ class User extends BaseEntity {
     public function __construct($username)
     {
         $this->username = static::normalizeString($username);
+        $this->lastLogin = new DateTime('now');
     }
 
     /**

@@ -1,9 +1,10 @@
 <?php
 namespace FrontModule;
 
+use Models\Authenticator\Authenticator;
+use Models\Entity\User;
 use Nette\Application\Responses\TextResponse;
 use PDOException;
-use User;
 /**
  * Homepage presenter.
  *
@@ -32,13 +33,14 @@ class HomepagePresenter extends BasePresenter
 
     public function renderDefault()
     {
+        
         //$this->template->pageOptions = $this->_pageService->getPageControl();
     }
     
     public function handleCreateDefaultUser()
     {
 
-        $pass = \Models\Authenticator\Authenticator::staticHash('admin');
+        $pass = Authenticator::staticHash('admin');
         
         $user = new \Models\Entity\User\User('admin');
         $user->setPassword($pass);
@@ -52,7 +54,7 @@ class HomepagePresenter extends BasePresenter
                 $this->terminate();
         }
 
-        $this->sendResponse(new \Nette\Application\Responses\TextResponse('OK'));
+        $this->sendResponse(new TextResponse('OK'));
         $this->terminate();
     }
 }

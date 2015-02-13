@@ -1,9 +1,5 @@
 <?php
-
 use Nette\Configurator;
-/**
- * My Application bootstrap file.
- */
 
 // BASE definice
 define('APP_DIR', WWW_DIR . '/app');
@@ -30,22 +26,14 @@ require __DIR__ . '/../vendor/autoload.php';
 // Configure application
 $configurator = new Configurator;
 
-// Enable Nette Debugger for error visualisation & logging
-//$configurator->setDebugMode(FALSE);
+$configurator->setDebugMode(TRUE);
 $configurator->enableDebugger(LOG_DIR);
-
-// Enable RobotLoader - this will load all classes automatically
 $configurator->setTempDirectory(TEMP_DIR);
 $configurator->createRobotLoader()
              ->addDirectory(APP_DIR)
              ->register();
 
-// Create Dependency Injection container from config.neon file
-$configurator->addConfig(__DIR__ . '/config/config.neon');
+$configurator->addConfig(__DIR__ . '/config/config.neon', Configurator::AUTO);
 $container = $configurator->createContainer();
-
-if (!is_writable($container->expand('%tempDir%'))) {
-    throw new Exception("Make directory '" . $container->parameters['tempDir'] . "' writable!");
-}
 
 return $container;

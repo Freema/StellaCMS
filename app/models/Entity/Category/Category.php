@@ -267,4 +267,11 @@ class Category extends BaseEntity {
         return $this;
     }    
     
+    /**
+     * @return array
+     */
+    public function getPost() {
+        return $this->posts;
+    }
+    
 }

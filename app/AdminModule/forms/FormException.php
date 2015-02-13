@@ -5,7 +5,7 @@ use Exception;
 /**
  * Description of FormException
  *
- * @author Tomáš
+ * @author Tomáš Grasl <grasl.t@centrum.cz>
  */
 class FormException extends Exception {
 }
