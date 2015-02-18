@@ -8,7 +8,7 @@ namespace Components\Slideshow;
 
 use Doctrine\ORM\EntityManager;
 use Models\Entity\Post\SlideShowScript;
-use Models\Entity\SlideShow\SlideShow;
+use Models\Entity\SlideShow;
 use Nette\Object;
 
 class SlideshowService extends Object  {
@@ -100,7 +100,7 @@ class SlideshowService extends Object  {
      */
     public function getSlideShowRepository()
     {
-        return $this->_em->getRepository('Models\Entity\SlideShow\SlideShow');
+        return $this->_em->getRepository('Models\Entity\SlideShow');
     }    
     
     /**
@@ -109,7 +109,7 @@ class SlideshowService extends Object  {
      */
     public function getSlideShowScriptRepository()
     {
-        return $this->_em->getRepository('Models\Entity\SlideShow\SlideShowScript');
+        return $this->_em->getRepository('Models\Entity\SlideShowScript');
     }
 
     /**
@@ -141,7 +141,7 @@ class SlideshowService extends Object  {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(s.id)');
-        $query->from('Models\Entity\SlideShow\SlideShow', 's');
+        $query->from('Models\Entity\SlideShow', 's');
         
         return $query->getQuery()->getSingleScalarResult();
     }        
@@ -153,7 +153,7 @@ class SlideshowService extends Object  {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('s.id, s.file, s.imageOrder,sc.id as scriptId ,s.updateAt, sc.name AS script, c.title AS category');
-        $query->from('Models\Entity\SlideShow\SlideShow', 's');
+        $query->from('Models\Entity\SlideShow', 's');
         $query->leftJoin('s.script', 'sc');
         $query->leftJoin('sc.category', 'c');
         
@@ -227,14 +227,14 @@ class SlideshowService extends Object  {
      */
     final function insertNewSlideShow(\Nette\ArrayHash $value, array $post)
     {
-        $script = new \Models\Entity\SlideShow\SlideShowScript($value->slide_show_name,'');
+        $script = new \Models\Entity\SlideShowScript($value->slide_show_name,'');
 
         $script->setOptions($this->type[$value->slide_show_script]);
         $script->setDescription($value->slide_show_desc);
         $script->setScriptId($value->slide_show_script);
         if($value->offsetExists('slide_show_category'))
         {
-            $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
+            $category = $this->_em->getRepository('Models\Entity\ImageCategory')
                                   ->findOneBy(array('id' => $value->slide_show_category));
             $script->setCategory($category);
         }
@@ -243,7 +243,7 @@ class SlideshowService extends Object  {
 
         foreach ($post['slide_show_file'] as $key => $file)
         {
-            $slide = new \Models\Entity\SlideShow\SlideShow($file['file']);
+            $slide = new \Models\Entity\SlideShow($file['file']);
             $slide->setImageOrder($key);
             $slide->setScript($script);
                     
@@ -253,15 +253,15 @@ class SlideshowService extends Object  {
     }
     
     /**
-     * @param \Models\Entity\SlideShow\SlideShowScript $slideShow
+     * @param \Models\Entity\SlideShowScript $slideShow
      * @param \Nette\ArrayHash $value
      * @param array $post
      */
-    final function updateSlideShow(\Models\Entity\SlideShow\SlideShowScript $slideShow, \Nette\ArrayHash $value, array $post)
+    final function updateSlideShow(\Models\Entity\SlideShowScript $slideShow, \Nette\ArrayHash $value, array $post)
     {
         if($value->offsetExists('slide_show_category'))
         {
-            $category = $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory')
+            $category = $this->_em->getRepository('Models\Entity\ImageCategory')
                                   ->findOneBy(array('id' => $value->slide_show_category));
             $slideShow->setCategory($category);
         }
@@ -297,7 +297,7 @@ class SlideshowService extends Object  {
             }
             if(isset($slide_show_file['name']))
             {
-                $slideShowImageNew = new \Models\Entity\SlideShow\SlideShow($slide_show_file['name']);
+                $slideShowImageNew = new \Models\Entity\SlideShow($slide_show_file['name']);
                 $slideShowImageNew->setImageOrder($order);
                 $slideShowImageNew->setScript($slideShow);
                 $this->_em->persist($slideShowImageNew);
@@ -321,7 +321,7 @@ class SlideshowService extends Object  {
         $this->_em->flush();
     }
     
-    public function updateSlideShowImage(\Models\Entity\SlideShow\SlideShow $slideShow, \Nette\ArrayHash $value)
+    public function updateSlideShowImage(\Models\Entity\SlideShow $slideShow, \Nette\ArrayHash $value)
     {
         $slideShow->setName($value->slide_show_image_name);
         $slideShow->setTitle($value->slide_show_image_title);

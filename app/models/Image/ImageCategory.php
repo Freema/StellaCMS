@@ -64,11 +64,11 @@ class ImageCategory extends Object {
     }        
     
     /**
-     * @return Models\Entity\ImageCategory\ImageCategory
+     * @return Models\Entity\ImageCategory
      */
     public function getImageCategoryRepository()
     {
-        return $this->_em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        return $this->_em->getRepository('Models\Entity\ImageCategory');
     }
     
     /**
@@ -78,7 +78,7 @@ class ImageCategory extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(c.id)');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
+        $query->from('Models\Entity\ImageCategory', 'c');
         
         return $query->getQuery()->getSingleScalarResult();
     }      
@@ -87,7 +87,7 @@ class ImageCategory extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('c.id, c.title, c.slug, c.description, COUNT(i.id) AS images');
-        $query->from('Models\Entity\ImageCategory\ImageCategory', 'c');
+        $query->from('Models\Entity\ImageCategory', 'c');
         $query->leftJoin('c.image', 'i');
         $query->groupBy('c.id');
         

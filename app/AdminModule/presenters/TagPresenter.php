@@ -20,7 +20,7 @@ class TagPresenter extends BasePresenter {
     private $_Tag;
     
     /**
-    * @var \Models\Entity\Tag\Tag 
+    * @var \Models\Entity\Tag 
     */
     private $_Page;
     

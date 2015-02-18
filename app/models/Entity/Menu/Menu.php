@@ -9,7 +9,7 @@ namespace Models\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\Menu\MenuRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\MenuRepository")
  * @ORM\Table(name="menu")
  */
 

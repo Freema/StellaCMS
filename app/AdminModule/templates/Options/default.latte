@@ -7,145 +7,46 @@
     <li class="active"><a href="#page" data-toggle="tab">Nastavení stranky</a></li>
     <li><a href="#facebook" data-toggle="tab">Facebook</a></li>
 </ul>
-    <div class="tab-content">
-        <div class="tab-pane active" id="page">
-            <div class="row">
-                <div class="col-md-6">
-                    {form pageForm}
-                        <div class="alert alert-error" n:if="$form->hasErrors()"> 
-                            <li n:foreach="$form->errors as $error">{$error}</li>
-                        </div>
-
-                        <fieldset>
-                            <legend>Nastavení stranky</legend>
-                            {input submit}
-                        </fieldset>
-                        <fieldset>
-                            <label class="checkbox inline">
-                                Aktivovat cashovani
-                                {input Page_Options_Cash} 
-                            </label>                
-
-                            <div class="form-group">
-                                {label Page_Options_Page_Name class => 'control-label' /}
-                                {input Page_Options_Page_Name class => "form-control"}
-                            </div> 
-
-                            <div class="form-group">
-                                {label Page_Options_Page_Description class => 'control-label' /}
-                                {input Page_Options_Page_Description class => "form-control"}
-                            </div> 
-
-                            <div class="form-group">
-                                {label Page_Options_Admin_Email class => 'control-label' /}
-                                {input Page_Options_Admin_Email class => "form-control"}
-                            </div> 
-                        </fieldset>
-                    {/form}
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane" id="facebook">
-        {form openGraphForm}
-            <div class="row">
-                <div class="col-md-12">
+<div class="tab-content">
+    <div class="tab-pane active" id="page">
+        <div class="row">
+            <div class="col-md-6">
+                {form pageForm}
                     <div class="alert alert-error" n:if="$form->hasErrors()"> 
                         <li n:foreach="$form->errors as $error">{$error}</li>
                     </div>
+
                     <fieldset>
-                        <legend>Nastavení</legend>
-                        <label class="checkbox inline">
-                            &nbsp;Aktivovat OG hlavičku
-                            {input Open_Graph_Active} 
-                        </label>
-                        <label class="checkbox inline">
-                            &nbsp;Cashovat hlavičku 
-                            {input Open_Graph_Cash}
-                        </label>
-                        &nbsp;
+                        <legend>Nastavení stranky</legend>
                         {input submit}
                     </fieldset>
-                </div>
-                <div class="col-md-6">
                     <fieldset>
-                        <legend>Základní údaje</legend>
+                        <label class="checkbox inline">
+                            Aktivovat cashovani
+                            {input Page_Options_Cash} 
+                        </label>                
+
                         <div class="form-group">
-                            {label Open_Graph_Title class => 'control-label' /}
-                            {input Open_Graph_Title class => "form-control"}
+                            {label Page_Options_Page_Name class => 'control-label' /}
+                            {input Page_Options_Page_Name class => "form-control"}
                         </div> 
 
                         <div class="form-group">
-                            {label Open_Graph_Type class => 'control-label' /}
-                            {input Open_Graph_Type class => "form-control"}
-                        </div>   
+                            {label Page_Options_Page_Description class => 'control-label' /}
+                            {input Page_Options_Page_Description class => "form-control"}
+                        </div> 
 
                         <div class="form-group">
-                            {label Open_Graph_Url class => 'control-label' /}
-                            {input Open_Graph_Url class => "form-control"}
-                        </div>  
-
-                        <div class="form-group">
-                            {label Open_Graph_Image class => 'control-label' /}
-                            {input Open_Graph_Image class => "form-control"}
-                        </div>  
+                            {label Page_Options_Admin_Email class => 'control-label' /}
+                            {input Page_Options_Admin_Email class => "form-control"}
+                        </div> 
                     </fieldset>
-                </div>
-                <div class="col-md-6">
-                    <fieldset>
-                        <legend>Rozšířené údaje</legend>
-                        <div class="control-group">
-                            {label Open_Graph_Site_Name class => 'control-label' /}
-                            {input Open_Graph_Site_Name class => "form-control"}
-                        </div>  
-
-                        <div class="form-group">
-                            {label Open_Graph_Description class => 'control-label' /}
-                            {input Open_Graph_Description class => "form-control"}
-                        </div>  
-
-                        <div class="form-group">
-                            {label Open_Graph_Latitude class => 'control-label' /}
-                            {input Open_Graph_Latitude class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Street_Address class => 'control-label' /}
-                            {input Open_Graph_Street_Address class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Region class => 'control-label' /}
-                            {input Open_Graph_Region class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Postal_Code class => 'control-label' /}
-                            {input Open_Graph_Postal_Code class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Country_Name class => 'control-label' /}
-                            {input Open_Graph_Country_Name class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Email class => 'control-label' /}
-                            {input Open_Graph_Email class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Phone_Number class => 'control-label' /}
-                            {input Open_Graph_Phone_Number class => "form-control"}
-                        </div>                
-
-                        <div class="form-group">
-                            {label Open_Graph_Fax_Number class => 'control-label' /}
-                            {input Open_Graph_Fax_Number class => "form-control"}
-                        </div>                
-                    </fieldset>
-                </div>
+                {/form}
             </div>
-        {/form}
+        </div>
+    </div>
+    <div class="tab-pane" id="facebook">
+
     </div>
 </div>
 {/block}

@@ -3,7 +3,7 @@ namespace AdminModule;
 
 use AdminModule\Forms\FileUploadForm;
 use Components\Paginator\PagePaginator;
-use Models\Entity\Image\Image as Image2;
+use Models\Entity\Image as Image2;
 use Models\Image\Image;
 use Nette\Application\Responses\JsonResponse;
 use Nette\Application\UI\Form;

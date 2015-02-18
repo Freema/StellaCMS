@@ -81,7 +81,7 @@ class SlideShowScript
      * set new name for the slideshow script
      * 
      * @param string $name
-     * @return \Models\Entity\SlideShow\SlideShowScript
+     * @return \Models\Entity\SlideShowScript
      */
     public function setName($name)
     {
@@ -102,7 +102,7 @@ class SlideShowScript
      * set description 
      * 
      * @param type $text
-     * @return \Models\Entity\SlideShow\SlideShowScript
+     * @return \Models\Entity\SlideShowScript
      */
     public function setDescription($text)
     {

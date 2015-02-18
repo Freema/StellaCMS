@@ -99,7 +99,7 @@ class Breadcrumbs extends Control{
     public function render()
     {
         $template = $this->template;
-        $template->setFile(__DIR__ . '\BreadCrumbs.latte');
+        $template->setFile(__DIR__ . '/BreadCrumbs.latte');
 
         $template->items = $this->_createBreadCrumb();
         $template->render();

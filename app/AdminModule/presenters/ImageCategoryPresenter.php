@@ -20,7 +20,7 @@ class ImageCategoryPresenter extends BasePresenter {
     private $_ImageCategory;
     
     /**
-     * @var \Models\Entity\ImageCategory\ImageCategory
+     * @var \Models\Entity\ImageCategory
      */
     private $_Page;
     

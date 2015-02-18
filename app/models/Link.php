@@ -64,11 +64,11 @@ class Link extends Object {
     }       
     
     /**
-     * @return Models\Entity\Link\Link
+     * @return Models\Entity\Link
      */
     public function getLinkRepository()
     {
-        return $this->_em->getRepository('Models\Entity\Link\Link');
+        return $this->_em->getRepository('Models\Entity\Link');
     }
     
     /**
@@ -78,7 +78,7 @@ class Link extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(l.id)');
-        $query->from('Models\Entity\Link\Link', 'l');
+        $query->from('Models\Entity\Link', 'l');
         
         return $query->getQuery()->getSingleScalarResult();
     }      
@@ -87,7 +87,7 @@ class Link extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('l.id, l.title, l.url, l.description, l.createdAt');
-        $query->from('Models\Entity\Link\Link', 'l');
+        $query->from('Models\Entity\Link', 'l');
         
         if(!empty($this->sort))
         {

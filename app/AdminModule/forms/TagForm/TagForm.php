@@ -1,9 +1,9 @@
 <?php
 namespace AdminModule\Forms;
 
-use Doctrine\ORM\EntityManager;
+use Kdyby\Doctrine\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Models\Entity\Tag\Tag;
+use Models\Entity\Tag;
 use Nette\Application\UI\Form;
 /**
  * Description of LinkForm
@@ -23,7 +23,7 @@ class TagForm extends BaseForm {
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_tag = $em->getRepository('Models\Entity\Tag\Tag');
+        $this->_tag = $em->getDao('Models\Entity\Tag');
     }
     
     public function createForm(Tag $defaults = NULL)

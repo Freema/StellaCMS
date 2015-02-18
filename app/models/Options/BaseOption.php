@@ -33,6 +33,6 @@ abstract class BaseOption {
     
     public function getOptionRepository()
     {
-        return $this->_em->getRepository('Models\Entity\Options\Option');
+        return $this->_em->getRepository('Models\Entity\Option');
     }
 }

@@ -8,7 +8,7 @@ namespace Models\Omptions;
  */
 
 use Doctrine\ORM\EntityManager;
-use Models\Entity\Options\OptionRepository;
+use Models\Entity\OptionRepository;
 use Nette\Caching\Storages\FileStorage;
 
 class Page extends BaseOption {
@@ -70,7 +70,7 @@ class Page extends BaseOption {
         $query = $this->_em
                      ->createQuery('
                     SELECT o 
-                    FROM Models\Entity\Options\Option o 
+                    FROM Models\Entity\Option o 
                     WHERE o.option_name LIKE ?1
                     ')
                     ->setParameter(1, OptionRepository::PAGE_PREFIX.'%')
@@ -124,7 +124,7 @@ class Page extends BaseOption {
     {
         foreach ($data as $key => $value)
         {
-            /* @var $record \Models\Entity\Options\Option */
+            /* @var $record \Models\Entity\Option */
             $record = $this->getOptionRepository()->findOneBy(array('option_name' => $key));
             $record->setOptionValue($value);
         }

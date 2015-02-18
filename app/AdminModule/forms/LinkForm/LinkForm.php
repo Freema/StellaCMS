@@ -3,7 +3,7 @@ namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Models\Entity\Link\Link;
+use Models\Entity\Link;
 use Nette\Application\UI\Form;
 /**
  * Description of LinkForm
@@ -23,7 +23,7 @@ class LinkForm extends BaseForm {
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_link = $em->getRepository('Models\Entity\Link\Link');
+        $this->_link = $em->getRepository('Models\Entity\Link');
     }
     
     public function createForm(Link $defaults = NULL)

@@ -20,7 +20,7 @@ class MenuForm extends BaseForm {
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_menu = $em->getRepository('Models\Entity\Menu\Menu');
+        $this->_menu = $em->getRepository('Models\Entity\Menu');
     }
     
     public function createForm($id = NULL)

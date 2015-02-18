@@ -40,21 +40,17 @@ class PageForm extends BaseForm {
     {
         $form = new Form;
         
-        $form->addCheckbox('Page_Options_Cash', 'Cashovat nastavení stranky')
-             ->setDefaultValue($this->_defaults['Page_Options_Cash']);
+        $form->addCheckbox('Page_Options_Cash', 'Cashovat nastavení stranky');
         
         $form->addText('Page_Options_Page_Name', 'Název webu: ')
-             ->addRule(Form::MAX_LENGTH, null, 100)
-             ->setDefaultValue($this->_defaults['Page_Options_Page_Name']);        
+             ->addRule(Form::MAX_LENGTH, null, 100);        
 
         $form->addText('Page_Options_Page_Description', 'Popis webu: ')
-             ->addRule(Form::MAX_LENGTH, null, 100)
-             ->setDefaultValue($this->_defaults['Page_Options_Page_Description']);        
+             ->addRule(Form::MAX_LENGTH, null, 100);        
         
         $form->addText('Page_Options_Admin_Email', 'Emailová adresa: ')
              ->addRule(Form::MAX_LENGTH, null, 100)
-             ->addRule(Form::EMAIL, null)
-             ->setDefaultValue($this->_defaults['Page_Options_Admin_Email']);    
+             ->addRule(Form::EMAIL, null);    
                 
         $form->addSubmit('submit', NULL)
              ->setAttribute('class', 'btn btn-success');

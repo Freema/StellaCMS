@@ -87,7 +87,7 @@ class Link
      * set Title
      * 
      * @param string $title
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      */
     public function setTitle($title)
     {
@@ -109,7 +109,7 @@ class Link
      * set Url
      * 
      * @param stirn $url
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      */
     public function setUrl($url)
     {
@@ -131,7 +131,7 @@ class Link
      * set Description 
      * 
      * @param string $description
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      */
     public function setDescription($description)
     {
@@ -153,7 +153,7 @@ class Link
      * set Target
      * 
      * @param string $target
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      * @throws \InvalidArgumentException
      */
     public function setTarget($target)
@@ -184,7 +184,7 @@ class Link
      * set CSS class
      * 
      * @param string $css
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      */    
     public function setCssClass($css)
     {
@@ -207,7 +207,7 @@ class Link
      * set CreateAt
      * 
      * @param DateTime $created
-     * @return \Models\Entity\Link\Link
+     * @return \Models\Entity\Link
      */
     public function setCreatedAt(DateTime $created)
     {

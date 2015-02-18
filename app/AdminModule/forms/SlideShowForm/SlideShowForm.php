@@ -9,8 +9,8 @@ namespace AdminModule\Forms;
 use Components\Slideshow\SlideshowService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Models\Entity\SlideShow\SlideShow AS SlideShowEntity;
-use Models\Entity\SlideShow\SlideShowScript;
+use Models\Entity\SlideShow AS SlideShowEntity;
+use Models\Entity\SlideShowScript;
 use Nette\Application\UI\Form;
 
 class SlideShowForm extends BaseForm
@@ -30,7 +30,7 @@ class SlideShowForm extends BaseForm
     public function __construct(EntityManager $em, SlideshowService $service) {
         $this->_em = $em;
         $this->_slideShowService = $service;
-        $this->_category = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        $this->_category = $em->getRepository('Models\Entity\ImageCategory');
     }
     
     public function createForm(SlideShowScript $defaults = NULL)

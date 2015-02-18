@@ -3,7 +3,7 @@ namespace Models\Entity;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\Query;
-use Models\Entity\ImageCategory\ImageCategory;
+use Models\Entity\ImageCategory;
 /**
  * Description of ImageRepository
  *
@@ -34,7 +34,7 @@ class ImageRepository extends EntityRepository  {
         $query = $this->getEntityManager()
                       ->createQueryBuilder()
                       ->select('i.id, i.imageOrder')
-                      ->from('Models\Entity\Image\Image', 'i');
+                      ->from('Models\Entity\Image', 'i');
 
         if($category instanceof ImageCategory)
         {
@@ -56,7 +56,7 @@ class ImageRepository extends EntityRepository  {
         $query = $this  ->getEntityManager()
                         ->createQueryBuilder()
                         ->select('i.name')
-                        ->from('Models\Entity\Image\Image', 'i');
+                        ->from('Models\Entity\Image', 'i');
         
         return $query->getQuery()->getResult(Query::HYDRATE_ARRAY);
     }

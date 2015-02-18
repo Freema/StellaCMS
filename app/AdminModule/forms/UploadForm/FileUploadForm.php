@@ -2,7 +2,7 @@
 namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
-use Models\Entity\Image\Image;
+use Models\Entity\Image;
 use Models\Image\Image as ImageModel;
 use Nette\Application\UI\Form;
 use Nette\Forms\IControl;
@@ -31,8 +31,8 @@ class FileUploadForm extends BaseForm  {
 
     public function __construct(EntityManager $em, ImageModel $image) {
         $this->_em = $em;
-        $this->_categoryRepo = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
-        $this->_imageRepo = $em->getRepository('Models\Entity\Image\Image');
+        $this->_categoryRepo = $em->getRepository('Models\Entity\ImageCategory');
+        $this->_imageRepo = $em->getRepository('Models\Entity\Image');
         $this->_image = $image;
     }
     
@@ -61,7 +61,7 @@ class FileUploadForm extends BaseForm  {
         $form->addSelect('image_category', 'Kategorie: ', $c)
              ->setPrompt('- No category -');        
         
-        $form->addMultyFileUpload('fileselect', 'Nahrát nový soubor: ')
+        $form->addUpload('fileselect', 'Nahrát nový soubor: ', TRUE)
              ->addRule(Form::MAX_FILE_SIZE, NULL, 1024 * 5000)
              ->addRule(Form::IMAGE, NULL)
              ->addRule(function (IControl $control){

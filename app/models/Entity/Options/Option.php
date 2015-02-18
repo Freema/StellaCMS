@@ -9,7 +9,7 @@ namespace Models\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="Models\Entity\Options\OptionRepository")
+ * @ORM\Entity(repositoryClass="Models\Entity\OptionRepository")
  * @ORM\Table(name="options")
  */
 
@@ -57,7 +57,7 @@ class Option
      * Set option name
      *
      * @param string $option_name
-     * @return \Models\Entity\Options\Option
+     * @return \Models\Entity\Option
      */
     public function setOptionName($option_name)
     {
@@ -80,7 +80,7 @@ class Option
      * Set option value
      * 
      * @param string $option_value
-     * @return \Models\Entity\Options\Option
+     * @return \Models\Entity\Option
      */
     public function setOptionValue($option_value)
     {

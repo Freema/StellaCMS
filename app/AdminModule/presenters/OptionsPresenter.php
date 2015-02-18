@@ -13,11 +13,6 @@ use Models\Omptions\Page;
  */
 class OptionsPresenter extends BasePresenter {
 
-    /**
-     * @var OpenGraphForm
-     */
-    protected $_OpenGraphForm;
-
     /** @var PageForm */
     protected $_PageForm;
     
@@ -26,15 +21,6 @@ class OptionsPresenter extends BasePresenter {
 
     /** @var Page */
     protected $_PageService;    
-    
-    final function injectEntityFacebookService(Facebook $service) {
-        $this->_FbService = $service;                
-    }
-    
-    final function injectOpenGraphForm(OpenGraphForm $form)
-    {
-        $this->_OpenGraphForm = $form;
-    }
     
     final function injectPageForm(PageForm $form)
     {
@@ -46,14 +32,8 @@ class OptionsPresenter extends BasePresenter {
         $this->_PageService = $service;
     }
     
-    
     public function renderDefault() {
         
-    }
-    
-    protected function createComponentOpenGraphForm()
-    {
-        return $this->_OpenGraphForm->createForm($this->_FbService->getFacebookOptions());
     }
     
     protected function createComponentPageForm()

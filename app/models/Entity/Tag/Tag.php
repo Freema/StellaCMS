@@ -72,7 +72,7 @@ class Tag extends BaseEntity {
         $this->posts = new ArrayCollection();        
     }
     
-    /** @ORM\prePersist */
+    /** @ORM\PrePersist */
     public function doOtherStuffOnPrePersist()
     {
         if($this->slug == NULL)

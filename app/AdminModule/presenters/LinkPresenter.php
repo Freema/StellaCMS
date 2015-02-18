@@ -20,7 +20,7 @@ class LinkPresenter extends BasePresenter {
     private $_Link;
     
     /**
-    * @var \Models\Entity\Link\Link 
+    * @var \Models\Entity\Link 
     */
     private $_Page;
     

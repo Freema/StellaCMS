@@ -2,7 +2,7 @@
 namespace Models\Image;
 
 use Kdyby\Doctrine\EntityManager;
-use Models\Entity\Image\Image as ImgEntity;
+use Models\Entity\Image as ImgEntity;
 use Nette\Image as Thumbnails;
 use Nette\Utils\Finder;
 /**
@@ -133,7 +133,7 @@ class Image extends ImageOrder {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(i.id)');
-        $query->from('Models\Entity\Image\Image', 'i');
+        $query->from('Models\Entity\Image', 'i');
         
         return $query->getQuery()->getSingleScalarResult();
     }
@@ -145,7 +145,7 @@ class Image extends ImageOrder {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('i.id, c.title AS category, i.file, i.name, i.ext, i.description, i.public, i.uploadedAt, i.imageOrder');
-        $query->from('Models\Entity\Image\Image', 'i');
+        $query->from('Models\Entity\Image', 'i');
         $query->leftJoin('i.category', 'c');
         
         if(!empty($this->sort))
@@ -414,7 +414,7 @@ class Image extends ImageOrder {
         
         foreach ($data as $value)
         {
-            $query = $qb->update('Models\Entity\Image\Image', 'i')
+            $query = $qb->update('Models\Entity\Image', 'i')
                         ->set('i.imageOrder', '?1')
                         ->where('i.id = ?2')
                         ->setParameter(1, $x)

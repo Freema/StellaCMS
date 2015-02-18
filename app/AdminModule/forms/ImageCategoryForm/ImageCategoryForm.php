@@ -3,7 +3,7 @@ namespace AdminModule\Forms;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
-use Models\Entity\ImageCategory\ImageCategory;
+use Models\Entity\ImageCategory;
 use Nette\Application\UI\Form;
 use Nette\Utils\Strings;
 
@@ -25,7 +25,7 @@ class ImageCategoryForm extends BaseForm {
 
     public function __construct(EntityManager $em) {
         $this->_em = $em;
-        $this->_imageCategory = $em->getRepository('Models\Entity\ImageCategory\ImageCategory');
+        $this->_imageCategory = $em->getRepository('Models\Entity\ImageCategory');
     }
     
     public function createForm(ImageCategory $defaults = NULL)

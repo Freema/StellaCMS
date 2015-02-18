@@ -64,11 +64,11 @@ class Tag extends Object {
     }    
     
     /**
-     * @return \Models\Entity\Tag\Tag
+     * @return \Models\Entity\Tag
      */
     public function getTagRepository()
     {
-        return $this->_em->getRepository('Models\Entity\Tag\Tag');
+        return $this->_em->getRepository('Models\Entity\Tag');
     }
     
     /**
@@ -78,7 +78,7 @@ class Tag extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('count(t.id)');
-        $query->from('Models\Entity\Tag\Tag', 't');
+        $query->from('Models\Entity\Tag', 't');
         
         return $query->getQuery()->getSingleScalarResult();
     }
@@ -90,7 +90,7 @@ class Tag extends Object {
         
         if(!$checkName)
         {
-            $tag = new \Models\Entity\Tag\Tag($name);
+            $tag = new \Models\Entity\Tag($name);
             $this->_em->persist($tag);
             $this->_em->flush();
         }
@@ -107,7 +107,7 @@ class Tag extends Object {
     {
         $query = $this->_em->createQueryBuilder();
         $query->select('t.id, t.name, t.slug, t.description, COUNT(p.id) AS posts');
-        $query->from('Models\Entity\Tag\Tag', 't');
+        $query->from('Models\Entity\Tag', 't');
         $query->leftJoin('t.posts', 'p');
         $query->groupBy('t.id');
         
